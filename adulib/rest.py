@@ -149,8 +149,8 @@ class AsyncAPIHandler:
         :param cache_dir: The directory to store the cache.
         """
         self.base_url = base_url
-        self.default_params = default_params
-        self.default_headers = default_headers
+        self.default_params = default_params or {}
+        self.default_headers = default_headers or {}
         self.use_cache = use_cache
         self.cache_dir = cache_dir
         
