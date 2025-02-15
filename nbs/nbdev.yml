@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "adulib"
+  site-url: "https://Autonomy-Data-Unit.github.io/adulib"
+  description: "Tools and utilities for the Autonomy Data Unit (ADU)"
+  repo-branch: main
+  repo-url: "https://github.com/Autonomy-Data-Unit/adulib"
