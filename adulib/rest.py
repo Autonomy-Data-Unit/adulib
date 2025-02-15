@@ -175,10 +175,10 @@ class AsyncAPIHandler:
         return endpoint, params, headers, cache_key
     
     async def __load_cache_or_make_call(self, func, args, cache_key):
-        if self._rate_limiter: await self._rate_limiter.wait()
         if self.use_cache and cache_key in self._cache:
             return self._cache[cache_key]
         else:
+            if self._rate_limiter: await self._rate_limiter.wait()
             result = await func(*args)
             if self.use_cache: self._cache[cache_key] = result
         return result
