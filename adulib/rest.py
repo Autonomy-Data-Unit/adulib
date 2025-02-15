@@ -182,7 +182,9 @@ class AsyncAPIHandler:
             if self.use_cache: self._cache[cache_key] = result
         return result
     
-    async def get(self, endpoint=None, params=None, headers=None):
+    async def get(self, endpoint=None, params=None, headers=None, **param_kwargs):
+        params = params or {}
+        params = {**params, **param_kwargs}
         endpoint, params, headers, cache_key = self.__get_defaults("get", endpoint, params, headers)
         return await self.__load_cache_or_make_call(async_get, (endpoint, params, headers), cache_key)
     
