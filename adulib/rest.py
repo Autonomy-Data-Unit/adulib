@@ -154,9 +154,10 @@ class AsyncAPIHandler:
         self.use_cache = use_cache
         self.cache_dir = cache_dir
         
-        if use_cache and self.cache_dir is None:
-            self.cache_dir = tempfile.mkdtemp()
+        if use_cache:
+            if self.cache_dir is None: self.cache_dir = tempfile.mkdtemp()
             self._cache = diskcache.Cache(self.cache_dir)
+        else: self._cache = None
         
         self.rate_limit = rate_limit
         if rate_limit:
