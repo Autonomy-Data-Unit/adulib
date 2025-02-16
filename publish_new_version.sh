@@ -1,21 +1,5 @@
-
 nbdev_export
 nbdev_clean
-
-if ! git diff-index --quiet HEAD --; then
-    echo "You have uncommitted changes. Please commit or stash them before proceeding."
-    exit 1
-fi
-
-if ! git fetch origin; then
-    echo "Failed to fetch from origin. Please check your network connection."
-    exit 1
-fi
-
-if ! git diff --quiet origin/main; then
-    echo "Your local repository is not in sync with the origin. Please pull the latest changes before proceeding."
-    exit 1
-fi
 
 git push
 
@@ -27,18 +11,19 @@ if [[ $update_changelog == [yY] ]]; then
     git push
 fi
 
-latest_version=$(python -c "import importlib.metadata; print(importlib.metadata.version('adulib'))")
+latest_version=$(git describe --tags $(git rev-list --tags --max-count=1))
 echo "The latest version of adulib is $latest_version"
 
 read -p "Enter the new version: " version
-git tag -a v$version -m "Release v$version"
-git push --tags
 
 read -p "Are you sure you want to push the new version? (y/n): " confirm
 if [[ $confirm != [yY] ]]; then
     echo "Aborting the push of the new version."
     exit 1
 fi
+
+git tag -a v$version -m "Release v$version"
+git push --tags
 
 uv build
 
