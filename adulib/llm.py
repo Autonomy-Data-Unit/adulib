@@ -43,11 +43,11 @@ def detokenize_text(tokens, llm_model):
     tokeniser_enc = tiktoken.encoding_for_model(llm_model)
     return tokeniser_enc.decode(tokens)
 
-# %% ../nbs/src/llm.ipynb 14
+# %% ../nbs/src/llm.ipynb 15
 def get_token_count(text, llm_model):
     return len(tokenize_text(text, llm_model))
 
-# %% ../nbs/src/llm.ipynb 17
+# %% ../nbs/src/llm.ipynb 18
 __client = None
 __model_rate_limiters = {}
 __llm_cache = None
@@ -121,7 +121,7 @@ async def async_prompt(model,
     else:
         return output
 
-# %% ../nbs/src/llm.ipynb 22
+# %% ../nbs/src/llm.ipynb 23
 __client = None
 
 def prompt(model,
