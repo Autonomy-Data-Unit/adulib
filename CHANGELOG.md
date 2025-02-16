@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
+### 🚀 Features
+
+- Updated  publish_new_version.sh
+
 ### 🐛 Bug Fixes
 
 - Set put_version_in_init=False in settings.ini
