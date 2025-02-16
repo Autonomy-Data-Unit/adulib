@@ -3,14 +3,6 @@ nbdev_clean
 
 git push
 
-read -p "Do you want to update the changelog? (y/n): " update_changelog
-if [[ $update_changelog == [yY] ]]; then
-    git cliff -o CHANGELOG.md
-    git add CHANGELOG.md
-    git commit -m "Update CHANGELOG.md"
-    git push
-fi
-
 latest_version=$(git describe --tags $(git rev-list --tags --max-count=1))
 echo "The latest version of adulib is $latest_version"
 
@@ -24,6 +16,14 @@ fi
 
 git tag -a v$version -m "Release v$version"
 git push --tags
+
+read -p "Do you want to update the changelog? (y/n): " update_changelog
+if [[ $update_changelog == [yY] ]]; then
+    git cliff -o CHANGELOG.md
+    git add CHANGELOG.md
+    git commit -m "Update CHANGELOG.md"
+    git push
+fi
 
 uv build
 
