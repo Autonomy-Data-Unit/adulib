@@ -15,7 +15,7 @@ try:
     from asynciolimiter import Limiter
     import diskcache
 except ImportError as e:
-    raise ImportError(f"Install adulib[llm] to use this API.") from e
+    raise ImportError(f"Install adulib[{__name__.split('.')[-1]}] to use this API.") from e
 
 # %% ../nbs/src/llm.ipynb 6
 model_context_windows = {

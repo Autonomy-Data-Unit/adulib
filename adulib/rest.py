@@ -12,7 +12,7 @@ try:
     import tempfile
     from asynciolimiter import Limiter
 except ImportError as e:
-    raise ImportError(f"Install adulib[rest] to use this API.") from e
+    raise ImportError(f"Install adulib[{__name__.split('.')[-1]}] to use this API.") from e
 
 # %% ../nbs/src/rest.ipynb 7
 async def async_get(endpoint, params=None, headers=None):
