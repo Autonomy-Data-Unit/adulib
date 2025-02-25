@@ -14,8 +14,8 @@ try:
     import tiktoken
     from asynciolimiter import Limiter
     import diskcache
-except ImportError:
-    print("Install adulib[llm] to use this API.")
+except ImportError as e:
+    raise ImportError(f"Install adulib[llm] to use this API.") from e
 
 # %% ../nbs/src/llm.ipynb 6
 model_context_windows = {
