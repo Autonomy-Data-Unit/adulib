@@ -11,8 +11,8 @@ try:
     import aiohttp
     import tempfile
     from asynciolimiter import Limiter
-except ImportError:
-    print("Install adulib[rest] to use this API.")
+except ImportError as e:
+    raise ImportError(f"Install adulib[rest] to use this API.") from e
 
 # %% ../nbs/src/rest.ipynb 7
 async def async_get(endpoint, params=None, headers=None):
