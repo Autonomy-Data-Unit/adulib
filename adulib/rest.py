@@ -170,7 +170,7 @@ class AsyncAPIHandler:
         
         if use_cache:
             if self.cache_dir is None: self.cache_dir = tempfile.mkdtemp()
-            self._cache = diskcache.Cache(self.cache_dir)
+            self._cache = diskcache.Cache(self.cache_dir, eviction_policy="none", size_limit=2**40)
         else: self._cache = None
         
         self.rate_limit = rate_limit
