@@ -43,11 +43,11 @@ def detokenize_text(tokens, llm_model):
     tokeniser_enc = tiktoken.encoding_for_model(llm_model)
     return tokeniser_enc.decode(tokens)
 
-# %% ../nbs/src/llm.ipynb 15
+# %% ../nbs/src/llm.ipynb 14
 def get_token_count(text, llm_model):
     return len(tokenize_text(text, llm_model))
 
-# %% ../nbs/src/llm.ipynb 18
+# %% ../nbs/src/llm.ipynb 17
 __client = None
 __model_rate_limiters = {}
 __llm_cache = None
@@ -74,7 +74,7 @@ async def async_prompt(model,
     if __llm_cache is None:
         if cache_dir is None: cache_dir = tempfile.mkdtemp()
         abs_cache_path = Path(cache_dir).resolve().as_posix()
-        __llm_cache = diskcache.Cache(abs_cache_path)
+        __llm_cache = diskcache.Cache(abs_cache_path, eviction_policy="none", size_limit=2**40)
     
     _model_key = model if include_model_in_cache_key else '*'
     cache_key = f'{cache_key_prepend}:{_model_key}:{prompt}:{context}:{response_schema}'
@@ -121,7 +121,7 @@ async def async_prompt(model,
     else:
         return output
 
-# %% ../nbs/src/llm.ipynb 23
+# %% ../nbs/src/llm.ipynb 22
 __client = None
 
 def prompt(model,
@@ -143,7 +143,7 @@ def prompt(model,
     if __llm_cache is None:
         if cache_dir is None: cache_dir = tempfile.mkdtemp()
         abs_cache_path = Path(cache_dir).resolve().as_posix()
-        __llm_cache = diskcache.Cache(abs_cache_path)
+        __llm_cache = diskcache.Cache(abs_cache_path, eviction_policy="none", size_limit=2**40)
     
     _model_key = model if include_model_in_cache_key else '*'
     cache_key = f'{cache_key_prepend}:{_model_key}:{prompt}:{context}:{response_schema}'
