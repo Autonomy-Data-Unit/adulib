@@ -19,11 +19,22 @@ try:
     import tiktoken
     from asynciolimiter import Limiter
     import diskcache
+    from typing import List, Optional, Type, Dict, Any
+    import asyncio
+    import time
+    from tqdm import tqdm
 except ImportError as e:
     raise ImportError(f"Install adulib[{__name__.split('.')[-1]}] to use this API.") from e
 
 # %%
+from dotenv import load_dotenv
+
+# %%
 import adulib.llm
+
+# %%
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # %%
 #|export
@@ -152,7 +163,6 @@ async def async_prompt(model,
                 model=model,
                 response_format=response_format
             )
-            
         output = chat_completion.choices[0].message.content
         __llm_cache[cache_key] = output
     
@@ -192,6 +202,113 @@ res = await async_prompt(
 )
 
 pprint(res.model_dump())
+
+# %% [markdown]
+# ### async_prompts
+
+# %%
+#|export
+async def async_prompts(
+    model: str,
+    context: str,
+    items: List[str],
+    prompt_template: str,
+    response_format: Optional[Type[BaseModel]] = None,
+    api_key: Optional[str] = None,
+    cache_dir: Optional[str] = None,
+    include_model_in_cache_key: bool = False,
+    cache_key_prepend: str = '',
+    max_retries: int = 3,
+    timeout: int = 30,
+    time_window = 20,
+    concurrency_limit: Optional[int] = None
+    ):
+    semaphore = asyncio.Semaphore(concurrency_limit) if concurrency_limit else asyncio.Semaphore(len(items))
+    
+    async def process_item(item: str):
+        prompt = prompt_template.format(item=item)
+
+        for attempt in range(max_retries):
+            async with semaphore:
+                start_time = time.time()
+                try:
+                    task = asyncio.create_task(
+                        async_prompt(
+                            model=model,
+                            prompt=prompt,
+                            context=context,
+                            response_format=response_format,
+                            api_key=api_key,
+                            use_cache=True,
+                            cache_dir=cache_dir,
+                            include_model_in_cache_key=include_model_in_cache_key,
+                            cache_key_prepend=cache_key_prepend
+                        )
+                    )
+
+                    done, pending = await asyncio.wait({task}, timeout=timeout)
+
+                    if task in done:
+                        return task.result()
+
+                    else:
+                        task.cancel()
+                        print(f"[Timeout] '{item}' attempt {attempt + 1}/{max_retries} exceeded {timeout}s")
+
+                except asyncio.CancelledError:
+                    print(f"[Cancelled] '{item}' attempt {attempt + 1}/{max_retries}")
+
+                except Exception as e:
+                    print(f"[Error] '{item}' attempt {attempt + 1}/{max_retries}: {e}")
+
+                await asyncio.sleep(2 ** attempt)  # exponential backoff
+
+                elapsed = time.time() - start_time
+                if elapsed < time_window:
+                    await asyncio.sleep(time_window - elapsed)
+
+        print(f"[Fail] '{item}' max retries exceeded.")
+        return None
+
+    tasks = {item: asyncio.create_task(process_item(item)) for item in items}
+    output = []
+    for item in tqdm(items, desc="Processing"):
+        try: 
+            result = await process_item(item)
+            if result:
+                output.append({
+                    "item": item,
+                    "response": result.model_dump() if hasattr(result, "model_dump") else result
+                })
+        except Exception as e:
+            print(f"[Unhandled Error] '{item}': {e}")
+
+    return output
+
+
+# %%
+class FilmRecommendation(BaseModel):
+    title: str
+    blurb: str
+    review: str
+
+res = await async_prompts(
+    model='gpt-4o',
+    context="""You are an eager member of staff at the last surviving Blockbuster store.
+    Recommend a film to the user based on their stated preferences.
+    You should give them the film title, the blurb in a sentence and then a quick one 
+    sentence long review to hype them up for it.""",
+    items = ["  a psychological horror film that will actually unsettle me",
+                "  something very romantic, Y2K, nostalgic",
+                "  strange, obscure and quite old",
+                "  a film where I don't have to pay attention and can doomscroll on my phone"],
+    prompt_template = "User preference: {item}",
+    response_format=FilmRecommendation,
+    cache_dir='./tmp/llm_cache'
+)
+
+# %%
+res
 
 # %%
 show_doc(adulib.llm.prompt)
@@ -273,3 +390,5 @@ prompt(
     prompt='Hello, how are you?',
     cache_dir='./tmp/llm_cache'
 )
+
+# %%
