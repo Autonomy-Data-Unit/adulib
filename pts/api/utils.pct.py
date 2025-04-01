@@ -7,12 +7,8 @@
 #|default_exp utils
 
 # %%
-#| hide
-from nbdev.showdoc import show_doc
-
-# %%
-#| hide
-import nbdev; nbdev.nbdev_export()
+#|hide
+import nblite; from nbdev.showdoc import show_doc; nblite.nbl_export()
 
 
 # %%
@@ -26,8 +22,4 @@ def check_mutual_exclusivity(*args, check_falsy=True):
     else:
         return sum(bool(x) for x in args) == 1
 
-
 # %%
-
-# %%
-import adulib.utils
