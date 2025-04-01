@@ -1,4 +1,8 @@
-.envrc
+# nblite
+adulib/**/*.py 
+adulib/store
+!__main__.py
+!__init__.py
 
 # nbdev
 _proc/

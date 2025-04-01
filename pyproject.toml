@@ -26,6 +26,7 @@ dev = [
     "git-cliff>=2.8.0",
     "jupyterlab>=4.3.5",
     "nbdev>=2.3.34",
+    "nblite>=0.2.0",
     "pydantic>=2.10.6",
     "setuptools-scm>=8.1.0",
     "twine>=6.1.0",
