@@ -7,12 +7,8 @@
 #|default_exp nb
 
 # %%
-#| hide
-from nbdev.showdoc import show_doc
-
-# %%
-#| hide
-import nbdev; nbdev.nbdev_export()
+#|hide
+import nblite; from nbdev.showdoc import show_doc; nblite.nbl_export()
 
 # %%
 #|export
