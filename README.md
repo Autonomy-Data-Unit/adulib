@@ -24,7 +24,7 @@ Run the following:
 
 ```bash
 # CD into the root of the repo folder
-uv sync # Installs the virtual environment at './.venv'
+uv sync --all-extras # Installs the virtual environment at './.venv'
 direnv allow # Allows the automatic running of the script './.envrc'
 nbl install-hooks # Installs some git hooks that ensures that notebooks are added properly
 uv pip install -e .
