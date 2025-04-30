@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - 2025-04-30
+
+### 🚀 Features
+
+- Utils.run_script
+
+### 🐛 Bug Fixes
+
+- Removed old nbdev export cells
+
+### 🚜 Refactor
+
+- Had to rejig some stuff to get the package versioning work
+- Moved over to nblite
+- Cleaned up adulib.llm
+
+### ⚙️ Miscellaneous Tasks
+
+- Updated readme with better uv sync command
+- Uv.lock
+- V0.0.4
+
+## [0.0.3] - 2025-03-25
+
+### ⚙️ Miscellaneous Tasks
+
+- Nbdev_export
+
+## [0.0.2] - 2025-03-06
+
+### 🐛 Bug Fixes
+
+- Put the changelog update after the tag is updated.
+- Adulib.llm and adulib.rest will not raise ImportError if the correct packages have not been installed.
+- Changed the eviction policy to none and the max size to (practically) infinite in adulib.llm and adulib.rest
+
+### 🚜 Refactor
+
+- Changed ImportError message
+- Changed name from src to api
+
 ## [0.0.1] - 2025-02-16
 
 ### 🚀 Features
