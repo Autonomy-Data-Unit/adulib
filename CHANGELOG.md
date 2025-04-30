@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.5] - 2025-04-30
+
+### 🚀 Features
+
+- Async memoize
+
+### ⚙️ Miscellaneous Tasks
+
+- Updated CHANGELOG
+- Updated publish script
+- V0.0.5
+
 ## [0.0.4] - 2025-04-30
 
 ### 🚀 Features
