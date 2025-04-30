@@ -28,6 +28,7 @@ dev = [
     "nbdev>=2.3.34",
     "nblite>=0.2.0",
     "pydantic>=2.10.6",
+    "python-dotenv>=1.1.0",
     "setuptools-scm>=8.1.0",
     "twine>=6.1.0",
 ]
