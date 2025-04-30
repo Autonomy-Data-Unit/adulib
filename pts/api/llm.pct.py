@@ -23,6 +23,7 @@ try:
     import asyncio
     import time
     from tqdm import tqdm
+    from pydantic import BaseModel
 except ImportError as e:
     raise ImportError(f"Install adulib[{__name__.split('.')[-1]}] to use this API.") from e
 
@@ -203,8 +204,8 @@ res = await async_prompt(
 
 pprint(res.model_dump())
 
-# %% [markdown]
-# ### async_prompts
+# %%
+show_doc(adulib.llm.async_prompts)
 
 # %%
 #|export
@@ -390,5 +391,3 @@ prompt(
     prompt='Hello, how are you?',
     cache_dir='./tmp/llm_cache'
 )
-
-# %%
