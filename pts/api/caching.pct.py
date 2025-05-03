@@ -18,6 +18,7 @@ try:
     from diskcache.core import ENOVAL, args_to_key, full_name
     import functools as ft
     import asyncio
+    from typing import Union
 except ImportError as e:
     raise ImportError(f"Install adulib[{__name__.split('.')[-1]}] to use this API.") from e
 
@@ -28,70 +29,135 @@ import time
 import adulib.caching as this_module
 
 # %%
-show_doc(this_module.memoize)
+#|exporti
+_caches = {}
+_default_cache = None
+_default_cache_path = None
 
 # %%
-#|exporti
-__caches = {}
-__memoized_function_names = set()
-__tmp_cache = None
-
-def _get_cache(cache_path=None, cache=None, temp=False):
-    global __tmp_cache
-    if not check_mutual_exclusivity(cache_path, cache, temp):
-        raise ValueError("Either cache_path or cache is provided, or temp must be set to True.")
-    
-    if cache is None:
-        if cache_path is None:
-            if __tmp_cache is None: __tmp_cache = diskcache.Cache()
-            cache = __tmp_cache
-        else:
-            cache_path = Path(cache_path).as_posix()
-            if cache_path in __caches:
-                cache = __caches[cache_path]
-            else:
-                cache = diskcache.Cache(cache_path)
-                __caches[cache_path] = cache
-                
-    return cache
+show_doc(this_module.set_default_cache_path)
 
 
 # %%
 #|export
-def memoize(cache_path=None,
-            cache=None,
+def set_default_cache_path(cache_path:Path):
+    """
+    Set the path for the temporary cache.
+    """
+    global _default_cache_path
+    _default_cache_path = cache_path
+
+
+# %%
+show_doc(this_module.get_default_cache_path)
+
+
+# %%
+#|export
+def get_default_cache_path() -> Path|None:
+    """
+    Set the path for the temporary cache.
+    """
+    return _default_cache_path
+
+
+# %%
+show_doc(this_module.create_cache)
+
+
+# %%
+#|export
+def create_cache(cache_path:Union[Path,None]=None, temp:bool=False):
+    """
+    Creates a new cache with the right policies. This ensures that no data is lost as the cache grows.
+    """
+    if temp and cache_path is not None:
+        raise ValueError("'temp' cannot be set to True if a 'cache_path' is provided.")
+
+    if cache_path is None and not temp:
+        if _default_cache_path is None:
+            raise ValueError("The default cache path is not set. Please set it using `set_default_cache_path`.")
+        cache_path = _default_cache_path
+    
+    return diskcache.Cache(cache_path, eviction_policy="none", size_limit=2**40)
+
+
+# %%
+show_doc(this_module.get_cache)
+
+
+# %%
+#|export
+def get_cache(cache_path:Union[Path,None]=None):
+    """
+    Retrieve a cache instance for the given path. If no path is provided, 
+    the default cache is used. If the cache does not exist, it is created 
+    using the specified cache path or the default cache path.
+    """
+    if cache_path is None:
+        global _default_cache
+        if _default_cache is None: _default_cache = create_cache(_default_cache_path)
+        cache = _default_cache
+    else:
+        cache_path = Path(cache_path).as_posix()
+        if cache_path in _caches:
+            cache = _caches[cache_path]
+        else:
+            cache = create_cache(cache_path)
+            _caches[cache_path] = cache
+
+
+# %%
+show_doc(this_module.memoize)
+
+# %%
+#|exporti
+__memoized_function_names = set()
+
+
+# %%
+#|export
+def memoize(cache:Union[Path,diskcache.Cache,None]=None,
             temp=False,
             typed=True,
             expire=None,
             tag=None,
-            ):
+):
     """
     Memoization decorator to cache function results.
 
-    This decorator can be used to cache the results of a function call
-    to improve performance by avoiding repeated evaluations of the same
-    function with the same arguments. The cache can be specified by
-    providing a `cache_path`, an existing `cache` object, or by setting
-    `temp` to True to use a temporary cache.
+    This decorator caches the results of a function call to enhance performance
+    by avoiding repeated evaluations of the same function with identical arguments.
+    The cache can be specified by providing an existing `cache` object or by using
+    a temporary cache if no cache is provided.
 
     Parameters:
-    - cache_path (str, optional): Path to the cache directory. If not
-      provided, a temporary cache will be used if `temp` is True.
-    - cache (diskcache.Cache, optional): An existing cache object to use.
-    - temp (bool, optional): If True, use a temporary cache. Defaults to False.
-    - typed (bool, optional): If True, cache function arguments of different
-      types separately. Defaults to True.
-    - expire (int, optional): Time in seconds for cache expiration. If None,
-      cache entries do not expire.
+    - cache (Union[Path, diskcache.Cache, None], optional): An existing cache object
+        or a path to the cache directory. If None, a temporary cache is used.
+    - typed (bool, optional): If True, cache function arguments of different types
+        separately. Defaults to True.
+    - expire (int, optional): Time in seconds for cache expiration. If None, cache
+        entries do not expire.
     - tag (str, optional): A tag to associate with the cache entries.
 
     Returns:
-    - decorator (function): A decorator that wraps the function with
-      memoization logic.
+    - function: A decorator that wraps the function with memoization logic.
     """
 
-    cache = _get_cache(cache_path, cache, temp)
-                
+    if temp and cache is not None:
+        raise ValueError("'temp' cannot be set to True if a cache is provided.")
+    
+    if not temp:
+        if cache is None:
+            cache = get_cache()
+        elif isinstance(cache, diskcache.Cache):
+            pass # do nothing
+        else:
+            cache_path = cache
+            cache = get_cache(cache_path)
+    else:
+        cache = create_cache(temp=True)
+                            
     def decorator(func):
         func_name = full_name(func)
         if func_name in __memoized_function_names:
@@ -105,13 +171,13 @@ def memoize(cache_path=None,
                 if result is ENOVAL:
                     result = await func(*args, **kwargs)
                     if expire is None or expire > 0:
-                        cache.set(key, result, expire, tag=tag, retry=True)
+                            cache.set(key, result, expire, tag=tag, retry=True)
                 return result
             return wrapper
         else:
             memoized_f = cache.memoize(expire=expire, tag=tag, typed=typed)(func)
             return memoized_f
-                    
+                                
     return decorator
 
 
@@ -123,6 +189,7 @@ def foo():
 
 foo() # Takes 1 second
 foo() # Is retrieved from cache and returns immediately
+
 
 # %%
 @memoize(temp=True)
