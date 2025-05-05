@@ -26,6 +26,8 @@ except ImportError as e:
 #|hide
 from pydantic import BaseModel
 from adulib.caching import set_default_cache_path
+from adulib.asynchronous import batch_executor
+from adulib.utils import as_dict
 import adulib.llm.completions as this_module
 
 # %%
@@ -214,8 +216,34 @@ async def async_prompt(
     else: return response.choices[0].message.content
     
 sig = inspect.signature(completion)
-prompt.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
-prompt.__name__ = "async_prompt"
-prompt.__doc__ = """
+async_prompt.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
+async_prompt.__name__ = "async_prompt"
+async_prompt.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
 """.strip()
+
+# %%
+await async_prompt(
+    model='gpt-4o-mini',
+    context='You are a helpful assistant.',
+    prompt='What is the capital of France?',
+)
+
+# %% [markdown]
+# You can execute a batch of prompt calls using `adulib.asynchronous.batch_executor`
+
+# %%
+results = await batch_executor(
+    func=async_prompt,
+    constant_kwargs=as_dict(model='gpt-4o-mini', context='You are a helpful assistant.'),
+    batch_kwargs=[
+        { 'prompt': 'What is the capital of France?' },
+        { 'prompt': 'What is the capital of Germany?' },
+        { 'prompt': 'What is the capital of Italy?' },
+        { 'prompt': 'What is the capital of Spain?' },
+        { 'prompt': 'What is the capital of Portugal?' },
+    ],
+    concurrency_limit=2,
+)
+
+print("Results:", results)

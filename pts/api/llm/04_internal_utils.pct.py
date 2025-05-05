@@ -19,7 +19,7 @@ try:
     from pathlib import Path
     from adulib.llm.caching import _cache_execute, _async_cache_execute, get_cache_key, is_in_cache
     from adulib.llm.call_logging import _log_call
-    from adulib.llm.rate_limits import _get_limiter, default_retry_on_exception, default_max_retries, default_retry_delay
+    from adulib.llm.rate_limits import _get_limiter, default_retry_on_exception, default_max_retries, default_retry_delay, default_timeout
 except ImportError as e:
     raise ImportError(f"Install adulib[llm] to use this API.") from e
 
@@ -37,7 +37,10 @@ set_default_cache_path(repo_path / '.tmp_cache')
 # %%
 #|exporti
 class MaximumRetriesException(Exception):
-    pass
+    def __init__(self, retry_exceptions: list[Exception]):
+        self.retry_exceptions = retry_exceptions
+        self.retry_exceptions_str = "\n".join([f"{i}: ({type(e).__name__}) {e}" for i, e in enumerate(retry_exceptions)])
+        super().__init__(f"Maximum retries ({len(retry_exceptions)}) reached. Exceptions:\n{self.retry_exceptions_str}")
 
 
 # %%
@@ -78,6 +81,7 @@ def _llm_func_factory(
         
         # Execute with caching and retries
         success = False
+        exceptions = []
         for _ in range(max_retries):
             try:
                 retrieved_from_cache, result = _cache_execute(
@@ -91,10 +95,11 @@ def _llm_func_factory(
             except BaseException as e:
                 if not enable_retries: raise e
                 if not (retry_on_all_exceptions or any([isinstance(e, exc) for exc in retry_on_exceptions])): raise e
+                exceptions.append(e)
                 time.sleep(retry_delay)
                     
         if not success:
-            raise MaximumRetriesException(f"Maximum retries ({max_retries}) reached.")
+            raise MaximumRetriesException(exceptions)
         
         # Call logging
         if retrieve_log_data is not None:
@@ -128,7 +133,7 @@ except MaximumRetriesException as e:
 # %%
 #|hide
 def foo(model):
-    raise ValueError()
+    raise ValueError("Failed!")
 
 _foo = _llm_func_factory(
     func=foo,
@@ -166,11 +171,13 @@ def _llm_async_func_factory(
         retry_on_all_exceptions: bool=False,
         max_retries: Optional[int]=None,
         retry_delay: Optional[int]=None,
+        timeout: Optional[int]=None,
         **kwargs,
     ):
         if retry_on_exceptions is None: retry_on_exceptions = default_retry_on_exception
         if max_retries is None: max_retries = default_max_retries
         if retry_delay is None: retry_delay = default_retry_delay
+        if timeout is None: timeout = default_timeout
         
         # Generate cache key
         bound = func_sig.bind(*args, **kwargs)
@@ -187,11 +194,14 @@ def _llm_async_func_factory(
         
         # Execute with caching and retries
         success = False
+        exceptions = []
+        async def run_with_timeout():
+            return await asyncio.wait_for(func(*args, **kwargs), timeout)
         for _ in range(max_retries):
-            try:
+            try:                
                 retrieved_from_cache, result = await _async_cache_execute(
                     cache_key=cache_key,
-                    execute_func=lambda: func(*args, **kwargs),
+                    execute_func=run_with_timeout if timeout is not None else lambda: func(*args, **kwargs),
                     cache_enabled=cache_enabled,
                     cache_path=cache_path,
                 )
@@ -200,10 +210,11 @@ def _llm_async_func_factory(
             except BaseException as e:
                 if not enable_retries: raise e
                 if not (retry_on_all_exceptions or any([isinstance(e, exc) for exc in retry_on_exceptions])): raise e
+                exceptions.append(e)
                 await asyncio.sleep(retry_delay)
                     
         if not success:
-            raise MaximumRetriesException(f"Maximum retries ({max_retries}) reached.")
+            raise MaximumRetriesException(exceptions)
         
         # Call logging
         if retrieve_log_data is not None:
@@ -230,5 +241,22 @@ _foo = _llm_async_func_factory(
 
 try:
     await _foo(model="foo", retry_delay=0.01)
+except MaximumRetriesException as e:
+    print(e)
+
+
+# %%
+#|hide
+async def bar(model):
+    await asyncio.sleep(10)
+
+_foo = _llm_async_func_factory(
+    func=bar,
+    func_name="bar",
+    func_cache_name="bar",
+)
+
+try:
+    await _foo(model="bar", retry_delay=0.01, timeout=0.01)
 except MaximumRetriesException as e:
     print(e)
