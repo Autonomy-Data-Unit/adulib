@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0] - 2025-05-05
+
+### 🚀 Features
+
+- Improved caching. Now will allow for a global default cache, but must deliberately set it.
+- Adulib.llm is now a wrapper around litellm
+- *(llm)* Retrying on exceptions
+- Timeouts for llm calls
+
+### 🐛 Bug Fixes
+
+- Added attributes for doc generation
+
+### 💼 Other
+
+- Update CHANGELOG.md
+
+### ⚙️ Miscellaneous Tasks
+
+- Litellm dependency
+- Re-rendered docs and cleaned
+- Update version in pyproject.toml
+
 ## [0.0.5] - 2025-04-30
 
 ### 🚀 Features
