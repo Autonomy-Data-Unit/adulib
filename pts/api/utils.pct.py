@@ -1,5 +1,5 @@
 # %% [markdown]
-# # adulib.utils
+# # utils
 #
 # General utility functions.
 
@@ -8,7 +8,7 @@
 
 # %%
 #|hide
-import nblite; from nbdev.showdoc import show_doc; nblite.nbl_export()
+import nblite; from nblite import show_doc; nblite.nbl_export()
 
 # %%
 #|export
@@ -20,6 +20,21 @@ import tempfile
 import adulib.utils as this_module
 
 # %%
+#|hide
+show_doc(this_module.as_dict)
+
+
+# %%
+#|export
+def as_dict(**kwargs):
+    """
+    Convert keyword arguments to a dictionary.
+    """
+    return kwargs
+
+
+# %%
+#|hide
 show_doc(this_module.check_mutual_exclusivity)
 
 
@@ -36,6 +51,7 @@ def check_mutual_exclusivity(*args, check_falsy=True):
 
 
 # %%
+#|hide
 show_doc(this_module.run_script)
 
 

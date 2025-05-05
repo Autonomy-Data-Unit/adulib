@@ -1,27 +1,25 @@
 # %% [markdown]
-# # adulib.rest
+# # rest
 
 # %%
 #|default_exp rest
 
 # %%
 #|hide
-import nblite; from nbdev.showdoc import show_doc; nblite.nbl_export()
+import nblite; from nblite import show_doc; nblite.nbl_export()
 
 # %%
 #|export
-try:
-    import requests
-    from urllib.parse import urljoin
-    import diskcache
-    import aiohttp
-    import tempfile
-    from asynciolimiter import Limiter
-except ImportError as e:
-    raise ImportError(f"Install adulib[{__name__.split('.')[-1]}] to use this API.") from e
+import requests
+from urllib.parse import urljoin
+import diskcache
+import aiohttp
+import tempfile
+from asynciolimiter import Limiter
 
 # %%
 import adulib.rest
+
 
 # %% [markdown]
 # # Async REST functions
@@ -86,6 +84,7 @@ async def async_delete(endpoint, headers=None):
                 return await response.json()
             else:
                 return {"error": f"Request failed with status {response.status}", "details": await response.text()}
+
 
 # %%
 await async_get("https://httpbin.org/get",
