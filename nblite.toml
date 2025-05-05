@@ -2,6 +2,8 @@ export_pipeline = """
 nbs -> pts
 pts -> lib
 """
+docs_cl = "nbs"
+docs_title = "adulib"
 
 [cl.lib]
 path="adulib"
