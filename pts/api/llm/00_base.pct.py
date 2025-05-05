@@ -27,14 +27,6 @@ set_default_cache_path(repo_path / '.tmp_cache')
 
 # %%
 #|export
-default_retry_on_exception = [
-    litellm.RateLimitError,
-]
-default_max_retries = 5
-default_retry_delay = 10 # seconds
-
-# %%
-#|export
 available_models = list(litellm.model_cost.keys())
 available_models.remove("sample_spec")
 
