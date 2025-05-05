@@ -11,6 +11,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 # %%
 #|export
 try:
+    import litellm
     from asynciolimiter import Limiter
     from typing import Dict, Literal, Union
 except ImportError as e:
@@ -23,6 +24,11 @@ import adulib.llm.rate_limits as this_module
 # %%
 #|export
 default_rpm = 1000 # requests per minute
+default_retry_on_exception = [
+    litellm.RateLimitError,
+]
+default_max_retries = 5
+default_retry_delay = 10 # seconds
 
 # %%
 #|exporti
