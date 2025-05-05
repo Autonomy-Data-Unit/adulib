@@ -13,6 +13,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 try:
     import litellm
     from asynciolimiter import Limiter
+    import asyncio
     from typing import Dict, Literal, Union
 except ImportError as e:
     raise ImportError(f"Install adulib[llm] to use this API.") from e
@@ -26,9 +27,11 @@ import adulib.llm.rate_limits as this_module
 default_rpm = 1000 # requests per minute
 default_retry_on_exception = [
     litellm.RateLimitError,
+    asyncio.TimeoutError
 ]
 default_max_retries = 5
 default_retry_delay = 10 # seconds
+default_timeout = None # seconds
 
 # %%
 #|exporti
