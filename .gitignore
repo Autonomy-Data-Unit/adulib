@@ -1,11 +1,11 @@
+.tmp_cache/
+
 # nblite
 adulib/**/*.py 
 adulib/store
 !__main__.py
 !__init__.py
 
-# nbdev
-_proc/
 _docs/
 index_files/
 

@@ -1,5 +1,5 @@
 # %% [markdown]
-# # adulib.reflection
+# # reflection
 #
 # Utilities for Python reflection.
 
@@ -8,7 +8,7 @@
 
 # %%
 #|hide
-import nblite; from nbdev.showdoc import show_doc; nblite.nbl_export()
+import nblite; from nblite import show_doc; nblite.nbl_export()
 
 # %%
 #|export
