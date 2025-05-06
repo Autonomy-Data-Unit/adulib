@@ -9,7 +9,7 @@ resolution-markers = [
 
 [[package]]
 name = "adulib"
-version = "0.0.5"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "tqdm" },
@@ -17,19 +17,14 @@ dependencies = [
 
 [package.optional-dependencies]
 llm = [
-    { name = "asynciolimiter" },
     { name = "litellm" },
-    { name = "openai" },
-    { name = "tiktoken" },
-]
-rest = [
-    { name = "aiohttp" },
-    { name = "asynciolimiter" },
-    { name = "diskcache" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "aiohttp" },
+    { name = "asynciolimiter" },
+    { name = "diskcache" },
     { name = "git-cliff" },
     { name = "jupyterlab" },
     { name = "nbdev" },
@@ -42,19 +37,16 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiohttp", marker = "extra == 'rest'", specifier = ">=3.11.12" },
-    { name = "asynciolimiter", marker = "extra == 'llm'", specifier = ">=1.0.0" },
-    { name = "asynciolimiter", marker = "extra == 'rest'", specifier = ">=1.0.0" },
-    { name = "diskcache", marker = "extra == 'rest'", specifier = ">=5.6.3" },
     { name = "litellm", marker = "extra == 'llm'", specifier = ">=1.67.5" },
-    { name = "openai", marker = "extra == 'llm'", specifier = ">=1.63.0" },
-    { name = "tiktoken", marker = "extra == 'llm'", specifier = ">=0.9.0" },
     { name = "tqdm", specifier = ">=4.67.1" },
 ]
-provides-extras = ["rest", "llm"]
+provides-extras = ["llm"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "aiohttp", specifier = ">=3.11.12" },
+    { name = "asynciolimiter", specifier = ">=1.0.0" },
+    { name = "diskcache", specifier = ">=5.6.3" },
     { name = "git-cliff", specifier = ">=2.8.0" },
     { name = "jupyterlab", specifier = ">=4.3.5" },
     { name = "nbdev", specifier = ">=2.3.34" },
@@ -1417,7 +1409,7 @@ wheels = [
 
 [[package]]
 name = "jupyterlab"
-version = "4.4.1"
+version = "4.4.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "async-lru" },
@@ -1436,9 +1428,9 @@ dependencies = [
     { name = "tornado" },
     { name = "traitlets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f6/55/3ef7e6bfe988d7df3d453cc27912846d50590c90790848594f7228c89569/jupyterlab-4.4.1.tar.gz", hash = "sha256:c75c4f33056fbd84f0b31eb44622a00c7a5f981b85adfeb198a83721f0465808", size = 23028447 }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/3c/12a8b27ff2c3b4005bbb5e11c7747246965776d2b821193e53ffd61f1332/jupyterlab-4.4.2.tar.gz", hash = "sha256:afa9caf28c0cb966488be18e5e8daba9f018a1c4273a406b7d5006344cbc6d16", size = 23030818 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/82/c8784597c5a03426c1ef20c48aff37e8cfe050ab5ca87f0d51069f02b362/jupyterlab-4.4.1-py3-none-any.whl", hash = "sha256:989bca3f9cf2d04b2022e7e657e2df6d4aca808b364810d31c4865edd968a5f7", size = 12292928 },
+    { url = "https://files.pythonhosted.org/packages/f6/ae/fbb93f4990b7648849b19112d8b3e7427bbfc9c5cc8fdc6bf14c0e86d104/jupyterlab-4.4.2-py3-none-any.whl", hash = "sha256:857111a50bed68542bf55dca784522fe728f9f88b4fe69e8c585db5c50900419", size = 12294799 },
 ]
 
 [[package]]
@@ -1852,7 +1844,7 @@ wheels = [
 
 [[package]]
 name = "nblite"
-version = "0.5.8"
+version = "0.5.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "docstring-parser" },
@@ -1866,9 +1858,9 @@ dependencies = [
     { name = "toml" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4f/51/e071f8527347a05e6d016ef9765f9444e23a4abd09ae2f960233a55697d6/nblite-0.5.8.tar.gz", hash = "sha256:26d6eceb4aaae721b533893e0200f9f27cd4b39e3749c07c3a15da6fc4413de9", size = 26238 }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/2e/9af2e3765d7953a5cbd047b326b9bea28da799451f198387fc15c4c1c973/nblite-0.5.10.tar.gz", hash = "sha256:e369b0cc739cb5f1100e4f31fd6044d81d84bd8f278ca03de98f339d8f207531", size = 26742 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/67/9ab96e56eeeb680171df66ddf6f65083cc5bc75e6cedcc0f098b771b8437/nblite-0.5.8-py3-none-any.whl", hash = "sha256:0935c278ad8c4c0d88c7ae1a3ae223b68556c4c24e5c6b7989ff3e6952df9b72", size = 31944 },
+    { url = "https://files.pythonhosted.org/packages/08/d7/37d5241d1b0f153352686fbc1262e2a4ff013e322025fb49ad0426926f4e/nblite-0.5.10-py3-none-any.whl", hash = "sha256:fbdb399a260b335f8bc629b5efb3de26ebf6a6bdc2fbf8fc242160c732e5c8bd", size = 32445 },
 ]
 
 [[package]]
