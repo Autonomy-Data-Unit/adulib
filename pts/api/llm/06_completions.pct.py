@@ -56,6 +56,10 @@ set_default_cache_path(repo_path / '.tmp_cache')
 # - **assistant**: AI response. Example: `{ "role": "assistant", "content": "The weather is sunny and warm." }`
 # - **function**: Function call/result (`name` required). Example:  `{ "role": "function", "name": "get_weather", "content": "{\"location\": \"San Francisco\"}" }`
 # - **tool**: Tool/plugin interaction (`tool_call_id` required). Example: `{ "role": "tool", "tool_call_id": "abc123", "content": "Tool response here" }`
+#
+# #### Simplified completions: `prompt`
+#
+# Use the `llm.prompt` (async: `llm.async_prompt`) to perform a simplified single-turn completion.
 
 # %%
 #|echo: false
