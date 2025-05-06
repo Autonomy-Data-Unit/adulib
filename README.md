@@ -34,9 +34,9 @@ You are now set up to develop the codebase.
 
 Further instructions:
 
-- To export notebooks run nbl export.
-- To clean notebooks run nbl clean.
-- To see other available commands run just nbl.
-- To add a new dependency run uv add package-name. See the the uv documentation for more details.
-- You need to git add all 'twinned' notebooks for the commit to be validated. For example, if you add nbs/my-nb.ipynb, you must also add pts/my-nb.pct.py.
+- To export notebooks run `nbl export`.
+- To clean notebooks run `nbl clean`.
+- To see other available commands run just `nbl`.
+- To add a new dependency run `uv add package-name`. See the the uv documentation for more details.
+- You need to git add all 'twinned' notebooks for the commit to be validated. For example, if you add `nbs/my-nb.ipynb`, you must also add `pts/my-nb.pct.py`.
 <!-- #endregion -->
