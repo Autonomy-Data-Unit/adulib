@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2025-05-07
+
+### 🚀 Features
+
+- Updated completions documentation to include some info on 'prompt' up top
+- Updated readme
+
+### 🐛 Bug Fixes
+
+- Necessary dependencies were in 'dev' rather than in the main dependency group
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Nbl readme
+- Updated dependencies in lock
+- Update version in pyproject.toml
+
 ## [0.1.0] - 2025-05-05
 
 ### 🚀 Features
