@@ -195,6 +195,22 @@ prompt(
     prompt='What is the capital of France?',
 )
 
+
+# %%
+class Recipe(BaseModel):
+    name: str
+    ingredients: List[str]
+    steps: List[str]
+
+response = prompt(
+    model="gpt-4o-mini",
+    context="You are a helpful cooking assistant.",
+    prompt="Give me a simple recipe for pancakes.",
+    response_format=Recipe
+)
+
+Recipe.model_validate_json(response)
+
 # %%
 #|echo: false
 show_doc(this_module.async_prompt)
