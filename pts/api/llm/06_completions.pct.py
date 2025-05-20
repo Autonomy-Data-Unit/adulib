@@ -158,7 +158,7 @@ response = await async_completion(
 response.choices[0].message.content
 
 # %%
-#|echo: false
+#|hide
 show_doc(this_module.prompt)
 
 
@@ -212,7 +212,7 @@ response = prompt(
 Recipe.model_validate_json(response)
 
 # %%
-#|echo: false
+#|hide
 show_doc(this_module.async_prompt)
 
 
