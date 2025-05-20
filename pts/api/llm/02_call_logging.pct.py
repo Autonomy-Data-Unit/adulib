@@ -49,7 +49,7 @@ def set_call_log_save_path(path: Path):
     if Path(path).suffix != '.jsonl':
         raise ValueError(f"Path must have a .jsonl extension")
     save_call_log(_call_log_save_path, combine_with_existing=True)
-    _call_logs = load_call_log(path)
+    _call_logs = load_call_log_file(path)
 
 
 # %%
