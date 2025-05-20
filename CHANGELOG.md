@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - 2025-05-20
+
+### 📚 Documentation
+
+- Added example to adulib.llm.prompt
+- Minor change
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Ran 'nbl prepare'
+- Rendered docs
+- Ran 'nbl prepare'
+- Update version in pyproject.toml
+
 ## [0.1.1] - 2025-05-07
 
 ### 🚀 Features
