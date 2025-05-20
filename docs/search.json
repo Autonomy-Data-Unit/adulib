@@ -1,0 +1,920 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "adulib",
+    "section": "",
+    "text": "Tools and utilities for the Autonomy Data Unit (ADU)\nThe lifecycle of a shared ADU utility or tool is as follows:"
+  },
+  {
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "adulib",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\nInstall uv.\nInstall direnv to automatically load the project virtual environment when entering it.\n\nMac: brew install direnv\nLinux: curl -sfL https://direnv.net/install.sh | bash"
+  },
+  {
+    "objectID": "index.html#setting-up-the-environment",
+    "href": "index.html#setting-up-the-environment",
+    "title": "adulib",
+    "section": "Setting up the environment",
+    "text": "Setting up the environment\nRun the following:\n# CD into the root of the repo folder\nuv sync --all-extras # Installs the virtual environment at './.venv'\ndirenv allow # Allows the automatic running of the script './.envrc'\nnbl install-hooks # Installs some git hooks that ensures that notebooks are added properly\nYou are now set up to develop the codebase.\nFurther instructions:\n\nTo export notebooks run nbl export.\nTo clean notebooks run nbl clean.\nTo see other available commands run just nbl.\nTo add a new dependency run uv add package-name. See the the uv documentation for more details.\nYou need to git add all ‘twinned’ notebooks for the commit to be validated. For example, if you add nbs/my-nb.ipynb, you must also add pts/my-nb.pct.py.\nTo render the documentation, run nbl render-docs. To preview it run nbl preview-docs"
+  },
+  {
+    "objectID": "api/rest.html",
+    "href": "api/rest.html",
+    "title": "rest",
+    "section": "",
+    "text": "import adulib.rest",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_get-async",
+    "href": "api/rest.html#async_get-async",
+    "title": "rest",
+    "section": "async_get (async)",
+    "text": "async_get (async)\nasync_get(endpoint, params, headers)\nFetch data from a given RESTful API endpoint using an HTTP GET request.\nArguments: - endpoint: The API endpoint URL (string). - params: A dictionary of query parameters (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_put-async",
+    "href": "api/rest.html#async_put-async",
+    "title": "rest",
+    "section": "async_put (async)",
+    "text": "async_put (async)\nasync_put(endpoint, data, headers)\nUpdate data at a given RESTful API endpoint using an HTTP PUT request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_post-async",
+    "href": "api/rest.html#async_post-async",
+    "title": "rest",
+    "section": "async_post (async)",
+    "text": "async_post (async)\nasync_post(endpoint, data, headers)\nSend data to a given RESTful API endpoint using an HTTP POST request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_delete-async",
+    "href": "api/rest.html#async_delete-async",
+    "title": "rest",
+    "section": "async_delete (async)",
+    "text": "async_delete (async)\nasync_delete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nawait async_get(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-682c5969-3f5cf58b761bdaac687f226c'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/get?query=test&page=2'}\n\n\n\nawait async_put(\"https://httpbin.org/put\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.11.18',\n  'X-Amzn-Trace-Id': 'Root=1-682c596a-57046617070b37c73b27f073'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/put'}\n\n\n\nawait async_post(\"https://httpbin.org/post\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.11.18',\n  'X-Amzn-Trace-Id': 'Root=1-682c596b-481426dd5e9ef5a75615fa04'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/post'}\n\n\n\nawait async_delete(\"https://httpbin.org/delete\",\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '0',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.11.18',\n  'X-Amzn-Trace-Id': 'Root=1-682c596b-422f822e4bd522025a7a37a4'},\n 'json': None,\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/delete'}",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#get",
+    "href": "api/rest.html#get",
+    "title": "rest",
+    "section": "get",
+    "text": "get\nget(endpoint, params, headers)\nFetch data from a given RESTful API endpoint using an HTTP GET request.\nArguments: - endpoint: The API endpoint URL (string). - params: A dictionary of query parameters (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#post",
+    "href": "api/rest.html#post",
+    "title": "rest",
+    "section": "post",
+    "text": "post\npost(endpoint, data, headers)\nSend data to a given RESTful API endpoint using an HTTP POST request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#put",
+    "href": "api/rest.html#put",
+    "title": "rest",
+    "section": "put",
+    "text": "put\nput(endpoint, data, headers)\nUpdate data at a given RESTful API endpoint using an HTTP PUT request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#delete",
+    "href": "api/rest.html#delete",
+    "title": "rest",
+    "section": "delete",
+    "text": "delete\ndelete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nget(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-682c596c-5ca33b0d4b7945fe294cd407'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/get?query=test&page=2'}",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#asyncapihandler-1",
+    "href": "api/rest.html#asyncapihandler-1",
+    "title": "rest",
+    "section": "AsyncAPIHandler",
+    "text": "AsyncAPIHandler\n\n\nMethods\n\n\ninit\n__init__(\n   self,\n   base_url,\n   default_params,\n   default_headers,\n   rate_limit,\n   use_cache,\n   cache_dir,\n   call_quota\n)\nA handler for making asynchronous API calls with support for caching, rate limiting, and default parameters.\nArguments: - base_url: The base URL of the API. This will be prepended to all endpoint calls. - default_params: A dictionary of default query parameters to be included in every request. - default_headers: A dictionary of default headers to be included in every request. - rate_limit: The rate limit for API calls, specified as the number of calls per second. - use_cache: A boolean indicating whether to enable caching of API responses. - cache_dir: The directory where cached responses will be stored. If None, a temporary directory will be created. - call_quota: An optional limit on the number of API calls that can be made. If None, there is no limit. This class provides methods for making GET, POST, PUT, and DELETE requests asynchronously, while managing caching and rate limiting. It also allows checking and clearing the cache for specific API calls.\n\n\n\nremaining_call_quota\nremaining_call_quota(self)\n\n\n\nreset_quota\nreset_quota(self)\n\n\n\n__get_defaults\n__get_defaults(self, method, endpoint, params, headers)\n\n\n\n__load_cache_or_make_call (async)\n__load_cache_or_make_call(self, func, args, only_use_cache, cache_key)\n\n\n\ncall (async)\ncall(\n   self,\n   method,\n   endpoint,\n   params,\n   data,\n   headers,\n   only_use_cache,\n   **param_kwargs\n)\nMake a request to the API.\nArguments: - method: The HTTP method to use (e.g., “get”, “put”, “post”, “delete”). - endpoint: The API endpoint to request. - params: A dictionary of query parameters for the request.\n\n\n\nget (async)\nget(self, endpoint, params, headers, only_use_cache, **param_kwargs)\n\n\n\nput (async)\nput(self, endpoint, data, only_use_cache, headers)\n\n\n\npost (async)\npost(self, endpoint, data, only_use_cache, headers)\n\n\n\ndelete (async)\ndelete(self, endpoint, only_use_cache, headers)\n\n\n\ncheck_cache\ncheck_cache(self, method, endpoint, params, headers, **param_kwargs)\n\n\n\nclear_cache_key\nclear_cache_key(self, method, endpoint, params, headers, **param_kwargs)\n\n\napi_handler = AsyncAPIHandler(\n    base_url=\"https://httpbin.org/\",\n    default_params={\"api_key\": \"your_api_key\"},\n    default_headers={\"User-Agent\": \"MyTestClient/1.0\"},\n    rate_limit=10\n)\n\nawait api_handler.get(\"get\")\n\n{'args': {'api_key': 'your_api_key'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-682c596c-6d1070c7049c701e68799935'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/get?api_key=your_api_key'}\n\n\n\napi_handler.check_cache(\"get\", \"get\")\n\nTrue\n\n\n\napi_handler.clear_cache_key(\"get\", \"get\")\napi_handler.check_cache(\"get\", \"get\")\n\nFalse",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/caching.html",
+    "href": "api/caching.html",
+    "title": "caching",
+    "section": "",
+    "text": "Utilities for working with notebooks.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#set_default_cache_path",
+    "href": "api/caching.html#set_default_cache_path",
+    "title": "caching",
+    "section": "set_default_cache_path",
+    "text": "set_default_cache_path\nset_default_cache_path(cache_path: Path)\nSet the path for the temporary cache.\n\n\nrepo_path = nblite.config.get_project_root_and_config()[0]\nset_default_cache_path(repo_path / '.tmp_cache')",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_default_cache_path",
+    "href": "api/caching.html#get_default_cache_path",
+    "title": "caching",
+    "section": "get_default_cache_path",
+    "text": "get_default_cache_path\nget_default_cache_path() -&gt; Path|None\nSet the path for the temporary cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#create_cache",
+    "href": "api/caching.html#create_cache",
+    "title": "caching",
+    "section": "_create_cache",
+    "text": "_create_cache\n_create_cache(cache_path: Union[Path,None], temp: bool)\nCreates a new cache with the right policies. This ensures that no data is lost as the cache grows.\n\n\nshow_doc(this_module.get_default_cache)\n\nget_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_default_cache",
+    "href": "api/caching.html#get_default_cache",
+    "title": "caching",
+    "section": "get_default_cache",
+    "text": "get_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_default_cache-1",
+    "href": "api/caching.html#get_default_cache-1",
+    "title": "caching",
+    "section": "get_default_cache",
+    "text": "get_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_cache",
+    "href": "api/caching.html#get_cache",
+    "title": "caching",
+    "section": "get_cache",
+    "text": "get_cache\nget_cache(cache_path: Union[Path,None])\nRetrieve a cache instance for the given path. If no path is provided,\nthe default cache is used. If the cache does not exist, it is created using the specified cache path or the default cache path.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#clear_cache_key",
+    "href": "api/caching.html#clear_cache_key",
+    "title": "caching",
+    "section": "clear_cache_key",
+    "text": "clear_cache_key\nclear_cache_key(cache_key, cache: Union[Path,diskcache.Cache,None])",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#is_in_cache",
+    "href": "api/caching.html#is_in_cache",
+    "title": "caching",
+    "section": "is_in_cache",
+    "text": "is_in_cache\nis_in_cache(key: tuple, cache: Union[Path,diskcache.Cache,None])",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#memoize",
+    "href": "api/caching.html#memoize",
+    "title": "caching",
+    "section": "memoize",
+    "text": "memoize\nmemoize(\n   cache: Union[Path,diskcache.Cache,None],\n   temp,\n   typed,\n   expire,\n   tag,\n   return_cache_key\n)\nDecorator for memoizing function results to improve performance.\nThis decorator stores the results of function calls, allowing subsequent calls with the same arguments to retrieve the result from the cache instead of recomputing it. You can specify a cache object or use a temporary cache if none is provided.\nParameters: - cache (Union[Path, diskcache.Cache, None], optional): A cache object or a path to the cache directory. Defaults to a temporary cache if None. - temp (bool, optional): If True, use a temporary cache. Cannot be True if a cache is provided. Defaults to False. - typed (bool, optional): If True, cache function arguments of different types separately. Defaults to True. - expire (int, optional): Cache expiration time in seconds. If None, cache entries do not expire. - tag (str, optional): A tag to associate with cache entries. - return_cache_key (bool, optional): If True, return the cache key along with the result, in the order (cache_key, result). Defaults to False.\nReturns: - function: A decorator that applies memoization to the target function.\n\n\n@memoize(temp=True)\ndef foo():\n    time.sleep(1)\n    return \"bar\"\n\nfoo() # Takes 1 second\nfoo() # Is retrieved from cache and returns immediately\n\n'bar'\n\n\n\n@memoize(return_cache_key=True)\nasync def async_foo():\n    time.sleep(1)\n    return \"bar\"\n\nawait async_foo() # Takes 1 second\ncache_key, result = await async_foo() # Is retrieved from cache and returns immediately\nclear_cache_key(cache_key) # Clears the cache key\nawait async_foo(); # This should again take 1 second",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/05_tokens.html",
+    "href": "api/llm/05_tokens.html",
+    "title": "tokens",
+    "section": "",
+    "text": "token_counter(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\ntoken_counter(\n    model=\"gpt-3.5-turbo\",\n    messages=[\n        {\"role\": \"user\", \"content\": \"Hello, how are you?\"}\n    ]\n)\n\n13\nIf we set return_cache_key=True, the function is not executed and only the cache key is returned instead.\n# This will not execute the function, but only return the cache key.\ncache_key = token_counter(\n    model=\"gpt-4o\",\n    text=\"Hello, how are you?\",\n    return_cache_key=True\n)\n\nassert not is_in_cache(cache_key)\n\n# This will cache the result.\ntoken_counter(\n    model=\"gpt-4o\",\n    text=\"Hello, how are you?\"\n)\n\nassert is_in_cache(cache_key)\nclear_cache_key(cache_key)",
+    "crumbs": [
+      "api",
+      "llm",
+      "tokens"
+    ]
+  },
+  {
+    "objectID": "api/llm/05_tokens.html#token_counter",
+    "href": "api/llm/05_tokens.html#token_counter",
+    "title": "tokens",
+    "section": "",
+    "text": "token_counter(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "tokens"
+    ]
+  },
+  {
+    "objectID": "api/llm/07_text_completions.html",
+    "href": "api/llm/07_text_completions.html",
+    "title": "text_completions",
+    "section": "",
+    "text": "See the litellm documention.\nText completions generate a continuation of a single prompt string, making them ideal for tasks like autocomplete, code completion, or single-turn text generation. This is contrast to chat completions, which are meant for multi-turn conversations, where the input is a list of messages with roles (like “user” and “assistant”), allowing the model to maintain context and produce more coherent, context-aware responses across multiple exchanges. Use text completions for simple, stateless tasks, and chat completions for interactive, context-dependent scenarios.\ntext_completion\ntext_completion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = text_completion(\n    model=\"gpt-4o-mini\",\n    prompt=\"1 + 1 = \",\n)\nresponse.choices[0].text\n\n'1 + 1 = 2.'\nasync_text_completion (async)\nasync_text_completion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nresponse = await async_text_completion(\n    model=\"gpt-4o-mini\",\n    prompt=\"1 + 2 = \",\n)\nresponse.choices[0].text\n\n'1 + 2 = 3.'",
+    "crumbs": [
+      "api",
+      "llm",
+      "text_completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/07_text_completions.html#text_completion",
+    "href": "api/llm/07_text_completions.html#text_completion",
+    "title": "text_completions",
+    "section": "text_completion",
+    "text": "text_completion\ntext_completion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "text_completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/07_text_completions.html#async_text_completion-async",
+    "href": "api/llm/07_text_completions.html#async_text_completion-async",
+    "title": "text_completions",
+    "section": "async_text_completion (async)",
+    "text": "async_text_completion (async)\nasync_text_completion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "text_completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html",
+    "href": "api/llm/08_embeddings.html",
+    "title": "embeddings",
+    "section": "",
+    "text": "See the litellm documention.\nembedding\nembedding(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = embedding(\n    model=\"text-embedding-3-small\",\n    input=[\n        \"First string to embsed\",\n        \"Second string to embed\",\n    ],\n)\nresponse.data[1]['embedding'][:10]\n\n[-0.0012842135038226843,\n -0.013222426176071167,\n -0.008362501859664917,\n -0.04306064546108246,\n -0.004547890741378069,\n 0.003748304443433881,\n 0.03082892671227455,\n -0.012777778320014477,\n -0.01638176664710045,\n -0.01972052827477455]\nasync_embedding (async)\nasync_embedding(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nresponse = await async_embedding(\n    model=\"text-embedding-3-small\",\n    input=[\n        \"First string to embsed\",\n        \"Second string to embed\",\n    ],\n)\nresponse.data[1]['embedding'][:10]\n\n[-0.0012842135038226843,\n -0.013222426176071167,\n -0.008362501859664917,\n -0.04306064546108246,\n -0.004547890741378069,\n 0.003748304443433881,\n 0.03082892671227455,\n -0.012777778320014477,\n -0.01638176664710045,\n -0.01972052827477455]",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html#embedding",
+    "href": "api/llm/08_embeddings.html#embedding",
+    "title": "embeddings",
+    "section": "embedding",
+    "text": "embedding\nembedding(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html#async_embedding-async",
+    "href": "api/llm/08_embeddings.html#async_embedding-async",
+    "title": "embeddings",
+    "section": "async_embedding (async)",
+    "text": "async_embedding (async)\nasync_embedding(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html",
+    "href": "api/llm/06_completions.html",
+    "title": "completions",
+    "section": "",
+    "text": "Otherwise known as chat completions. See the litellm documention.\nThe two required fields for completions are model and message. Some optional arguments are:\ncompletion\ncompletion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = completion(\n    model=\"gpt-4o-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is the capital of France?\"}\n    ],\n)\nresponse.choices[0].message.content\n\n'The capital of France is Paris.'\nclass Recipe(BaseModel):\n    name: str\n    ingredients: List[str]\n    steps: List[str]\n\nresponse = completion(\n    model=\"gpt-4o-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful cooking assistant.\"},\n        {\"role\": \"user\", \"content\": \"Give me a simple recipe for pancakes.\"}\n    ],\n    response_format=Recipe\n)\n\nRecipe.model_validate_json(response.choices[0].message.content).model_dump()\n\n{'name': 'Simple Pancakes',\n 'ingredients': ['1 cup all-purpose flour',\n  '2 tablespoons sugar',\n  '2 teaspoons baking powder',\n  '1/2 teaspoon salt',\n  '1 cup milk',\n  '1 large egg',\n  '2 tablespoons melted butter',\n  '1 teaspoon vanilla extract'],\n 'steps': ['In a mixing bowl, combine the flour, sugar, baking powder, and salt.',\n  'In another bowl, whisk together the milk, egg, melted butter, and vanilla extract.',\n  'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; some lumps are fine.',\n  'Heat a non-stick skillet or griddle over medium heat and lightly grease it with butter or oil.',\n  'Pour about 1/4 cup of batter for each pancake onto the skillet.',\n  'Cook until bubbles form on the surface and the edges look set, about 2-3 minutes.',\n  'Flip the pancakes and cook for another 1-2 minutes until golden brown.',\n  'Serve warm with your choice of syrup, fruit, or toppings.']}\nYou can save costs during testing using mock responses:\nresponse = completion(\n    model=\"gpt-4o-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is the capital of Sweden?\"}\n    ],\n    mock_response = \"Stockholm\"\n)\nresponse.choices[0].message.content\n\n'Stockholm'\nasync_completion (async)\nasync_completion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nresponse = await async_completion(\n    model=\"gpt-3.5-turbo\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is the capital of France?\"}\n    ],\n)\nresponse.choices[0].message.content\n\n'The capital of France is Paris.'",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#completion",
+    "href": "api/llm/06_completions.html#completion",
+    "title": "completions",
+    "section": "completion",
+    "text": "completion\ncompletion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#async_completion-async",
+    "href": "api/llm/06_completions.html#async_completion-async",
+    "title": "completions",
+    "section": "async_completion (async)",
+    "text": "async_completion (async)\nasync_completion(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#prompt",
+    "href": "api/llm/06_completions.html#prompt",
+    "title": "completions",
+    "section": "prompt",
+    "text": "prompt\nprompt(model: str, context: str, prompt: str, *args, **kwargs)\n\n\nprompt(\n    model='gpt-4o-mini',\n    context='You are a helpful assistant.',\n    prompt='What is the capital of France?',\n)\n\n'The capital of France is Paris.'\n\n\n\nclass Recipe(BaseModel):\n    name: str\n    ingredients: List[str]\n    steps: List[str]\n\nresponse = prompt(\n    model=\"gpt-4o-mini\",\n    context=\"You are a helpful cooking assistant.\",\n    prompt=\"Give me a simple recipe for pancakes.\",\n    response_format=Recipe\n)\n\nRecipe.model_validate_json(response)\n\nRecipe(name='Simple Pancakes', ingredients=['1 cup all-purpose flour', '2 tablespoons sugar', '2 teaspoons baking powder', '1/2 teaspoon salt', '1 cup milk', '1 large egg', '2 tablespoons melted butter', '1 teaspoon vanilla extract'], steps=['In a mixing bowl, combine the flour, sugar, baking powder, and salt.', 'In another bowl, whisk together the milk, egg, melted butter, and vanilla extract.', 'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; some lumps are fine.', 'Heat a non-stick skillet or griddle over medium heat and lightly grease it with butter or oil.', 'Pour about 1/4 cup of batter for each pancake onto the skillet.', 'Cook until bubbles form on the surface and the edges look set, about 2-3 minutes.', 'Flip the pancakes and cook for another 1-2 minutes until golden brown.', 'Serve warm with your choice of syrup, fruit, or toppings.'])",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#async_prompt-async",
+    "href": "api/llm/06_completions.html#async_prompt-async",
+    "title": "completions",
+    "section": "async_prompt (async)",
+    "text": "async_prompt (async)\nasync_prompt(model: str, context: str, prompt: str, *args, **kwargs)\n\n\nawait async_prompt(\n    model='gpt-4o-mini',\n    context='You are a helpful assistant.',\n    prompt='What is the capital of France?',\n)\n\n'The capital of France is Paris.'\n\n\nYou can execute a batch of prompt calls using adulib.asynchronous.batch_executor\n\nresults = await batch_executor(\n    func=async_prompt,\n    constant_kwargs=as_dict(model='gpt-4o-mini', context='You are a helpful assistant.'),\n    batch_kwargs=[\n        { 'prompt': 'What is the capital of France?' },\n        { 'prompt': 'What is the capital of Germany?' },\n        { 'prompt': 'What is the capital of Italy?' },\n        { 'prompt': 'What is the capital of Spain?' },\n        { 'prompt': 'What is the capital of Portugal?' },\n    ],\n    concurrency_limit=2,\n)\n\nprint(\"Results:\", results)\n\nProcessing:   0%|                                                                                                                                                                            | 0/5 [00:00&lt;?, ?it/s]Processing: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00&lt;00:00, 3763.06it/s]\n\n\nResults: ['The capital of France is Paris.', 'The capital of Germany is Berlin.', 'The capital of Italy is Rome.', 'The capital of Spain is Madrid.', 'The capital of Portugal is Lisbon.']",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/utils.html",
+    "href": "api/utils.html",
+    "title": "utils",
+    "section": "",
+    "text": "General utility functions.\nimport adulib.utils as this_module",
+    "crumbs": [
+      "api",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils.html#as_dict",
+    "href": "api/utils.html#as_dict",
+    "title": "utils",
+    "section": "as_dict",
+    "text": "as_dict\nas_dict(**kwargs)\nConvert keyword arguments to a dictionary.",
+    "crumbs": [
+      "api",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils.html#check_mutual_exclusivity",
+    "href": "api/utils.html#check_mutual_exclusivity",
+    "title": "utils",
+    "section": "check_mutual_exclusivity",
+    "text": "check_mutual_exclusivity\ncheck_mutual_exclusivity(*args)\nCheck if only one of the arguments is falsy (or truthy, if check_falsy is False).",
+    "crumbs": [
+      "api",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils.html#run_script",
+    "href": "api/utils.html#run_script",
+    "title": "utils",
+    "section": "run_script",
+    "text": "run_script\nrun_script(\n   script_path: Path,\n   cwd: Path,\n   env: dict,\n   interactive: bool,\n   raise_on_error: bool\n)\nExecute a Python or Bash script with specified parameters and environment variables.\nArguments: - script_path (Path): Path to the script file to execute (.py or .sh) - cwd (Path): Working directory for script execution. Defaults to None. - env (dict): Additional environment variables to pass to the script. Defaults to None. - interactive (bool): Whether to run the script in interactive mode. Defaults to False. - raise_on_error (bool): Whether to raise an exception on non-zero exit code. Defaults to True.\nReturns: tuple: A tuple containing: - int: Return code from the script execution - str or None: Standard output (None if interactive mode) - bytes: Contents of the temporary output file",
+    "crumbs": [
+      "api",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/llm/00_base.html",
+    "href": "api/llm/00_base.html",
+    "title": "base",
+    "section": "",
+    "text": "search_models(query: str)\n\n\nsearch_models('gpt-4o')\n\n['gpt-4o',\n 'gpt-4o-search-preview-2025-03-11',\n 'gpt-4o-search-preview',\n 'gpt-4o-audio-preview',\n 'gpt-4o-audio-preview-2024-12-17',\n 'gpt-4o-audio-preview-2024-10-01',\n 'gpt-4o-mini-audio-preview-2024-12-17',\n 'gpt-4o-mini',\n 'gpt-4o-mini-search-preview-2025-03-11',\n 'gpt-4o-mini-search-preview',\n 'gpt-4o-mini-2024-07-18',\n 'chatgpt-4o-latest',\n 'gpt-4o-2024-05-13',\n 'gpt-4o-2024-08-06',\n 'gpt-4o-2024-11-20',\n 'gpt-4o-realtime-preview-2024-10-01',\n 'gpt-4o-realtime-preview',\n 'gpt-4o-realtime-preview-2024-12-17',\n 'gpt-4o-mini-realtime-preview',\n 'gpt-4o-mini-realtime-preview-2024-12-17',\n 'ft:gpt-4o-2024-08-06',\n 'ft:gpt-4o-2024-11-20',\n 'ft:gpt-4o-mini-2024-07-18',\n 'gpt-4o-transcribe',\n 'gpt-4o-mini-transcribe',\n 'gpt-4o-mini-tts',\n 'azure/gpt-4o-mini-tts',\n 'azure/gpt-4o-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-10-01',\n 'azure/us/gpt-4o-realtime-preview-2024-10-01',\n 'azure/eu/gpt-4o-realtime-preview-2024-10-01',\n 'azure/gpt-4o',\n 'azure/global/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-08-06',\n 'azure/global/gpt-4o-2024-08-06',\n 'azure/gpt-4o-2024-11-20',\n 'azure/us/gpt-4o-2024-11-20',\n 'azure/eu/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-05-13',\n 'azure/global-standard/gpt-4o-2024-08-06',\n 'azure/us/gpt-4o-2024-08-06',\n 'azure/eu/gpt-4o-2024-08-06',\n 'azure/global-standard/gpt-4o-2024-11-20',\n 'azure/global-standard/gpt-4o-mini',\n 'azure/gpt-4o-mini',\n 'azure/gpt-4o-mini-2024-07-18',\n 'azure/us/gpt-4o-mini-2024-07-18',\n 'azure/eu/gpt-4o-mini-2024-07-18',\n 'openrouter/openai/gpt-4o',\n 'openrouter/openai/gpt-4o-2024-05-13']",
+    "crumbs": [
+      "api",
+      "llm",
+      "base"
+    ]
+  },
+  {
+    "objectID": "api/llm/00_base.html#search_models",
+    "href": "api/llm/00_base.html#search_models",
+    "title": "base",
+    "section": "",
+    "text": "search_models(query: str)\n\n\nsearch_models('gpt-4o')\n\n['gpt-4o',\n 'gpt-4o-search-preview-2025-03-11',\n 'gpt-4o-search-preview',\n 'gpt-4o-audio-preview',\n 'gpt-4o-audio-preview-2024-12-17',\n 'gpt-4o-audio-preview-2024-10-01',\n 'gpt-4o-mini-audio-preview-2024-12-17',\n 'gpt-4o-mini',\n 'gpt-4o-mini-search-preview-2025-03-11',\n 'gpt-4o-mini-search-preview',\n 'gpt-4o-mini-2024-07-18',\n 'chatgpt-4o-latest',\n 'gpt-4o-2024-05-13',\n 'gpt-4o-2024-08-06',\n 'gpt-4o-2024-11-20',\n 'gpt-4o-realtime-preview-2024-10-01',\n 'gpt-4o-realtime-preview',\n 'gpt-4o-realtime-preview-2024-12-17',\n 'gpt-4o-mini-realtime-preview',\n 'gpt-4o-mini-realtime-preview-2024-12-17',\n 'ft:gpt-4o-2024-08-06',\n 'ft:gpt-4o-2024-11-20',\n 'ft:gpt-4o-mini-2024-07-18',\n 'gpt-4o-transcribe',\n 'gpt-4o-mini-transcribe',\n 'gpt-4o-mini-tts',\n 'azure/gpt-4o-mini-tts',\n 'azure/gpt-4o-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-10-01',\n 'azure/us/gpt-4o-realtime-preview-2024-10-01',\n 'azure/eu/gpt-4o-realtime-preview-2024-10-01',\n 'azure/gpt-4o',\n 'azure/global/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-08-06',\n 'azure/global/gpt-4o-2024-08-06',\n 'azure/gpt-4o-2024-11-20',\n 'azure/us/gpt-4o-2024-11-20',\n 'azure/eu/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-05-13',\n 'azure/global-standard/gpt-4o-2024-08-06',\n 'azure/us/gpt-4o-2024-08-06',\n 'azure/eu/gpt-4o-2024-08-06',\n 'azure/global-standard/gpt-4o-2024-11-20',\n 'azure/global-standard/gpt-4o-mini',\n 'azure/gpt-4o-mini',\n 'azure/gpt-4o-mini-2024-07-18',\n 'azure/us/gpt-4o-mini-2024-07-18',\n 'azure/eu/gpt-4o-mini-2024-07-18',\n 'openrouter/openai/gpt-4o',\n 'openrouter/openai/gpt-4o-2024-05-13']",
+    "crumbs": [
+      "api",
+      "llm",
+      "base"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html",
+    "href": "api/llm/02_call_logging.html",
+    "title": "call_logging",
+    "section": "",
+    "text": "Inherits from: BaseModel",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#calllog",
+    "href": "api/llm/02_call_logging.html#calllog",
+    "title": "call_logging",
+    "section": "",
+    "text": "Inherits from: BaseModel",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#set_call_log_save_path",
+    "href": "api/llm/02_call_logging.html#set_call_log_save_path",
+    "title": "call_logging",
+    "section": "set_call_log_save_path",
+    "text": "set_call_log_save_path\nset_call_log_save_path(path: Path)",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#log_call",
+    "href": "api/llm/02_call_logging.html#log_call",
+    "title": "call_logging",
+    "section": "_log_call",
+    "text": "_log_call\n_log_call(**log_kwargs)",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_call_logs",
+    "href": "api/llm/02_call_logging.html#get_call_logs",
+    "title": "call_logging",
+    "section": "get_call_logs",
+    "text": "get_call_logs\nget_call_logs(model: Optional[str]) -&gt; List[CallLog]",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_costs",
+    "href": "api/llm/02_call_logging.html#get_total_costs",
+    "title": "call_logging",
+    "section": "get_total_costs",
+    "text": "get_total_costs\nget_total_costs(model: Optional[str]) -&gt; float",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_input_tokens",
+    "href": "api/llm/02_call_logging.html#get_total_input_tokens",
+    "title": "call_logging",
+    "section": "get_total_input_tokens",
+    "text": "get_total_input_tokens\nget_total_input_tokens(model: Optional[str]) -&gt; int",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_output_tokens",
+    "href": "api/llm/02_call_logging.html#get_total_output_tokens",
+    "title": "call_logging",
+    "section": "get_total_output_tokens",
+    "text": "get_total_output_tokens\nget_total_output_tokens(model: Optional[str]) -&gt; int",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_tokens",
+    "href": "api/llm/02_call_logging.html#get_total_tokens",
+    "title": "call_logging",
+    "section": "get_total_tokens",
+    "text": "get_total_tokens\nget_total_tokens(model: Optional[str]) -&gt; int",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#save_call_log",
+    "href": "api/llm/02_call_logging.html#save_call_log",
+    "title": "call_logging",
+    "section": "save_call_log",
+    "text": "save_call_log\nsave_call_log(path: Path, combine_with_existing: bool)",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#load_call_log_file",
+    "href": "api/llm/02_call_logging.html#load_call_log_file",
+    "title": "call_logging",
+    "section": "load_call_log_file",
+    "text": "load_call_log_file\nload_call_log_file(path: Optional[Path]) -&gt; List[CallLog]",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html",
+    "href": "api/llm/01_rate_limits.html",
+    "title": "rate_limits",
+    "section": "",
+    "text": "_convert_to_per_minute(\n   rate: float,\n   unit: Literal['per-second', 'per-minute', 'per-hour']\n) -&gt; float",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html#convert_to_per_minute",
+    "href": "api/llm/01_rate_limits.html#convert_to_per_minute",
+    "title": "rate_limits",
+    "section": "",
+    "text": "_convert_to_per_minute(\n   rate: float,\n   unit: Literal['per-second', 'per-minute', 'per-hour']\n) -&gt; float",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html#set_default_request_rate_limit",
+    "href": "api/llm/01_rate_limits.html#set_default_request_rate_limit",
+    "title": "rate_limits",
+    "section": "set_default_request_rate_limit",
+    "text": "set_default_request_rate_limit\nset_default_request_rate_limit(\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html#get_limiter",
+    "href": "api/llm/01_rate_limits.html#get_limiter",
+    "title": "rate_limits",
+    "section": "_get_limiter",
+    "text": "_get_limiter\n_get_limiter(model: str, api_key: Union[str, None]) -&gt; Limiter",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html#set_request_rate_limit",
+    "href": "api/llm/01_rate_limits.html#set_request_rate_limit",
+    "title": "rate_limits",
+    "section": "set_request_rate_limit",
+    "text": "set_request_rate_limit\nset_request_rate_limit(\n   model: str,\n   api_key: str|None,\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)\n\nYou may consult the rate limits to match those given in the developer consoles of the APIs you use. For example:\n\nAnthropic console\nOpenAI console\nGoogle console\nDeepSeek currently does not impose any rate limits",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/03_caching.html",
+    "href": "api/llm/03_caching.html",
+    "title": "caching",
+    "section": "",
+    "text": "get_cache_key(\n   model: str,\n   func_name,\n   content: any,\n   key_prefix: Union[str, None],\n   include_model_in_cache_key: bool\n) -&gt; tuple",
+    "crumbs": [
+      "api",
+      "llm",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/03_caching.html#get_cache_key",
+    "href": "api/llm/03_caching.html#get_cache_key",
+    "title": "caching",
+    "section": "",
+    "text": "get_cache_key(\n   model: str,\n   func_name,\n   content: any,\n   key_prefix: Union[str, None],\n   include_model_in_cache_key: bool\n) -&gt; tuple",
+    "crumbs": [
+      "api",
+      "llm",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/03_caching.html#cache_execute",
+    "href": "api/llm/03_caching.html#cache_execute",
+    "title": "caching",
+    "section": "_cache_execute",
+    "text": "_cache_execute\n_cache_execute(\n   cache_key: tuple,\n   execute_func: Callable,\n   cache_enabled: bool,\n   cache_path: Union[str, Path, None]\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/03_caching.html#async_cache_execute-async",
+    "href": "api/llm/03_caching.html#async_cache_execute-async",
+    "title": "caching",
+    "section": "_async_cache_execute (async)",
+    "text": "_async_cache_execute (async)\n_async_cache_execute(\n   cache_key: tuple,\n   execute_func: Callable,\n   cache_enabled: bool,\n   cache_path: Union[str, Path, None]\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/04_internal_utils.html",
+    "href": "api/llm/04_internal_utils.html",
+    "title": "_utils",
+    "section": "",
+    "text": "Inherits from: Exception\n\n\n\n\n__init__(self, retry_exceptions: list[Exception])",
+    "crumbs": [
+      "api",
+      "llm",
+      "_utils"
+    ]
+  },
+  {
+    "objectID": "api/llm/04_internal_utils.html#maximumretriesexception",
+    "href": "api/llm/04_internal_utils.html#maximumretriesexception",
+    "title": "_utils",
+    "section": "",
+    "text": "Inherits from: Exception\n\n\n\n\n__init__(self, retry_exceptions: list[Exception])",
+    "crumbs": [
+      "api",
+      "llm",
+      "_utils"
+    ]
+  },
+  {
+    "objectID": "api/llm/04_internal_utils.html#llm_func_factory",
+    "href": "api/llm/04_internal_utils.html#llm_func_factory",
+    "title": "_utils",
+    "section": "_llm_func_factory",
+    "text": "_llm_func_factory\n_llm_func_factory(\n   func: Callable,\n   func_name: str,\n   func_cache_name: str,\n   retrieve_log_data: Optional[Callable]\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "_utils"
+    ]
+  },
+  {
+    "objectID": "api/llm/04_internal_utils.html#llm_async_func_factory",
+    "href": "api/llm/04_internal_utils.html#llm_async_func_factory",
+    "title": "_utils",
+    "section": "_llm_async_func_factory",
+    "text": "_llm_async_func_factory\n_llm_async_func_factory(\n   func: Callable,\n   func_name: str,\n   func_cache_name: str,\n   retrieve_log_data: Optional[Callable]\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "_utils"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html",
+    "href": "api/reflection.html",
+    "title": "reflection",
+    "section": "",
+    "text": "Utilities for Python reflection.\nimport adulib.reflection\nshow_doc(adulib.reflection.is_valid_python_name)\n\nis_valid_python_name\nis_valid_python_name(name: str) -&gt; bool",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#is_valid_python_name",
+    "href": "api/reflection.html#is_valid_python_name",
+    "title": "reflection",
+    "section": "is_valid_python_name",
+    "text": "is_valid_python_name\nis_valid_python_name(name: str) -&gt; bool",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#is_valid_python_name-1",
+    "href": "api/reflection.html#is_valid_python_name-1",
+    "title": "reflection",
+    "section": "is_valid_python_name",
+    "text": "is_valid_python_name\nis_valid_python_name(name: str) -&gt; bool\n\n\nshow_doc(adulib.reflection.find_module_root)\n\nfind_module_root\nfind_module_root(path)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#find_module_root",
+    "href": "api/reflection.html#find_module_root",
+    "title": "reflection",
+    "section": "find_module_root",
+    "text": "find_module_root\nfind_module_root(path)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#find_module_root-1",
+    "href": "api/reflection.html#find_module_root-1",
+    "title": "reflection",
+    "section": "find_module_root",
+    "text": "find_module_root\nfind_module_root(path)\n\n\nshow_doc(adulib.reflection.get_module_path_hierarchy)\n\nget_module_path_hierarchy\nget_module_path_hierarchy(path)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_module_path_hierarchy",
+    "href": "api/reflection.html#get_module_path_hierarchy",
+    "title": "reflection",
+    "section": "get_module_path_hierarchy",
+    "text": "get_module_path_hierarchy\nget_module_path_hierarchy(path)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_module_path_hierarchy-1",
+    "href": "api/reflection.html#get_module_path_hierarchy-1",
+    "title": "reflection",
+    "section": "__get_module_path_hierarchy",
+    "text": "__get_module_path_hierarchy\n__get_module_path_hierarchy(path, hierarchy)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_module_path_hierarchy-2",
+    "href": "api/reflection.html#get_module_path_hierarchy-2",
+    "title": "reflection",
+    "section": "get_module_path_hierarchy",
+    "text": "get_module_path_hierarchy\nget_module_path_hierarchy(path)\n\n\nshow_doc(adulib.reflection.get_function_from_py_file)\n\nget_function_from_py_file\nget_function_from_py_file(file_path, func_name, args, is_async, return_func_key)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_function_from_py_file",
+    "href": "api/reflection.html#get_function_from_py_file",
+    "title": "reflection",
+    "section": "get_function_from_py_file",
+    "text": "get_function_from_py_file\nget_function_from_py_file(file_path, func_name, args, is_async, return_func_key)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_function_from_py_file-1",
+    "href": "api/reflection.html#get_function_from_py_file-1",
+    "title": "reflection",
+    "section": "get_function_from_py_file",
+    "text": "get_function_from_py_file\nget_function_from_py_file(file_path, func_name, args, is_async, return_func_key)\n\n\nimport tempfile\n\n\npy_code = \"\"\"\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, args=['name'])\nfunc('world')\n\nHello...\n...world!\n\n\n\npy_code = \"\"\"\nimport asyncio\nawait asyncio.sleep(0)\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, is_async=True, args=['name'])\nawait func('world')\n\nHello...\n...world!\n\n\n\nshow_doc(adulib.reflection.method_from_py_file)\n\nmethod_from_py_file\nmethod_from_py_file(file_path: str)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#method_from_py_file",
+    "href": "api/reflection.html#method_from_py_file",
+    "title": "reflection",
+    "section": "method_from_py_file",
+    "text": "method_from_py_file\nmethod_from_py_file(file_path: str)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#method_from_py_file-1",
+    "href": "api/reflection.html#method_from_py_file-1",
+    "title": "reflection",
+    "section": "method_from_py_file",
+    "text": "method_from_py_file\nmethod_from_py_file(file_path: str)\n\n\npy_code = \"\"\"\nprint(f'Hello {self.name}')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nclass TestClass:\n    def __init__(self, name):\n        self.name = name\n\n    @method_from_py_file(temp_file_path)\n    def print_name(self): pass\n    \nTestClass(\"world\").print_name()\n\nHello world",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/asynchronous.html",
+    "href": "api/asynchronous.html",
+    "title": "asynchronous",
+    "section": "",
+    "text": "Utilities for async programming.\nimport adulib.asynchronous as this_module",
+    "crumbs": [
+      "api",
+      "asynchronous"
+    ]
+  },
+  {
+    "objectID": "api/asynchronous.html#is_in_event_loop",
+    "href": "api/asynchronous.html#is_in_event_loop",
+    "title": "asynchronous",
+    "section": "is_in_event_loop",
+    "text": "is_in_event_loop\nis_in_event_loop()",
+    "crumbs": [
+      "api",
+      "asynchronous"
+    ]
+  },
+  {
+    "objectID": "api/asynchronous.html#batch_executor-async",
+    "href": "api/asynchronous.html#batch_executor-async",
+    "title": "asynchronous",
+    "section": "batch_executor (async)",
+    "text": "batch_executor (async)\nbatch_executor(\n   func: Callable,\n   constant_kwargs: Dict[str, Any],\n   batch_args: Optional[Iterable[Tuple[Any, ...]]],\n   batch_kwargs: Optional[Iterable[Dict[str, Any]]],\n   concurrency_limit: Optional[int],\n   verbose: bool,\n   progress_bar_desc: str\n)\nExecutes a batch of asynchronous tasks.\nParameters: - func (Callable): The asynchronous function to execute for each batch. - constant_kwargs (Dict[str, Any], optional): Constant keyword arguments to pass to each function call. - batch_args (Optional[Iterable[Tuple[Any, …]]], optional): Iterable of argument tuples for each function call. - batch_kwargs (Optional[Iterable[Dict[str, Any]]], optional): Iterable of keyword argument dictionaries for each function call. - concurrency_limit (Optional[int], optional): Maximum number of concurrent tasks. If None, no limit is applied. - verbose (bool, optional): If True, displays a progress bar. Default is True. - progress_bar_desc (str, optional): Description for the progress bar. Default is “Processing”.\nReturns: - List of results from the executed tasks.\nRaises: - ValueError: If both ‘batch_args’ and ‘batch_kwargs’ are empty or if their lengths do not match.\n\n\nasync def sample_function(x, y, z):\n    await asyncio.sleep(0.1)\n    return z*(x + y)\n\nconstant_kwargs = {'z': 10}\nbatch_args = [(1,), (3,), (5,)]\nbatch_kwargs = [{'y': 2}, {'y': 4}, {'y': 6}]\n\nresults = await batch_executor(\n    func=sample_function,\n    constant_kwargs=constant_kwargs,\n    batch_args=batch_args,\n    batch_kwargs=batch_kwargs,\n    concurrency_limit=2,\n)\n\nprint(\"Results:\", results)\n\nProcessing:   0%|                                                                                                                                                                            | 0/3 [00:00&lt;?, ?it/s]Processing:  33%|██████████████████████████████████████████████████████▋                                                                                                             | 1/3 [00:00&lt;00:00,  9.87it/s]Processing: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00&lt;00:00, 15.70it/s]Processing: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00&lt;00:00, 14.79it/s]\n\n\nResults: [30, 70, 110]",
+    "crumbs": [
+      "api",
+      "asynchronous"
+    ]
+  }
+]
