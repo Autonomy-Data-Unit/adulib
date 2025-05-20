@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2025-05-20
+
+### 🐛 Bug Fixes
+
+- Call logging
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.2] - 2025-05-20
 
 ### 📚 Documentation
