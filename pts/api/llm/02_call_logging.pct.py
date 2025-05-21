@@ -55,7 +55,8 @@ def set_call_log_save_path(path: Path):
 # %%
 #|exporti
 def _log_call(**log_kwargs):
-    _call_logs.append(CallLog(**log_kwargs))
+    call_log = CallLog(**log_kwargs)
+    _call_logs.append(call_log)
     if _call_log_save_path is not None:
         with open(_call_log_save_path, 'a') as f:
             f.write('\n' + call_log.model_dump_json())
@@ -97,7 +98,7 @@ def get_total_tokens(model: Optional[str]=None) -> int:
 #|export
 def save_call_log(path: Path, combine_with_existing: bool = True):
     if combine_with_existing:
-        _logs_on_hd = get_call_logs()
+        _logs_on_hd = load_call_log_file(path)
         _memory_call_log_ids = set([l.id for l in _call_logs])
         _logs_to_save = _call_logs + [l for l in _logs_on_hd if l.id not in _memory_call_log_ids]
     else:

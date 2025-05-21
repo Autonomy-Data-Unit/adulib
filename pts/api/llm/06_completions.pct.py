@@ -32,8 +32,10 @@ import adulib.llm.completions as this_module
 
 # %%
 #|hide
+from adulib.llm import set_call_log_save_path
 repo_path = nblite.config.get_project_root_and_config()[0]
 set_default_cache_path(repo_path / '.tmp_cache')
+set_call_log_save_path(repo_path / '.call_logs.jsonl') 
 
 # %% [markdown]
 # The two required fields for completions are `model` and `message`. Some optional arguments are:
