@@ -98,7 +98,7 @@ def get_total_tokens(model: Optional[str]=None) -> int:
 #|export
 def save_call_log(path: Path, combine_with_existing: bool = True):
     if combine_with_existing:
-        _logs_on_hd = load_call_log_file(path)
+        _logs_on_hd = load_call_log_file(path) if Path(path).exists() else []
         _memory_call_log_ids = set([l.id for l in _call_logs])
         _logs_to_save = _call_logs + [l for l in _logs_on_hd if l.id not in _memory_call_log_ids]
     else:
