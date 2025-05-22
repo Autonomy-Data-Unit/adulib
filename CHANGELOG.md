@@ -2,15 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2025-05-22
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.4] - 2025-05-21
 
 ### 🐛 Bug Fixes
 
 - Bug in call logging
+- Call logging bug
 
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
+- Nbl prepare
 - Update version in pyproject.toml
 
 ## [0.1.3] - 2025-05-20
