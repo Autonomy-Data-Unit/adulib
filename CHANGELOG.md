@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 2025-05-23
+
+### 🚀 Features
+
+- Adulib.reflection.mod_property
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.5] - 2025-05-22
 
 ### ⚙️ Miscellaneous Tasks
