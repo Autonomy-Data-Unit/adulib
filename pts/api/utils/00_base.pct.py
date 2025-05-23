@@ -4,7 +4,7 @@
 # General utility functions.
 
 # %%
-#|default_exp utils
+#|default_exp utils.base
 
 # %%
 #|hide
