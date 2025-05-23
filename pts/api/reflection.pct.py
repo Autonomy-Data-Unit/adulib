@@ -26,6 +26,7 @@ import re
 import adulib.reflection
 
 # %%
+#|hide
 show_doc(adulib.reflection.is_valid_python_name)
 
 
@@ -41,6 +42,7 @@ def is_valid_python_name(name: str) -> bool:
 
 
 # %%
+#|hide
 show_doc(adulib.reflection.find_module_root)
 
 
@@ -58,6 +60,7 @@ def find_module_root(path):
 
 
 # %%
+#|hide
 show_doc(adulib.reflection.get_module_path_hierarchy)
 
 
@@ -90,6 +93,7 @@ def get_module_path_hierarchy(path):
 
 
 # %%
+#|hide
 show_doc(adulib.reflection.get_function_from_py_file)
 
 
@@ -209,6 +213,7 @@ func = get_function_from_py_file(temp_file_path, is_async=True, args=['name'])
 await func('world')
 
 # %%
+#|hide
 show_doc(adulib.reflection.method_from_py_file)
 
 
@@ -250,3 +255,59 @@ class TestClass:
     def print_name(self): pass
     
 TestClass("world").print_name()
+
+# %%
+#|hide
+show_doc(adulib.reflection.mod_property)
+
+
+# %%
+#|exporti
+def update_module_class(mod):
+    class CachingModule(types.ModuleType):
+        pass
+    mod.__class__ = CachingModule
+
+
+# %%
+#|export
+def mod_property(func, cached=False):
+    """
+    Used to create module-level properties.
+    
+    Example:
+    ```python
+    @mod_property
+    def my_prop():
+        print('my_prop called')
+        return 42
+    ```
+    """
+    func_name = func.__name__
+    if '.' in func_name:
+        raise ValueError('mod_property only applicable to top-level module functions')
+    func_mod = sys.modules[func.__module__]
+    if func_mod.__class__ == types.ModuleType:
+        update_module_class(func_mod)
+    elif func_mod.__class__.__name__ != 'CachingModule':
+        raise RuntimeError(f'mod_property incompatible with module type: {func_mod.__name__}({func_mod.__class__.__qualname__})')
+    @functools.wraps(func)
+    def wrapper(mod):
+        value = func()
+        if cached:
+            setattr(func_mod.__class__, func_name, value)
+            delattr(func_mod, func_name)
+        return value
+    wrapper.__name__ = func_name
+    setattr(func_mod.__class__, func_name, property(wrapper))
+    return wrapper
+
+def cached_mod_property(func):
+    return mod_property(func, cached=True)
+
+
+# %%
+@mod_property
+def my_prop():
+    print('my_prop called')
+    return 42
