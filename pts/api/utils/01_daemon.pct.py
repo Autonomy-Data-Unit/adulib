@@ -12,7 +12,7 @@ import adulib.utils.daemons as this_module
 # %%
 #|export
 import time
-from typing import Callable
+from typing import Callable, Union, List
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
@@ -22,25 +22,28 @@ import os
 # %%
 #|export
 def create_watchdog_daemon(
-    folder_path: str,
+    folder_paths: Union[str, List[str]],
     lock_file: str,
     callback: Callable[[object], None],
     recursive: bool = True,
     verbose: bool = False,
 ) -> Callable[[], None]:
     """
-    Starts a background daemon that watches `folder_path` for changes.
+    Starts a background daemon that watches `folder_paths` for changes.
     Calls `callback(event)` whenever a file changes.
 
     Args:
-        folder_path: The path to watch for changes.
+        folder_paths: A path or list of paths to watch.
         callback: The function to call when a file changes. Receives the event as argument.
-        recursive: Whether to watch the folder recursively.
+        recursive: Whether to watch folders recursively.
         lock_file: Optional path to a lock file to ensure only one daemon is running.
 
     Returns:
-        A function to start the daemon thread, or a no-op function if locked.
+        A (start, stop) function pair for the daemon.
     """
+    if not isinstance(folder_paths, list):
+        folder_paths = [folder_paths]
+    
     if lock_file and os.path.exists(lock_file):
         if verbose: print(f"[watchdog_daemon] Lock file exists at {lock_file}. Daemon will not start.")
         return None, None
@@ -55,11 +58,14 @@ def create_watchdog_daemon(
 
     observer = Observer()
     event_handler = _Handler()
-    observer.schedule(event_handler, path=folder_path, recursive=recursive)
+    for path in folder_paths:
+        if not os.path.isdir(path):
+            raise ValueError(f"Error: {path} is not a directory.")
+        observer.schedule(event_handler, path=path, recursive=recursive)
 
     def _start():
         observer.start()
-        if verbose: print(f"[watchdog_daemon] Watching: {folder_path}")
+        if verbose: print(f"[watchdog_daemon] Daemon started.")
         try:
             while True:
                 time.sleep(1)
@@ -93,11 +99,14 @@ def my_callback(event):
     print("Folder changed!", event)
 
 lock_file_path = tempfile.mktemp()
-daemon_start, daemon_stop = create_watchdog_daemon(Path("/tmp/random_folder").expanduser(), lock_file_path, my_callback, verbose=True)
+daemon_start, daemon_stop = create_watchdog_daemon("/bin", lock_file_path, my_callback, verbose=True, recursive=False)
 daemon_start()
 time.sleep(0.1)
-_daemon_start, _daemon_stop = create_watchdog_daemon(Path("/tmp/random_folder").expanduser(), lock_file_path, my_callback, verbose=True)
+_daemon_start, _daemon_stop = create_watchdog_daemon("/bin", lock_file_path, my_callback, verbose=True, recursive=False)
 assert _daemon_start is None
 daemon_stop()
-_daemon_start, _daemon_stop = create_watchdog_daemon(Path("/tmp/random_folder").expanduser(), lock_file_path, my_callback, verbose=True)
+_daemon_start, _daemon_stop = create_watchdog_daemon(["/bin", "/"], lock_file_path, my_callback, verbose=True, recursive=False)
 assert _daemon_start is not None
+_daemon_start()
+time.sleep(0.1)
+_daemon_stop()
