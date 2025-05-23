@@ -47,7 +47,10 @@ def create_watchdog_daemon(
     
     if lock_file and os.path.exists(lock_file):
         if verbose: print(f"[watchdog_daemon] Lock file exists at {lock_file}. Daemon will not start.")
-        return None, None
+        def stop():
+            if lock_file and os.path.exists(lock_file):
+                os.remove(lock_file)
+        return None, stop
 
     # Write PID or timestamp for traceability
     with open(lock_file, "w") as f:
