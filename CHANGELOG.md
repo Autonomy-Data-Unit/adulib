@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.9] - 2025-05-23
+
+### 🐛 Bug Fixes
+
+- Create_watchdog_daemon now creates folders if they dont exist
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.8] - 2025-05-23
 
 ### 🚀 Features
