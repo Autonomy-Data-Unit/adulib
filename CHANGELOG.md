@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.8] - 2025-05-23
+
+### 🚀 Features
+
+- Can now specify multiple folders in create_watchdog_daemon
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.7] - 2025-05-23
 
 ### 🚀 Features
