@@ -16,6 +16,7 @@ from typing import Callable, Union, List
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
+from pathlib import Path
 import os
 
 
@@ -60,7 +61,8 @@ def create_watchdog_daemon(
     event_handler = _Handler()
     for path in folder_paths:
         if not os.path.isdir(path):
-            raise ValueError(f"Error: {path} is not a directory.")
+            if not os.path.exists(path):
+                Path(path).mkdir(parents=True, exist_ok=True)
         observer.schedule(event_handler, path=path, recursive=recursive)
 
     def _start():
