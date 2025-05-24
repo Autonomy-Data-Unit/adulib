@@ -12,12 +12,95 @@ import adulib.utils.daemons as this_module
 # %%
 #|export
 import time
+from pathlib import Path
 from typing import Callable, Union, List
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from threading import Thread
+from threading import Thread, Lock, Timer
 from pathlib import Path
+import datetime
 import os
+
+
+# %%
+#|export
+def create_interval_daemon(
+    lock_file: str,
+    callback: Callable[[], None],
+    interval: float = 1.0,  # seconds between callbacks
+    verbose: bool = False,
+    error_callback: Callable[[BaseException], None] = None,
+) -> Callable[[], None]:
+    """
+    Creates a daemon that calls the callback function at fixed intervals.
+
+    Args:
+        callback: The function to call at each interval.
+        interval: Number of seconds between callbacks.
+        verbose: Whether to print status messages.
+
+    Returns:
+        A (start, stop) function pair for the daemon.
+    """
+    
+    lock_path = Path(lock_file)
+    
+    def stop():
+        if lock_path.exists(): lock_path.unlink()
+    
+    def wait_for_stop():
+        while True:
+            if not lock_path.exists(): break
+            pid, _ = lock_path.read_text().split(" - ")
+            if pid != str(os.getpid()): break
+            time.sleep(1)
+    
+    if lock_path.exists():
+        if verbose: print(f"[interval_daemon] Lock file exists at {lock_file}. Daemon will not start.")
+        return None, stop, wait_for_stop
+
+    # Write PID and timestamp for traceability
+    def write_lock_file():
+        with lock_path.open("w") as f:
+            f.write(f"{os.getpid()} - {datetime.datetime.now().strftime('%a %b %d %H:%M:%S.%f %Y')}\n")
+    write_lock_file()
+    
+    def _run():
+        if verbose: print(f"[interval_daemon] Daemon started with {interval}s interval")
+        
+        try:
+            while True:
+                callback()
+                time.sleep(interval)
+                if not lock_path.exists(): break
+                else:
+                    pid, _ = lock_path.read_text().split(" - ")
+                    if pid != str(os.getpid()): break
+                write_lock_file()
+        except BaseException as e:
+            if error_callback is not None: error_callback(e)
+            print(f"[interval_daemon] Error: {e}")
+        finally:
+            if verbose: print("[interval_daemon] Daemon stopped")
+            if lock_path.exists() and lock_path.read_text().split(" - ")[0] == str(os.getpid()): lock_path.unlink()
+
+    def start():
+        thread = Thread(target=_run, daemon=True)
+        thread.start()
+
+    return start, stop, wait_for_stop
+
+
+# %%
+import tempfile
+from pathlib import Path
+
+def my_callback():
+    print("Interval callback!")
+
+start, stop, wait_for_stop = create_interval_daemon(tempfile.mktemp(), my_callback, interval=2.0, verbose=True)
+start()  # Will print "Interval callback!" every 2 seconds
+stop()   # Stops the daemon
 
 
 # %%
@@ -28,6 +111,7 @@ def create_watchdog_daemon(
     callback: Callable[[object], None],
     recursive: bool = True,
     verbose: bool = False,
+    rate_limit: float = 1, # per second
 ) -> Callable[[], None]:
     """
     Starts a background daemon that watches `folder_paths` for changes.
@@ -38,6 +122,7 @@ def create_watchdog_daemon(
         callback: The function to call when a file changes. Receives the event as argument.
         recursive: Whether to watch folders recursively.
         lock_file: Optional path to a lock file to ensure only one daemon is running.
+        rate_limit: Minimum number of seconds between callbacks.
 
     Returns:
         A (start, stop) function pair for the daemon.
@@ -48,17 +133,51 @@ def create_watchdog_daemon(
     if lock_file and os.path.exists(lock_file):
         if verbose: print(f"[watchdog_daemon] Lock file exists at {lock_file}. Daemon will not start.")
         def stop():
-            if lock_file and os.path.exists(lock_file):
+            if lock_file and os.path.exists(lock_file): 
                 os.remove(lock_file)
         return None, stop
 
-    # Write PID or timestamp for traceability
+    # Write PID and timestamp for traceability
     with open(lock_file, "w") as f:
         f.write(f"{os.getpid()} - {time.ctime()}\n")
 
+    # Fixed-rate debouncing setup
+    last_callback_time = 0
+    pending_event = None
+    timer_lock = Lock()
+
+    def debounced_callback(event):
+        nonlocal last_callback_time, pending_event
+        
+        with timer_lock:
+            current_time = time.time()
+            time_since_last_callback = current_time - last_callback_time
+            
+            # Store the most recent event
+            pending_event = event
+            
+            # If enough time has passed since last callback, execute immediately
+            if time_since_last_callback >= rate_limit:
+                callback(pending_event)
+                last_callback_time = current_time
+                pending_event = None
+            else:
+                # Schedule the callback for the remaining time
+                wait_time = rate_limit - time_since_last_callback
+                
+                def execute_callback():
+                    with timer_lock:
+                        nonlocal last_callback_time, pending_event
+                        if pending_event is not None:  # Only execute if we still have a pending event
+                            callback(pending_event)
+                            last_callback_time = time.time()
+                            pending_event = None
+                
+                Timer(wait_time, execute_callback).start()
+
     class _Handler(FileSystemEventHandler):
         def on_any_event(self, event):
-            callback(event)
+            debounced_callback(event)
 
     observer = Observer()
     event_handler = _Handler()
@@ -75,12 +194,14 @@ def create_watchdog_daemon(
             while True:
                 time.sleep(1)
                 if not os.path.exists(lock_file): break
-        except KeyboardInterrupt:
+        except BaseException as e:
+            print(f"[watchdog_daemon] Error: {e}")
+        finally:
             observer.stop()
-        if verbose: print("[watchdog_daemon] Daemon stopped.")
-        observer.join()
-        if lock_file and os.path.exists(lock_file):
-            os.remove(lock_file)
+            if verbose: print("[watchdog_daemon] Daemon stopped.")
+            observer.join()
+            if lock_file and os.path.exists(lock_file):
+                os.remove(lock_file)
 
     thread = Thread(target=_start, daemon=True)
 
@@ -90,8 +211,7 @@ def create_watchdog_daemon(
     def stop():
         observer.stop()
         observer.join()
-        if lock_file and os.path.exists(lock_file):
-            os.remove(lock_file)
+        if lock_file and os.path.exists(lock_file): os.remove(lock_file)
 
     return start, stop
 
