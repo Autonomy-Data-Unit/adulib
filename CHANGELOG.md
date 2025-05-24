@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.10] - 2025-05-24
+
+### 🚀 Features
+
+- Added interval daemon
+- Cli.run_fzf
+- Git.find_root_repo_path
+
+### 🐛 Bug Fixes
+
+- Returns a 'stop' method for when the watchdog is already running
+- Updated __init__.py with new modules
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.9] - 2025-05-23
 
 ### 🐛 Bug Fixes
