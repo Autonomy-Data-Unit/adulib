@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2025-05-26
+
+### 🚀 Features
+
+- *(adulib.llm.completions)* Renamed `prompt` to `single`. Renamed the `context` argument to `system`. Added multi-turn feature for `single`.
+
+### 🐛 Bug Fixes
+
+- Cache_args were not passed properly
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.13] - 2025-05-26
 
 ### 🚀 Features
