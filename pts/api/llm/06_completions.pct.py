@@ -16,7 +16,7 @@ try:
     import litellm
     import inspect
     import functools
-    from typing import List
+    from typing import List, Dict
     from adulib.llm._utils import _llm_func_factory, _llm_async_func_factory
     from adulib.llm.tokens import token_counter
 except ImportError as e:
@@ -161,39 +161,62 @@ response.choices[0].message.content
 
 # %%
 #|hide
-show_doc(this_module.prompt)
+show_doc(this_module.single)
+
+
+# %%
+#|exporti
+def _get_msgs(orig_msgs, response):
+    if len(response.choices) == 0: return orig_msgs
+    msgs = orig_msgs.copy()
+    # msgs.append(response.choices[0].message.model_dump())
+    msgs.append({ 'role': response.choices[0].message.role, 'content': response.choices[0].message.content })
+    return msgs
 
 
 # %%
 #|export
 @functools.wraps(completion)
-def prompt(
-    model: str,
+def single(
     prompt: str,
-    context: str = "You are a helpful assistant.",
+    model: str|None = None,
+    system: str|None = None,
     *args,
+    multi: bool|Dict|None = None,
     return_full_response: bool=False,
     **kwargs,
 ):
-    messages = [
-        {"role": "system", "content": context},
-        {"role": "user", "content": prompt}
-    ]
+    if system is None and multi is None: system = "You are a helpful assistant."
+    if system is not None and type(multi) == dict: raise ValueError("Cannot provide `system` if already in multi-turn completion mode.")
+    if multi: model = model or multi['model']
+    
+    if type(multi) == dict:
+        messages = multi['messages'].copy() + [ {"role": "user", "content": prompt} ]
+    else:
+        messages = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt}
+        ]
+    
+    if model is None: raise ValueError("`model` must be provided.")
+    
     response = completion(model, messages, *args, **kwargs)
-    if return_full_response: return response
-    else: return response.choices[0].message.content
+    
+    res = response.choices[0].message.content if not return_full_response else response
+    if multi is not None: return res, {'model' : model, 'messages' : _get_msgs(messages, response)}
+    else: return res
     
 sig = inspect.signature(completion)
-prompt.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
-prompt.__name__ = "prompt"
-prompt.__doc__ = """
+single.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
+single.__name__ = "prompt"
+single.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
 """.strip()
 
 # %%
-prompt(
+single(
     model='gpt-4o-mini',
-    context='You are a helpful assistant.',
+    system='You are a helpful assistant.',
     prompt='What is the capital of France?',
 )
 
@@ -204,50 +227,81 @@ class Recipe(BaseModel):
     ingredients: List[str]
     steps: List[str]
 
-response = prompt(
+response = single(
     model="gpt-4o-mini",
-    context="You are a helpful cooking assistant.",
+    system="You are a helpful cooking assistant.",
     prompt="Give me a simple recipe for pancakes.",
     response_format=Recipe
 )
 
 Recipe.model_validate_json(response)
 
+# %% [markdown]
+# Can do multi-turn completions using `get_msgs=True` and passing the messages to the `prev` argument:
+
+# %%
+res, _ctx = single(
+    model='gpt-4o-mini',
+    system='You are a helpful assistant.',
+    prompt='Add 1 and 1',
+    multi=True
+)
+print(res)
+
+res, _ctx = single(
+    prompt='Multiply that by 10',
+    multi=_ctx,
+)
+print(res)
+
 # %%
 #|hide
-show_doc(this_module.async_prompt)
+show_doc(this_module.async_single)
 
 
 # %%
 #|export
 @functools.wraps(completion)
-async def async_prompt(
-    model: str,
+async def async_single(
     prompt: str,
-    context: str = "You are a helpful assistant.",
+    model: str|None = None,
+    system: str|None = None,
     *args,
+    multi: bool|Dict|None = None,
     return_full_response: bool=False,
     **kwargs,
 ):
-    messages = [
-        {"role": "system", "content": context},
-        {"role": "user", "content": prompt}
-    ]
+    if system is None and multi is None: system = "You are a helpful assistant."
+    if system is not None and type(multi) == dict: raise ValueError("Cannot provide `system` if already in multi-turn completion mode.")
+    if multi: model = model or multi['model']
+    
+    if type(multi) == dict:
+        messages = multi['messages'].copy() + [ {"role": "user", "content": prompt} ]
+    else:
+        messages = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt}
+        ]
+    
+    if model is None: raise ValueError("`model` must be provided.")
+    
     response = await async_completion(model, messages, *args, **kwargs)
-    if return_full_response: return response
-    else: return response.choices[0].message.content
+    
+    res = response.choices[0].message.content if not return_full_response else response
+    if multi is not None: return res, {'model' : model, 'messages' : _get_msgs(messages, response)}
+    else: return res
     
 sig = inspect.signature(completion)
-async_prompt.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
-async_prompt.__name__ = "async_prompt"
-async_prompt.__doc__ = """
+async_single.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
+async_single.__name__ = "async_prompt"
+async_single.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
 """.strip()
 
 # %%
-await async_prompt(
+await async_single(
     model='gpt-4o-mini',
-    context='You are a helpful assistant.',
+    system='You are a helpful assistant.',
     prompt='What is the capital of France?',
 )
 
@@ -256,8 +310,8 @@ await async_prompt(
 
 # %%
 results = await batch_executor(
-    func=async_prompt,
-    constant_kwargs=as_dict(model='gpt-4o-mini', context='You are a helpful assistant.'),
+    func=async_single,
+    constant_kwargs=as_dict(model='gpt-4o-mini', system='You are a helpful assistant.'),
     batch_kwargs=[
         { 'prompt': 'What is the capital of France?' },
         { 'prompt': 'What is the capital of Germany?' },
