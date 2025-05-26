@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.11] - 2025-05-26
+
+### 🚀 Features
+
+- Cli.data_questionnaire
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.10] - 2025-05-24
 
 ### 🚀 Features
