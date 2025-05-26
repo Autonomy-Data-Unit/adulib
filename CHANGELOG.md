@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.13] - 2025-05-26
+
+### 🚀 Features
+
+- Prompt and async_prompt now has a default context
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
+
 ## [0.1.12] - 2025-05-26
 
 ### 🐛 Bug Fixes
