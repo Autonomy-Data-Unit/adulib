@@ -12,6 +12,7 @@ dependencies = [
     "python-dotenv>=1.1.0",
     "pydantic>=2.10.6",
     "watchdog>=6.0.0",
+    "questionary>=2.1.0",
 ]
 authors = [
     { name = "Lukas Kikuchi", email = "lukas.kikuchi@gmail.com" }
