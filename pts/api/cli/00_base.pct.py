@@ -2,7 +2,7 @@
 # # cli
 
 # %%
-#|default_exp cli
+#|default_exp cli.base
 
 # %%
 #|hide
