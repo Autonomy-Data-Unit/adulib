@@ -43,10 +43,10 @@ text_completion = _llm_func_factory(
     func=litellm.text_completion,
     func_name="text_completion",
     func_cache_name="text_completion",
-    retrieve_log_data=lambda model, func_kwargs, response: {
+    retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "text_completion",
-        "input_tokens": token_counter(model=model, text=func_kwargs['prompt']),
-        "output_tokens": sum([token_counter(model=model, text=c.text) for c in response.choices]),
+        "input_tokens": token_counter(model=model, text=func_kwargs['prompt'], **cache_args),
+        "output_tokens": sum([token_counter(model=model, text=c.text, **cache_args) for c in response.choices]),
         "cost": response._hidden_params['response_cost'],
     }
 )
@@ -72,10 +72,10 @@ async_text_completion = _llm_async_func_factory(
     func=functools.wraps(litellm.text_completion)(litellm.atext_completion), # This is needed as 'litellm.atext_completion' lacks the right signature
     func_name="async_text_completion",
     func_cache_name="text_completion",
-    retrieve_log_data=lambda model, func_kwargs, response: {
+    retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "text_completion",
-        "input_tokens": token_counter(model=model, text=func_kwargs['prompt']),
-        "output_tokens": sum([token_counter(model=model, text=c.text) for c in response.choices]),
+        "input_tokens": token_counter(model=model, text=func_kwargs['prompt'], **cache_args),
+        "output_tokens": sum([token_counter(model=model, text=c.text, **cache_args) for c in response.choices]),
         "cost": response._hidden_params['response_cost'],
     }
 )

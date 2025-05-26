@@ -40,9 +40,9 @@ embedding = _llm_func_factory(
     func=litellm.embedding,
     func_name="embedding",
     func_cache_name="embedding",
-    retrieve_log_data=lambda model, func_kwargs, response: {
+    retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "embedding",
-        "input_tokens": sum([token_counter(model=model, text=inp) for inp in func_kwargs['input']]),
+        "input_tokens": sum([token_counter(model=model, text=inp, **cache_args) for inp in func_kwargs['input']]),
         "output_tokens": None,
         "cost": response._hidden_params['response_cost'],
     }
@@ -72,9 +72,9 @@ async_embedding = _llm_async_func_factory(
     func=functools.wraps(litellm.embedding)(litellm.aembedding), # This is needed as 'litellm.aembedding' lacks the right signature
     func_name="async_embedding",
     func_cache_name="embedding",
-    retrieve_log_data=lambda model, func_kwargs, response: {
+    retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "embedding",
-        "input_tokens": sum([token_counter(model=model, text=inp) for inp in func_kwargs['input']]),
+        "input_tokens": sum([token_counter(model=model, text=inp, **cache_args) for inp in func_kwargs['input']]),
         "output_tokens": None,
         "cost": response._hidden_params['response_cost'],
     }
