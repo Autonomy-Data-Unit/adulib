@@ -104,8 +104,13 @@ def _llm_func_factory(
         # Call logging
         if retrieve_log_data is not None:
             if not retrieved_from_cache:
-                log_data = retrieve_log_data(model, func_args_and_kwargs, result)
-                _log_call( model=model, **log_data)
+                cache_args = {
+                    "cache_path": cache_path,
+                    "cache_key_prefix": cache_key_prefix,
+                    "include_model_in_cache_key": include_model_in_cache_key,
+                }
+                log_data = retrieve_log_data(model, func_args_and_kwargs, result, cache_args)
+                _log_call(model=model, **log_data)
         
         return result
     
@@ -149,6 +154,9 @@ except MaximumRetriesException as e:
 
 
 # %%
+# is_in_cache?
+
+# %%
 #|exporti
 def _llm_async_func_factory(
     func: Callable,
@@ -187,7 +195,7 @@ def _llm_async_func_factory(
         if return_cache_key: return cache_key
         
         # Rate limiting
-        key_in_cache = is_in_cache(cache_key)
+        key_in_cache = is_in_cache(cache_key, cache=cache_path)
         if not key_in_cache:
             api_key = kwargs.get("api_key", None)
             await _get_limiter(model, api_key).wait()
@@ -219,8 +227,13 @@ def _llm_async_func_factory(
         # Call logging
         if retrieve_log_data is not None:
             if not retrieved_from_cache:
-                log_data = retrieve_log_data(model, func_args_and_kwargs, result)
-                _log_call( model=model, **log_data)
+                cache_args = {
+                    "cache_path": cache_path,
+                    "cache_key_prefix": cache_key_prefix,
+                    "include_model_in_cache_key": include_model_in_cache_key,
+                }
+                log_data = retrieve_log_data(model, func_args_and_kwargs, result, cache_args)
+                _log_call(model=model, **log_data)
         
         return result
     
