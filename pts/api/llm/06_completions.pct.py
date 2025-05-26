@@ -73,10 +73,10 @@ completion = _llm_func_factory(
     func=litellm.completion,
     func_name="completion",
     func_cache_name="completion",
-    retrieve_log_data=lambda model, func_kwargs, response: {
+    retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "completion",
-        "input_tokens": token_counter(model=model, messages=func_kwargs['messages']),
-        "output_tokens": sum([token_counter(model=model, messages=[{'role': c.message.role, 'content': c.message.content}]) for c in response.choices]),
+        "input_tokens": token_counter(model=model, messages=func_kwargs['messages'], **cache_args),
+        "output_tokens": sum([token_counter(model=model, messages=[{'role': c.message.role, 'content': c.message.content}], **cache_args) for c in response.choices]),
         "cost": response._hidden_params['response_cost'],
     }
 )
@@ -137,10 +137,10 @@ async_completion = _llm_async_func_factory(
     func=litellm.acompletion,
     func_name="async_completion",
     func_cache_name="completion",
-    retrieve_log_data=lambda model, func_kwargs, response: {
+    retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "completion",
-        "input_tokens": token_counter(model=model, messages=func_kwargs['messages']),
-        "output_tokens": sum([token_counter(model=model, messages=[{'role': c.message.role, 'content': c.message.content}]) for c in response.choices]),
+        "input_tokens": token_counter(model=model, messages=func_kwargs['messages'], **cache_args),
+        "output_tokens": sum([token_counter(model=model, messages=[{'role': c.message.role, 'content': c.message.content}], **cache_args) for c in response.choices]),
         "cost": response._hidden_params['response_cost'],
     }
 )
