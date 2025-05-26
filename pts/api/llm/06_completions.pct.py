@@ -169,8 +169,8 @@ show_doc(this_module.prompt)
 @functools.wraps(completion)
 def prompt(
     model: str,
-    context: str,
     prompt: str,
+    context: str = "You are a helpful assistant.",
     *args,
     return_full_response: bool=False,
     **kwargs,
@@ -223,8 +223,8 @@ show_doc(this_module.async_prompt)
 @functools.wraps(completion)
 async def async_prompt(
     model: str,
-    context: str,
     prompt: str,
+    context: str = "You are a helpful assistant.",
     *args,
     return_full_response: bool=False,
     **kwargs,
