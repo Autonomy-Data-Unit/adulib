@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>embeddings – adulib</title>
+<title>daemons – adulib</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/llm/00_base.html">llm</a></li><li class="breadcrumb-item"><a href="../../api/llm/08_embeddings.html">embeddings</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/utils/00_base.html">utils</a></li><li class="breadcrumb-item"><a href="../../api/utils/01_daemon.html">daemons</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,13 +182,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">llm</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../api/llm/00_base.html" class="sidebar-item-text sidebar-link">
@@ -239,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../api/llm/08_embeddings.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../api/llm/08_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">embeddings</span></a>
   </div>
 </li>
@@ -247,13 +247,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">utils</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../api/utils/00_base.html" class="sidebar-item-text sidebar-link">
@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../api/utils/01_daemon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/utils/01_daemon.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">daemons</span></a>
   </div>
 </li>
@@ -303,17 +303,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#embedding" id="toc-embedding" class="nav-link active" data-scroll-target="#embedding">embedding</a></li>
-  <li><a href="#async_embedding-async" id="toc-async_embedding-async" class="nav-link" data-scroll-target="#async_embedding-async">async_embedding <em>(async)</em></a></li>
+  <li><a href="#create_interval_daemon" id="toc-create_interval_daemon" class="nav-link active" data-scroll-target="#create_interval_daemon">create_interval_daemon</a></li>
+  <li><a href="#create_watchdog_daemon" id="toc-create_watchdog_daemon" class="nav-link" data-scroll-target="#create_watchdog_daemon">create_watchdog_daemon</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/llm/00_base.html">llm</a></li><li class="breadcrumb-item"><a href="../../api/llm/08_embeddings.html">embeddings</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/utils/00_base.html">utils</a></li><li class="breadcrumb-item"><a href="../../api/utils/01_daemon.html">daemons</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">embeddings</h1>
+<h1 class="title">daemons</h1>
 </div>
 
 
@@ -330,97 +330,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<blockquote class="blockquote">
-<p>See the <a href="https://docs.litellm.ai/docs/embedding/supported_embedding"><code>litellm</code> documention</a>.</p>
-</blockquote>
-<div id="67e0cff0" class="cell">
-<section id="embedding" class="level2 cell-output cell-output-display cell-output-markdown">
-<h2 class="anchored" data-anchor-id="embedding">embedding</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>embedding(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="op">*</span>args,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   cache_enabled: <span class="bu">bool</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   cache_path: typing.Union[<span class="bu">str</span>, pathlib.Path, NoneType],</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   cache_key_prefix: typing.Optional[<span class="bu">str</span>],</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   include_model_in_cache_key: <span class="bu">bool</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   return_cache_key: <span class="bu">bool</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   enable_retries: <span class="bu">bool</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   retry_on_exceptions: typing.Optional[<span class="bu">list</span>[<span class="pp">Exception</span>]],</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>   retry_on_all_exceptions: <span class="bu">bool</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>   max_retries: typing.Optional[<span class="bu">int</span>],</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   retry_delay: typing.Optional[<span class="bu">int</span>],</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>   <span class="op">**</span>kwargs</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This function is a wrapper around a corresponding function in the <code>litellm</code> library, see <a href="https://docs.litellm.ai/docs/embedding/supported_embedding">this</a> for a full list of the available arguments.</p>
+<section id="create_interval_daemon" class="level2">
+<h2 class="anchored" data-anchor-id="create_interval_daemon">create_interval_daemon</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>create_interval_daemon(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   lock_file: <span class="bu">str</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   callback: Callable[[], <span class="va">None</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   interval: <span class="bu">float</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   verbose: <span class="bu">bool</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   error_callback: Callable[[<span class="pp">BaseException</span>], <span class="va">None</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Callable[[], <span class="va">None</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Creates a daemon that calls the callback function at fixed intervals.</p>
+<p><strong>Arguments:</strong> - <code>callback</code>: The function to call at each interval. - <code>interval</code>: Number of seconds between callbacks. - <code>verbose</code>: Whether to print status messages.</p>
+<p><strong>Returns:</strong>: A (start, stop) function pair for the daemon.</p>
 <hr>
+<div id="69888bf5" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tempfile</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_callback():</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Interval callback!"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>start, stop, wait_for_stop <span class="op">=</span> create_interval_daemon(tempfile.mktemp(), my_callback, interval<span class="op">=</span><span class="fl">2.0</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>start()  <span class="co"># Will print "Interval callback!" every 2 seconds</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>stop()   <span class="co"># Stops the daemon</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[interval_daemon] Daemon started with 2.0s interval
+Interval callback!</code></pre>
+</div>
+</div>
 </section>
-</div>
-<div id="cface48a" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> embedding(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"text-embedding-3-small"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span><span class="op">=</span>[</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"First string to embsed"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Second string to embed"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>response.data[<span class="dv">1</span>][<span class="st">'embedding'</span>][:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>[-0.0012842135038226843,
- -0.013222426176071167,
- -0.008362501859664917,
- -0.04306064546108246,
- -0.004547890741378069,
- 0.003748304443433881,
- 0.03082892671227455,
- -0.012777778320014477,
- -0.01638176664710045,
- -0.01972052827477455]</code></pre>
-</div>
-</div>
-<div id="c0351122" class="cell">
-<section id="async_embedding-async" class="level2 cell-output cell-output-display cell-output-markdown">
-<h2 class="anchored" data-anchor-id="async_embedding-async">async_embedding <em>(async)</em></h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>async_embedding(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   <span class="op">*</span>args,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>   cache_enabled: <span class="bu">bool</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   cache_path: typing.Union[<span class="bu">str</span>, pathlib.Path, NoneType],</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   cache_key_prefix: typing.Optional[<span class="bu">str</span>],</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   include_model_in_cache_key: <span class="bu">bool</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>   return_cache_key: <span class="bu">bool</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>   enable_retries: <span class="bu">bool</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>   retry_on_exceptions: typing.Optional[<span class="bu">list</span>[<span class="pp">Exception</span>]],</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>   retry_on_all_exceptions: <span class="bu">bool</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>   max_retries: typing.Optional[<span class="bu">int</span>],</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>   retry_delay: typing.Optional[<span class="bu">int</span>],</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>   timeout: typing.Optional[<span class="bu">int</span>],</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>   <span class="op">**</span>kwargs</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="create_watchdog_daemon" class="level2">
+<h2 class="anchored" data-anchor-id="create_watchdog_daemon">create_watchdog_daemon</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>create_watchdog_daemon(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   folder_paths: Union[<span class="bu">str</span>, List[<span class="bu">str</span>]],</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>   lock_file: <span class="bu">str</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   callback: Callable[[<span class="bu">object</span>], <span class="va">None</span>],</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   recursive: <span class="bu">bool</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   verbose: <span class="bu">bool</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>   rate_limit: <span class="bu">float</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Callable[[], <span class="va">None</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Starts a background daemon that watches <code>folder_paths</code> for changes.</p>
+<p>Calls <code>callback(event)</code> whenever a file changes.</p>
+<p><strong>Arguments:</strong> - <code>folder_paths</code>: A path or list of paths to watch. - <code>callback</code>: The function to call when a file changes. Receives the event as argument. - <code>recursive</code>: Whether to watch folders recursively. - <code>lock_file</code>: Optional path to a lock file to ensure only one daemon is running. - <code>rate_limit</code>: Minimum number of seconds between callbacks.</p>
+<p><strong>Returns:</strong>: A (start, stop) function pair for the daemon.</p>
 <hr>
-</section>
-</div>
-<div id="7656b28b" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> <span class="cf">await</span> async_embedding(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"text-embedding-3-small"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span><span class="op">=</span>[</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"First string to embsed"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Second string to embed"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>response.data[<span class="dv">1</span>][<span class="st">'embedding'</span>][:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>[-0.0012842135038226843,
- -0.013222426176071167,
- -0.008362501859664917,
- -0.04306064546108246,
- -0.004547890741378069,
- 0.003748304443433881,
- 0.03082892671227455,
- -0.012777778320014477,
- -0.01638176664710045,
- -0.01972052827477455]</code></pre>
+<div id="20e66fee" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tempfile</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_callback(event):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Folder changed!"</span>, event)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>lock_file_path <span class="op">=</span> tempfile.mktemp()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>daemon_start, daemon_stop <span class="op">=</span> create_watchdog_daemon(<span class="st">"/bin"</span>, lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">True</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>daemon_start()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>time.sleep(<span class="fl">0.1</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>_daemon_start, _daemon_stop <span class="op">=</span> create_watchdog_daemon(<span class="st">"/bin"</span>, lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">True</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> _daemon_start <span class="kw">is</span> <span class="va">None</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>daemon_stop()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>_daemon_start, _daemon_stop <span class="op">=</span> create_watchdog_daemon([<span class="st">"/bin"</span>, <span class="st">"/"</span>], lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">True</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> _daemon_start <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>_daemon_start()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>time.sleep(<span class="fl">0.1</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>_daemon_stop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[watchdog_daemon] Daemon started.
+[watchdog_daemon] Lock file exists at /var/folders/22/k6clk3m10258k07mjcnlswt40000gn/T/tmpchehy2zc. Daemon will not start.
+[watchdog_daemon] Daemon started.</code></pre>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

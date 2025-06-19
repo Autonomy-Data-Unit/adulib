@@ -164,6 +164,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../api/git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">git</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../api/reflection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">reflection</span></a>
   </div>
@@ -172,12 +178,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../api/rest.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">rest</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../api/utils.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">utils</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -245,6 +245,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">utils</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../api/utils/00_base.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">utils</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../api/utils/01_daemon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">daemons</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">cli</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../api/cli/00_base.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cli</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../api/cli/01_data_questionnaire.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01_data_questionnaire</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
       </ul>
   </li>
     </ul>
@@ -259,8 +305,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#completion" id="toc-completion" class="nav-link active" data-scroll-target="#completion">completion</a></li>
   <li><a href="#async_completion-async" id="toc-async_completion-async" class="nav-link" data-scroll-target="#async_completion-async">async_completion <em>(async)</em></a></li>
-  <li><a href="#prompt" id="toc-prompt" class="nav-link" data-scroll-target="#prompt">prompt</a></li>
-  <li><a href="#async_prompt-async" id="toc-async_prompt-async" class="nav-link" data-scroll-target="#async_prompt-async">async_prompt <em>(async)</em></a></li>
+  <li><a href="#get_msgs" id="toc-get_msgs" class="nav-link" data-scroll-target="#get_msgs">_get_msgs</a></li>
+  <li><a href="#single" id="toc-single" class="nav-link" data-scroll-target="#single">single</a></li>
+  <li><a href="#async_single-async" id="toc-async_single-async" class="nav-link" data-scroll-target="#async_single-async">async_single <em>(async)</em></a></li>
   </ul>
 </nav>
     </div>
@@ -372,17 +419,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   '2 teaspoons baking powder',
   '1/2 teaspoon salt',
   '1 cup milk',
-  '1 large egg',
-  '2 tablespoons melted butter',
-  '1 teaspoon vanilla extract'],
- 'steps': ['In a mixing bowl, combine the flour, sugar, baking powder, and salt.',
-  'In another bowl, whisk together the milk, egg, melted butter, and vanilla extract.',
-  'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; some lumps are fine.',
-  'Heat a non-stick skillet or griddle over medium heat and lightly grease it with butter or oil.',
-  'Pour about 1/4 cup of batter for each pancake onto the skillet.',
-  'Cook until bubbles form on the surface and the edges look set, about 2-3 minutes.',
-  'Flip the pancakes and cook for another 1-2 minutes until golden brown.',
-  'Serve warm with your choice of syrup, fruit, or toppings.']}</code></pre>
+  '1 egg',
+  '2 tablespoons melted butter (or vegetable oil)',
+  '1 teaspoon vanilla extract (optional)'],
+ 'steps': ['In a large bowl, whisk together the flour, sugar, baking powder, and salt.',
+  'In another bowl, combine the milk, egg, melted butter, and vanilla extract, and whisk until smooth.',
+  'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; a few lumps are okay.',
+  'Preheat a non-stick pan or griddle over medium heat and lightly grease it with butter or oil.',
+  'Pour about 1/4 cup of batter for each pancake onto the pan.',
+  'Cook until bubbles form on the surface of the pancake, about 2-3 minutes, then flip and cook for an additional 1-2 minutes until golden brown.',
+  'Serve warm with your favorite toppings such as syrup, fruits, or whipped cream.']}</code></pre>
 </div>
 </div>
 <p>You can save costs during testing using <a href="https://docs.litellm.ai/docs/completion/mock_requests">mock responses</a>:</p>
@@ -434,71 +480,96 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>'The capital of France is Paris.'</code></pre>
 </div>
 </div>
-<section id="prompt" class="level2">
-<h2 class="anchored" data-anchor-id="prompt">prompt</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prompt(model: <span class="bu">str</span>, context: <span class="bu">str</span>, prompt: <span class="bu">str</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="get_msgs" class="level2">
+<h2 class="anchored" data-anchor-id="get_msgs">_get_msgs</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>_get_msgs(orig_msgs, response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="single" class="level2">
+<h2 class="anchored" data-anchor-id="single">single</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>single(prompt: <span class="bu">str</span>, model: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>, system: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 <div id="fcd5c110" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prompt(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    context<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">'What is the capital of France?'</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>single(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    system<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">'What is the capital of France?'</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>'The capital of France is Paris.'</code></pre>
 </div>
 </div>
 <div id="efb9f8b7" class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Recipe(BaseModel):</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    name: <span class="bu">str</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    ingredients: List[<span class="bu">str</span>]</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    steps: List[<span class="bu">str</span>]</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> prompt(</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-4o-mini"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    context<span class="op">=</span><span class="st">"You are a helpful cooking assistant."</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">"Give me a simple recipe for pancakes."</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    response_format<span class="op">=</span>Recipe</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>Recipe.model_validate_json(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Recipe(BaseModel):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    name: <span class="bu">str</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ingredients: List[<span class="bu">str</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    steps: List[<span class="bu">str</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> single(</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-4o-mini"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    system<span class="op">=</span><span class="st">"You are a helpful cooking assistant."</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">"Give me a simple recipe for pancakes."</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    response_format<span class="op">=</span>Recipe</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>Recipe.model_validate_json(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>Recipe(name='Simple Pancakes', ingredients=['1 cup all-purpose flour', '2 tablespoons sugar', '2 teaspoons baking powder', '1/2 teaspoon salt', '1 cup milk', '1 large egg', '2 tablespoons melted butter', '1 teaspoon vanilla extract'], steps=['In a mixing bowl, combine the flour, sugar, baking powder, and salt.', 'In another bowl, whisk together the milk, egg, melted butter, and vanilla extract.', 'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; some lumps are fine.', 'Heat a non-stick skillet or griddle over medium heat and lightly grease it with butter or oil.', 'Pour about 1/4 cup of batter for each pancake onto the skillet.', 'Cook until bubbles form on the surface and the edges look set, about 2-3 minutes.', 'Flip the pancakes and cook for another 1-2 minutes until golden brown.', 'Serve warm with your choice of syrup, fruit, or toppings.'])</code></pre>
+<pre><code>Recipe(name='Simple Pancakes', ingredients=['1 cup all-purpose flour', '2 tablespoons sugar', '2 teaspoons baking powder', '1/2 teaspoon salt', '1 cup milk', '1 egg', '2 tablespoons melted butter (or vegetable oil)', '1 teaspoon vanilla extract (optional)'], steps=['In a large bowl, whisk together the flour, sugar, baking powder, and salt.', 'In another bowl, combine the milk, egg, melted butter, and vanilla extract, and whisk until smooth.', 'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; a few lumps are okay.', 'Preheat a non-stick pan or griddle over medium heat and lightly grease it with butter or oil.', 'Pour about 1/4 cup of batter for each pancake onto the pan.', 'Cook until bubbles form on the surface of the pancake, about 2-3 minutes, then flip and cook for an additional 1-2 minutes until golden brown.', 'Serve warm with your favorite toppings such as syrup, fruits, or whipped cream.'])</code></pre>
+</div>
+</div>
+<p>Can do multi-turn completions using <code>get_msgs=True</code> and passing the messages to the <code>prev</code> argument:</p>
+<div id="eaa5c6c9" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>res, _ctx <span class="op">=</span> single(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    system<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">'Add 1 and 1'</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    multi<span class="op">=</span><span class="va">True</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>res, _ctx <span class="op">=</span> single(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">'Multiply that by 10'</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    multi<span class="op">=</span>_ctx,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1 and 1 equals 2.
+2 multiplied by 10 equals 20.</code></pre>
 </div>
 </div>
 </section>
-<section id="async_prompt-async" class="level2">
-<h2 class="anchored" data-anchor-id="async_prompt-async">async_prompt <em>(async)</em></h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>async_prompt(model: <span class="bu">str</span>, context: <span class="bu">str</span>, prompt: <span class="bu">str</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="async_single-async" class="level2">
+<h2 class="anchored" data-anchor-id="async_single-async">async_single <em>(async)</em></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>async_single(prompt: <span class="bu">str</span>, model: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>, system: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 <div id="b5a93aa1" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> async_prompt(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    context<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">'What is the capital of France?'</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> async_single(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    system<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">=</span><span class="st">'What is the capital of France?'</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>'The capital of France is Paris.'</code></pre>
 </div>
 </div>
 <p>You can execute a batch of prompt calls using <code>adulib.asynchronous.batch_executor</code></p>
 <div id="e1e1ac2a" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="cf">await</span> batch_executor(</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    func<span class="op">=</span>async_prompt,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    constant_kwargs<span class="op">=</span>as_dict(model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>, context<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    batch_kwargs<span class="op">=</span>[</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of France?'</span> },</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Germany?'</span> },</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Italy?'</span> },</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Spain?'</span> },</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Portugal?'</span> },</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    concurrency_limit<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Results:"</span>, results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="cf">await</span> batch_executor(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    func<span class="op">=</span>async_single,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    constant_kwargs<span class="op">=</span>as_dict(model<span class="op">=</span><span class="st">'gpt-4o-mini'</span>, system<span class="op">=</span><span class="st">'You are a helpful assistant.'</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    batch_kwargs<span class="op">=</span>[</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of France?'</span> },</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Germany?'</span> },</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Italy?'</span> },</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Spain?'</span> },</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'prompt'</span>: <span class="st">'What is the capital of Portugal?'</span> },</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    concurrency_limit<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Results:"</span>, results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Processing:   0%|                                                                                                                                                                            | 0/5 [00:00&lt;?, ?it/s]Processing: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00&lt;00:00, 3763.06it/s]</code></pre>
+<pre><code>Processing:   0%|                                                                                                                                                                            | 0/5 [00:00&lt;?, ?it/s]Processing: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00&lt;00:00, 3331.46it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Results: ['The capital of France is Paris.', 'The capital of Germany is Berlin.', 'The capital of Italy is Rome.', 'The capital of Spain is Madrid.', 'The capital of Portugal is Lisbon.']</code></pre>
