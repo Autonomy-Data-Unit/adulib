@@ -1,6 +1,6 @@
 [project]
 name = "adulib"
-version = "0.2.0"
+version = "0.2.1"
 description = "Tools and utilities developed by the Autonomy Data Unit (ADU)."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -13,6 +13,7 @@ dependencies = [
     "pydantic>=2.10.6",
     "watchdog>=6.0.0",
     "questionary>=2.1.0",
+    "fastcore>=1.8.2",
 ]
 authors = [
     { name = "Lukas Kikuchi", email = "lukas.kikuchi@gmail.com" }
