@@ -305,7 +305,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#calllog" id="toc-calllog" class="nav-link active" data-scroll-target="#calllog">CallLog</a></li>
   <li><a href="#set_call_log_save_path" id="toc-set_call_log_save_path" class="nav-link" data-scroll-target="#set_call_log_save_path">set_call_log_save_path</a></li>
-  <li><a href="#log_call" id="toc-log_call" class="nav-link" data-scroll-target="#log_call">_log_call</a></li>
   <li><a href="#get_call_logs" id="toc-get_call_logs" class="nav-link" data-scroll-target="#get_call_logs">get_call_logs</a></li>
   <li><a href="#get_total_costs" id="toc-get_total_costs" class="nav-link" data-scroll-target="#get_total_costs">get_total_costs</a></li>
   <li><a href="#get_total_input_tokens" id="toc-get_total_input_tokens" class="nav-link" data-scroll-target="#get_total_input_tokens">get_total_input_tokens</a></li>
@@ -348,44 +347,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>set_call_log_save_path(path: Path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
-<section id="log_call" class="level2">
-<h2 class="anchored" data-anchor-id="log_call">_log_call</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>_log_call(<span class="op">**</span>log_kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
 <section id="get_call_logs" class="level2">
 <h2 class="anchored" data-anchor-id="get_call_logs">get_call_logs</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_call_logs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_call_logs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_costs" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_costs">get_total_costs</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_total_costs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_total_costs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_input_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_input_tokens">get_total_input_tokens</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_total_input_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_total_input_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_output_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_output_tokens">get_total_output_tokens</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_total_output_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_total_output_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_tokens">get_total_tokens</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>get_total_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_total_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="save_call_log" class="level2">
 <h2 class="anchored" data-anchor-id="save_call_log">save_call_log</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>save_call_log(path: Path, combine_with_existing: <span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>save_call_log(path: Path, combine_with_existing: <span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="load_call_log_file" class="level2">
 <h2 class="anchored" data-anchor-id="load_call_log_file">load_call_log_file</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>load_call_log_file(path: Optional[Path]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>load_call_log_file(path: Optional[Path]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 
 

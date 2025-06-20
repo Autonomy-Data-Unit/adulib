@@ -135,67 +135,7 @@
     "href": "api/cli/01_data_questionnaire.html",
     "title": "01_data_questionnaire",
     "section": "",
-    "text": "is_optional(field_type: Any) -&gt; bool",
-    "crumbs": [
-      "api",
-      "cli",
-      "01_data_questionnaire"
-    ]
-  },
-  {
-    "objectID": "api/cli/01_data_questionnaire.html#is_optional",
-    "href": "api/cli/01_data_questionnaire.html#is_optional",
-    "title": "01_data_questionnaire",
-    "section": "",
-    "text": "is_optional(field_type: Any) -&gt; bool",
-    "crumbs": [
-      "api",
-      "cli",
-      "01_data_questionnaire"
-    ]
-  },
-  {
-    "objectID": "api/cli/01_data_questionnaire.html#get_inner_type",
-    "href": "api/cli/01_data_questionnaire.html#get_inner_type",
-    "title": "01_data_questionnaire",
-    "section": "get_inner_type",
-    "text": "get_inner_type\nget_inner_type(field_type: Any) -&gt; Any",
-    "crumbs": [
-      "api",
-      "cli",
-      "01_data_questionnaire"
-    ]
-  },
-  {
-    "objectID": "api/cli/01_data_questionnaire.html#prompt_for_value",
-    "href": "api/cli/01_data_questionnaire.html#prompt_for_value",
-    "title": "01_data_questionnaire",
-    "section": "prompt_for_value",
-    "text": "prompt_for_value\nprompt_for_value(\n   field_name: str,\n   field_type: Any,\n   default: Optional[Any]\n) -&gt; Any",
-    "crumbs": [
-      "api",
-      "cli",
-      "01_data_questionnaire"
-    ]
-  },
-  {
-    "objectID": "api/cli/01_data_questionnaire.html#prompt_for_list",
-    "href": "api/cli/01_data_questionnaire.html#prompt_for_list",
-    "title": "01_data_questionnaire",
-    "section": "prompt_for_list",
-    "text": "prompt_for_list\nprompt_for_list(\n   field_name: str,\n   item_type: Any,\n   initial: Optional[list]\n) -&gt; list",
-    "crumbs": [
-      "api",
-      "cli",
-      "01_data_questionnaire"
-    ]
-  },
-  {
-    "objectID": "api/cli/01_data_questionnaire.html#prompt_for_dict",
-    "href": "api/cli/01_data_questionnaire.html#prompt_for_dict",
-    "title": "01_data_questionnaire",
-    "section": "prompt_for_dict",
-    "text": "prompt_for_dict\nprompt_for_dict(\n   field_name: str,\n   value_type: Any,\n   initial: Optional[Dict[str, Any]]\n) -&gt; Dict[str, Any]",
+    "text": "data_questionnaire(\n   model_cls: Type[BaseModel],\n   initial_data: Optional[Dict[str, Any]],\n   print_final: bool\n) -&gt; BaseModel\n\nExample:\nfrom typing import List, Dict\nfrom pydantic import BaseModel\nimport enum\n\nclass Role(enum.Enum):\n    ADMIN = \"admin\"\n    USER = \"user\"\n    GUEST = \"guest\"\n\nclass Tag(BaseModel):\n    label: str\n    score: int\n\nclass Preferences(BaseModel):\n    dark_mode: bool\n    language: str\n\nclass UserProfile(BaseModel):\n    username: str\n    age: int\n    primary_role: Role\n    roles: List[Role]\n    preferences: Preferences\n    skills: List[str]\n    tags: List[Tag]\n    notes: Dict[str, str]\n    projects: Dict[str, Tag]\n    \n    \nuser = data_questionnaire(UserProfile, initial_data={\n    'username': 'lukas',\n    'primary_role' : Role.USER,\n    'preferences': {\n        'language': 'en'\n    },\n    'roles': [Role.USER, Role.ADMIN],\n    'tags': [\n        Tag(label='tag1', score=1),\n    ]\n})",
     "crumbs": [
       "api",
       "cli",
@@ -206,8 +146,8 @@
     "objectID": "api/cli/01_data_questionnaire.html#data_questionnaire",
     "href": "api/cli/01_data_questionnaire.html#data_questionnaire",
     "title": "01_data_questionnaire",
-    "section": "data_questionnaire",
-    "text": "data_questionnaire\ndata_questionnaire(\n   model_cls: Type[BaseModel],\n   initial_data: Optional[Dict[str, Any]],\n   print_final: bool\n) -&gt; BaseModel\n\nExample:\nfrom typing import List, Dict\nfrom pydantic import BaseModel\nimport enum\n\nclass Role(enum.Enum):\n    ADMIN = \"admin\"\n    USER = \"user\"\n    GUEST = \"guest\"\n\nclass Tag(BaseModel):\n    label: str\n    score: int\n\nclass Preferences(BaseModel):\n    dark_mode: bool\n    language: str\n\nclass UserProfile(BaseModel):\n    username: str\n    age: int\n    primary_role: Role\n    roles: List[Role]\n    preferences: Preferences\n    skills: List[str]\n    tags: List[Tag]\n    notes: Dict[str, str]\n    projects: Dict[str, Tag]\n    \n    \nuser = data_questionnaire(UserProfile, initial_data={\n    'username': 'lukas',\n    'primary_role' : Role.USER,\n    'preferences': {\n        'language': 'en'\n    },\n    'roles': [Role.USER, Role.ADMIN],\n    'tags': [\n        Tag(label='tag1', score=1),\n    ]\n})",
+    "section": "",
+    "text": "data_questionnaire(\n   model_cls: Type[BaseModel],\n   initial_data: Optional[Dict[str, Any]],\n   print_final: bool\n) -&gt; BaseModel\n\nExample:\nfrom typing import List, Dict\nfrom pydantic import BaseModel\nimport enum\n\nclass Role(enum.Enum):\n    ADMIN = \"admin\"\n    USER = \"user\"\n    GUEST = \"guest\"\n\nclass Tag(BaseModel):\n    label: str\n    score: int\n\nclass Preferences(BaseModel):\n    dark_mode: bool\n    language: str\n\nclass UserProfile(BaseModel):\n    username: str\n    age: int\n    primary_role: Role\n    roles: List[Role]\n    preferences: Preferences\n    skills: List[str]\n    tags: List[Tag]\n    notes: Dict[str, str]\n    projects: Dict[str, Tag]\n    \n    \nuser = data_questionnaire(UserProfile, initial_data={\n    'username': 'lukas',\n    'primary_role' : Role.USER,\n    'preferences': {\n        'language': 'en'\n    },\n    'roles': [Role.USER, Role.ADMIN],\n    'tags': [\n        Tag(label='tag1', score=1),\n    ]\n})",
     "crumbs": [
       "api",
       "cli",
@@ -277,18 +217,7 @@
     "href": "api/caching.html#get_default_cache_path",
     "title": "caching",
     "section": "get_default_cache_path",
-    "text": "get_default_cache_path\nget_default_cache_path() -&gt; Path|None\nSet the path for the temporary cache.",
-    "crumbs": [
-      "api",
-      "caching"
-    ]
-  },
-  {
-    "objectID": "api/caching.html#create_cache",
-    "href": "api/caching.html#create_cache",
-    "title": "caching",
-    "section": "_create_cache",
-    "text": "_create_cache\n_create_cache(cache_path: Union[Path,None], temp: bool)\nCreates a new cache with the right policies. This ensures that no data is lost as the cache grows.\n\n\nshow_doc(this_module.get_default_cache)\n\nget_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "text": "get_default_cache_path\nget_default_cache_path() -&gt; Path|None\nSet the path for the temporary cache.\n\n\nshow_doc(this_module.get_default_cache)\n\nget_default_cache\nget_default_cache()\nRetrieve the default cache.",
     "crumbs": [
       "api",
       "caching"
@@ -493,18 +422,6 @@
     ]
   },
   {
-    "objectID": "api/llm/06_completions.html#get_msgs",
-    "href": "api/llm/06_completions.html#get_msgs",
-    "title": "completions",
-    "section": "_get_msgs",
-    "text": "_get_msgs\n_get_msgs(orig_msgs, response)",
-    "crumbs": [
-      "api",
-      "llm",
-      "completions"
-    ]
-  },
-  {
     "objectID": "api/llm/06_completions.html#single",
     "href": "api/llm/06_completions.html#single",
     "title": "completions",
@@ -521,7 +438,7 @@
     "href": "api/llm/06_completions.html#async_single-async",
     "title": "completions",
     "section": "async_single (async)",
-    "text": "async_single (async)\nasync_single(prompt: str, model: str|None, system: str|None, *args, **kwargs)\n\n\nawait async_single(\n    model='gpt-4o-mini',\n    system='You are a helpful assistant.',\n    prompt='What is the capital of France?',\n)\n\n'The capital of France is Paris.'\n\n\nYou can execute a batch of prompt calls using adulib.asynchronous.batch_executor\n\nresults = await batch_executor(\n    func=async_single,\n    constant_kwargs=as_dict(model='gpt-4o-mini', system='You are a helpful assistant.'),\n    batch_kwargs=[\n        { 'prompt': 'What is the capital of France?' },\n        { 'prompt': 'What is the capital of Germany?' },\n        { 'prompt': 'What is the capital of Italy?' },\n        { 'prompt': 'What is the capital of Spain?' },\n        { 'prompt': 'What is the capital of Portugal?' },\n    ],\n    concurrency_limit=2,\n)\n\nprint(\"Results:\", results)\n\nProcessing:   0%|                                                                                                                                                                            | 0/5 [00:00&lt;?, ?it/s]Processing: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00&lt;00:00, 3331.46it/s]\n\n\nResults: ['The capital of France is Paris.', 'The capital of Germany is Berlin.', 'The capital of Italy is Rome.', 'The capital of Spain is Madrid.', 'The capital of Portugal is Lisbon.']",
+    "text": "async_single (async)\nasync_single(prompt: str, model: str|None, system: str|None, *args, **kwargs)\n\n\nawait async_single(\n    model='gpt-4o-mini',\n    system='You are a helpful assistant.',\n    prompt='What is the capital of France?',\n)\n\n'The capital of France is Paris.'\n\n\nYou can execute a batch of prompt calls using adulib.asynchronous.batch_executor\n\nresults = await batch_executor(\n    func=async_single,\n    constant_kwargs=as_dict(model='gpt-4o-mini', system='You are a helpful assistant.'),\n    batch_kwargs=[\n        { 'prompt': 'What is the capital of France?' },\n        { 'prompt': 'What is the capital of Germany?' },\n        { 'prompt': 'What is the capital of Italy?' },\n        { 'prompt': 'What is the capital of Spain?' },\n        { 'prompt': 'What is the capital of Portugal?' },\n    ],\n    concurrency_limit=2,\n)\n\nprint(\"Results:\", results)\n\n\nProcessing:   0%|                                                                                                                                                                            | 0/5 [00:00&lt;?, ?it/s]\nProcessing: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00&lt;00:00, 3331.46it/s]\n\n\nResults: ['The capital of France is Paris.', 'The capital of Germany is Berlin.', 'The capital of Italy is Rome.', 'The capital of Spain is Madrid.', 'The capital of Portugal is Lisbon.']",
     "crumbs": [
       "api",
       "llm",
@@ -604,18 +521,6 @@
     "title": "call_logging",
     "section": "set_call_log_save_path",
     "text": "set_call_log_save_path\nset_call_log_save_path(path: Path)",
-    "crumbs": [
-      "api",
-      "llm",
-      "call_logging"
-    ]
-  },
-  {
-    "objectID": "api/llm/02_call_logging.html#log_call",
-    "href": "api/llm/02_call_logging.html#log_call",
-    "title": "call_logging",
-    "section": "_log_call",
-    "text": "_log_call\n_log_call(**log_kwargs)",
     "crumbs": [
       "api",
       "llm",
@@ -711,19 +616,7 @@
     "href": "api/llm/01_rate_limits.html",
     "title": "rate_limits",
     "section": "",
-    "text": "_convert_to_per_minute(\n   rate: float,\n   unit: Literal['per-second', 'per-minute', 'per-hour']\n) -&gt; float",
-    "crumbs": [
-      "api",
-      "llm",
-      "rate_limits"
-    ]
-  },
-  {
-    "objectID": "api/llm/01_rate_limits.html#convert_to_per_minute",
-    "href": "api/llm/01_rate_limits.html#convert_to_per_minute",
-    "title": "rate_limits",
-    "section": "",
-    "text": "_convert_to_per_minute(\n   rate: float,\n   unit: Literal['per-second', 'per-minute', 'per-hour']\n) -&gt; float",
+    "text": "set_default_request_rate_limit(\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)",
     "crumbs": [
       "api",
       "llm",
@@ -734,20 +627,8 @@
     "objectID": "api/llm/01_rate_limits.html#set_default_request_rate_limit",
     "href": "api/llm/01_rate_limits.html#set_default_request_rate_limit",
     "title": "rate_limits",
-    "section": "set_default_request_rate_limit",
-    "text": "set_default_request_rate_limit\nset_default_request_rate_limit(\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)",
-    "crumbs": [
-      "api",
-      "llm",
-      "rate_limits"
-    ]
-  },
-  {
-    "objectID": "api/llm/01_rate_limits.html#get_limiter",
-    "href": "api/llm/01_rate_limits.html#get_limiter",
-    "title": "rate_limits",
-    "section": "_get_limiter",
-    "text": "_get_limiter\n_get_limiter(model: str, api_key: Union[str, None]) -&gt; Limiter",
+    "section": "",
+    "text": "set_default_request_rate_limit(\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)",
     "crumbs": [
       "api",
       "llm",
@@ -791,71 +672,11 @@
     ]
   },
   {
-    "objectID": "api/llm/03_caching.html#cache_execute",
-    "href": "api/llm/03_caching.html#cache_execute",
-    "title": "caching",
-    "section": "_cache_execute",
-    "text": "_cache_execute\n_cache_execute(\n   cache_key: tuple,\n   execute_func: Callable,\n   cache_enabled: bool,\n   cache_path: Union[str, Path, None]\n)",
-    "crumbs": [
-      "api",
-      "llm",
-      "caching"
-    ]
-  },
-  {
-    "objectID": "api/llm/03_caching.html#async_cache_execute-async",
-    "href": "api/llm/03_caching.html#async_cache_execute-async",
-    "title": "caching",
-    "section": "_async_cache_execute (async)",
-    "text": "_async_cache_execute (async)\n_async_cache_execute(\n   cache_key: tuple,\n   execute_func: Callable,\n   cache_enabled: bool,\n   cache_path: Union[str, Path, None]\n)",
-    "crumbs": [
-      "api",
-      "llm",
-      "caching"
-    ]
-  },
-  {
     "objectID": "api/llm/04_internal_utils.html",
     "href": "api/llm/04_internal_utils.html",
     "title": "_utils",
     "section": "",
-    "text": "Inherits from: Exception\n\n\n\n\n__init__(self, retry_exceptions: list[Exception])",
-    "crumbs": [
-      "api",
-      "llm",
-      "_utils"
-    ]
-  },
-  {
-    "objectID": "api/llm/04_internal_utils.html#maximumretriesexception",
-    "href": "api/llm/04_internal_utils.html#maximumretriesexception",
-    "title": "_utils",
-    "section": "",
-    "text": "Inherits from: Exception\n\n\n\n\n__init__(self, retry_exceptions: list[Exception])",
-    "crumbs": [
-      "api",
-      "llm",
-      "_utils"
-    ]
-  },
-  {
-    "objectID": "api/llm/04_internal_utils.html#llm_func_factory",
-    "href": "api/llm/04_internal_utils.html#llm_func_factory",
-    "title": "_utils",
-    "section": "_llm_func_factory",
-    "text": "_llm_func_factory\n_llm_func_factory(\n   func: Callable,\n   func_name: str,\n   func_cache_name: str,\n   retrieve_log_data: Optional[Callable]\n)\n\n\nis_in_cache?",
-    "crumbs": [
-      "api",
-      "llm",
-      "_utils"
-    ]
-  },
-  {
-    "objectID": "api/llm/04_internal_utils.html#llm_async_func_factory",
-    "href": "api/llm/04_internal_utils.html#llm_async_func_factory",
-    "title": "_utils",
-    "section": "_llm_async_func_factory",
-    "text": "_llm_async_func_factory\n_llm_async_func_factory(\n   func: Callable,\n   func_name: str,\n   func_cache_name: str,\n   retrieve_log_data: Optional[Callable]\n)",
+    "text": "is_in_cache?",
     "crumbs": [
       "api",
       "llm",
@@ -939,7 +760,7 @@
     "href": "api/reflection.html",
     "title": "reflection",
     "section": "",
-    "text": "Utilities for Python reflection.\nimport adulib.reflection",
+    "text": "Utilities for Python reflection.\nimport adulib.reflection\npatch_to\npatch_to(cls, as_prop, cls_method, set_prop)\nDecorator: add f to cls\nDefine methods\nclass Foo:\n    ...\n    \n@patch_to(Foo)\ndef bar(self):\n    return 'bar'\n\nFoo().bar()\n\n'bar'\nDefine properties\nclass Foo:\n    def __init__(self):\n        self.value = \"bar\"\n\n# Define a getter\n@patch_to(Foo, as_prop=True)\ndef baz(self):\n    return self.value\n\n# Define a setter\n@patch_to(Foo, set_prop=True)\ndef baz(self, value):\n    self.value = value\n\nfoo = Foo()\nassert foo.baz == \"bar\"\nfoo.baz = \"???\"\nassert foo.baz == \"???\"\nDefine a class method\n@patch_to(Foo, cls_method=True)\ndef qux(self):\n    return 'bar'\n\nFoo.qux()\n\n'bar'\npatch\npatch(f, as_prop, cls_method, set_prop)\nDecorator: add f to the first parameter’s class (based on f’s type annotations)\npatch is similar to patch_to, except it uses type annotations in the signature to find the class to patch to.\nclass Foo:\n    ...\n    \n@patch\ndef bar(self: Foo):\n    return 'bar'\n\nFoo().bar()\n\n'bar'\nclass Foo:\n    def __init__(self):\n        self.value = \"bar\"\n\n# Define a getter\n@patch(as_prop=True)\ndef baz(self: Foo):\n    return self.value\n\n# Define a setter\n@patch(set_prop=True)\ndef baz(self: Foo, value):\n    self.value = value\n\nfoo = Foo()\nassert foo.baz == \"bar\"\nfoo.baz = \"???\"\nassert foo.baz == \"???\"\n@patch(cls_method=True)\ndef qux(cls: Foo):\n    return 'bar'\n\nFoo.qux()\n\n'bar'",
     "crumbs": [
       "api",
       "reflection"
@@ -950,7 +771,7 @@
     "href": "api/reflection.html#is_valid_python_name",
     "title": "reflection",
     "section": "is_valid_python_name",
-    "text": "is_valid_python_name\nis_valid_python_name(name: str) -&gt; bool",
+    "text": "is_valid_python_name\nis_valid_python_name(name: str) -&gt; bool\n\n\nassert is_valid_python_name('a_python_name')\nassert not is_valid_python_name('not a valid python name')",
     "crumbs": [
       "api",
       "reflection"
@@ -961,7 +782,7 @@
     "href": "api/reflection.html#find_module_root",
     "title": "reflection",
     "section": "find_module_root",
-    "text": "find_module_root\nfind_module_root(path)",
+    "text": "find_module_root\nfind_module_root(path)\nRecursively finds the root directory of a Python module.\nThis function takes a file or directory path and determines the root directory of the module it belongs to. A directory is considered a module if it contains an ‘init.py’ file. The function will traverse upwards in the directory hierarchy until it finds the top-most module directory.\nParameters: path (str or Path): The file or directory path to start the search from.\nReturns: Path or None: The root directory of the module if found, otherwise None.\n\n\nmodule_root = find_module_root(adulib.reflection.__file__)",
     "crumbs": [
       "api",
       "reflection"
@@ -971,19 +792,8 @@
     "objectID": "api/reflection.html#get_module_path_hierarchy",
     "href": "api/reflection.html#get_module_path_hierarchy",
     "title": "reflection",
-    "section": "__get_module_path_hierarchy",
-    "text": "__get_module_path_hierarchy\n__get_module_path_hierarchy(path, hierarchy)",
-    "crumbs": [
-      "api",
-      "reflection"
-    ]
-  },
-  {
-    "objectID": "api/reflection.html#get_module_path_hierarchy-1",
-    "href": "api/reflection.html#get_module_path_hierarchy-1",
-    "title": "reflection",
     "section": "get_module_path_hierarchy",
-    "text": "get_module_path_hierarchy\nget_module_path_hierarchy(path)",
+    "text": "get_module_path_hierarchy\nget_module_path_hierarchy(path)\nGet the hierarchy of module paths starting from the given path.\nThis function constructs a list of tuples representing the module hierarchy starting from the specified path. Each tuple contains the module name and its corresponding path.\nParameters: path (str or Path): The file or directory path to start the hierarchy search from.\nReturns: list: A list of tuples where each tuple contains a module name and its path.",
     "crumbs": [
       "api",
       "reflection"
@@ -994,7 +804,7 @@
     "href": "api/reflection.html#get_function_from_py_file",
     "title": "reflection",
     "section": "get_function_from_py_file",
-    "text": "get_function_from_py_file\nget_function_from_py_file(file_path, func_name, args, is_async, return_func_key)\n\n\nimport tempfile\n\n\npy_code = \"\"\"\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, args=['name'])\nfunc('world')\n\nHello...\n...world!\n\n\n\npy_code = \"\"\"\nimport asyncio\nawait asyncio.sleep(0)\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, is_async=True, args=['name'])\nawait func('world')\n\nHello...\n...world!",
+    "text": "get_function_from_py_file\nget_function_from_py_file(file_path, func_name, args, is_async, return_func_key)\nExtracts and returns a function from a Python file.\nThis function reads a Python file, constructs a function from its contents, and returns it. It can handle both synchronous and asynchronous functions, and allows for optional argument specification and return value handling.\nParameters: file_path (str or Path): The path to the Python file containing the function. func_name (str, optional): The name of the function to extract. If not provided, the function name defaults to the file name without extension. args (list, optional): A list of argument names for the function. Defaults to an empty list. is_async (bool, optional): Indicates if the function is asynchronous. Defaults to False. return_func_key (str, optional): A key to handle return values within the function. Defaults to an empty string.\nReturns: function: The extracted function, ready to be called with the specified arguments.\n\n\nimport tempfile\n\n\npy_code = \"\"\"\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, args=['name'])\nfunc('world')\n\nHello...\n...world!\n\n\n\npy_code = \"\"\"\nimport asyncio\nawait asyncio.sleep(0)\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, is_async=True, args=['name'])\nawait func('world')\n\nHello...\n...world!",
     "crumbs": [
       "api",
       "reflection"
@@ -1005,18 +815,7 @@
     "href": "api/reflection.html#method_from_py_file",
     "title": "reflection",
     "section": "method_from_py_file",
-    "text": "method_from_py_file\nmethod_from_py_file(file_path: str)\n\n\npy_code = \"\"\"\nprint(f'Hello {self.name}')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nclass TestClass:\n    def __init__(self, name):\n        self.name = name\n\n    @method_from_py_file(temp_file_path)\n    def print_name(self): pass\n    \nTestClass(\"world\").print_name()\n\nHello world",
-    "crumbs": [
-      "api",
-      "reflection"
-    ]
-  },
-  {
-    "objectID": "api/reflection.html#update_module_class",
-    "href": "api/reflection.html#update_module_class",
-    "title": "reflection",
-    "section": "update_module_class",
-    "text": "update_module_class\nupdate_module_class(mod)",
+    "text": "method_from_py_file\nmethod_from_py_file(file_path: str)\nA decorator that replaces the functionality of a method with the code from a specified Python file.\nThis decorator reads a Python file, extracts a function with the same name as the decorated method, and replaces the original method’s functionality with the extracted function. It supports both synchronous and asynchronous functions.\nArguments: - file_path (str): The path to the Python file containing the function to be used as a replacement.\nReturns: function: A decorator that wraps the original function, replacing its functionality with the function from the specified file.\n\n\npy_code = \"\"\"\nprint(f'Hello {self.name}')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nclass TestClass:\n    def __init__(self, name):\n        self.name = name\n\n    @method_from_py_file(temp_file_path)\n    def print_name(self): pass\n    \nTestClass(\"world\").print_name()\n\nHello world",
     "crumbs": [
       "api",
       "reflection"
@@ -1038,7 +837,29 @@
     "href": "api/reflection.html#cached_mod_property",
     "title": "reflection",
     "section": "cached_mod_property",
-    "text": "cached_mod_property\ncached_mod_property(func)\n\n\n@mod_property\ndef my_prop():\n    print('my_prop called')\n    return 42",
+    "text": "cached_mod_property\ncached_mod_property(func)\n\n\n@mod_property\ndef my_prop():\n    print('my_prop called')\n    return 42\n\n\ndef add_method(cls):\n    def decorator(func):\n        setattr(cls, func.__name__, func)\n        return func\n    return decorator\n\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n\n@add_method(MyClass)\ndef double(self):\n    return self.value * 2\n\n@add_method(MyClass)\ndef triple(self):\n    return self.value * 3\n\nobj = MyClass(10)\nprint(obj.double())  # 20\nprint(obj.triple())  # 30\n\n20\n30",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#patch_to",
+    "href": "api/reflection.html#patch_to",
+    "title": "reflection",
+    "section": "patch_to",
+    "text": "patch_to\npatch_to(cls, as_prop, cls_method, set_prop)\nDecorator: add f to cls",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#patch",
+    "href": "api/reflection.html#patch",
+    "title": "reflection",
+    "section": "patch",
+    "text": "patch\npatch(f, as_prop, cls_method, set_prop)\nDecorator: add f to the first parameter’s class (based on f’s type annotations)",
     "crumbs": [
       "api",
       "reflection"

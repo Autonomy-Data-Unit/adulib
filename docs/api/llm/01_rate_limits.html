@@ -303,9 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#convert_to_per_minute" id="toc-convert_to_per_minute" class="nav-link active" data-scroll-target="#convert_to_per_minute">_convert_to_per_minute</a></li>
-  <li><a href="#set_default_request_rate_limit" id="toc-set_default_request_rate_limit" class="nav-link" data-scroll-target="#set_default_request_rate_limit">set_default_request_rate_limit</a></li>
-  <li><a href="#get_limiter" id="toc-get_limiter" class="nav-link" data-scroll-target="#get_limiter">_get_limiter</a></li>
+  <li><a href="#set_default_request_rate_limit" id="toc-set_default_request_rate_limit" class="nav-link active" data-scroll-target="#set_default_request_rate_limit">set_default_request_rate_limit</a></li>
   <li><a href="#set_request_rate_limit" id="toc-set_request_rate_limit" class="nav-link" data-scroll-target="#set_request_rate_limit">set_request_rate_limit</a></li>
   </ul>
 </nav>
@@ -332,35 +330,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="convert_to_per_minute" class="level2">
-<h2 class="anchored" data-anchor-id="convert_to_per_minute">_convert_to_per_minute</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>_convert_to_per_minute(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   rate: <span class="bu">float</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
 <section id="set_default_request_rate_limit" class="level2">
 <h2 class="anchored" data-anchor-id="set_default_request_rate_limit">set_default_request_rate_limit</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>set_default_request_rate_limit(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   request_rate: <span class="bu">float</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   request_rate_unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
-<section id="get_limiter" class="level2">
-<h2 class="anchored" data-anchor-id="get_limiter">_get_limiter</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>_get_limiter(model: <span class="bu">str</span>, api_key: Union[<span class="bu">str</span>, <span class="va">None</span>]) <span class="op">-&gt;</span> Limiter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>set_default_request_rate_limit(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   request_rate: <span class="bu">float</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   request_rate_unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="set_request_rate_limit" class="level2">
 <h2 class="anchored" data-anchor-id="set_request_rate_limit">set_request_rate_limit</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>set_request_rate_limit(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   model: <span class="bu">str</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>   api_key: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   request_rate: <span class="bu">float</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   request_rate_unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>set_request_rate_limit(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   model: <span class="bu">str</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   api_key: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   request_rate: <span class="bu">float</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   request_rate_unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 <p>You may consult the rate limits to match those given in the developer consoles of the APIs you use. For example:</p>
 <ul>
