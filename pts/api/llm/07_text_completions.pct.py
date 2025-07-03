@@ -12,6 +12,8 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 
 # %%
 #|export
+import inspect
+from inspect import Parameter
 try:
     import litellm
     import functools
@@ -55,6 +57,14 @@ text_completion.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/text_completion) for a full list of the available arguments.
 """.strip()
 
+sig = inspect.signature(text_completion)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("prompt", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    *sig.parameters.values()
+])
+text_completion.__signature__ = sig
+
 # %%
 response = text_completion(
     model="gpt-4o-mini",
@@ -80,9 +90,17 @@ async_text_completion = _llm_async_func_factory(
     }
 )
 
-text_completion.__doc__ = """
+async_text_completion.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/text_completion) for a full list of the available arguments.
 """.strip()
+
+sig = inspect.signature(async_text_completion)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("prompt", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    *sig.parameters.values()
+])
+async_text_completion.__signature__ = sig
 
 # %%
 response = await async_text_completion(
