@@ -85,7 +85,7 @@ def run_script(script_path: Path, cwd: Path = None, env: dict = None, interactiv
         - In interactive mode, the script uses the parent process's stdin/stdout/stderr
     """
     if not script_path.exists():
-        raise FileNotFoundError(f"Script '{script_path}' not found in {const.scripts_path}.")
+        raise FileNotFoundError(f"Script '{script_path}' not found.")
     
     if script_path.suffix == '.sh':
         interpreter = "bash"
@@ -128,6 +128,6 @@ def run_script(script_path: Path, cwd: Path = None, env: dict = None, interactiv
         output = temp_file.read()
         
     if raise_on_error and ret_code != 0:
-        raise Exception(f"Script '{script_path}' failed with return code {ret_code}")
+        raise Exception(f"Script '{script_path}' failed with return code {ret_code}. Stdout:\n{ret_stdout}")
         
     return ret_code, ret_stdout, output
