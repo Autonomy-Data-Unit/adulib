@@ -111,6 +111,7 @@ results = await batch_executor(
     batch_args=batch_args,
     batch_kwargs=batch_kwargs,
     concurrency_limit=2,
+    verbose=False,
 )
 
 print("Results:", results)
