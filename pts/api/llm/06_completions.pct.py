@@ -320,6 +320,7 @@ results = await batch_executor(
         { 'prompt': 'What is the capital of Portugal?' },
     ],
     concurrency_limit=2,
+    verbose=False,
 )
 
 print("Results:", results)
