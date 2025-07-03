@@ -291,6 +291,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">algos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../api/algos/00_str_matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_matching</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../api/algos/01_smart_dedup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">algos.smart_dedup</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
       </ul>
   </li>
     </ul>
@@ -382,22 +405,17 @@ Interval callback!</code></pre>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Folder changed!"</span>, event)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>lock_file_path <span class="op">=</span> tempfile.mktemp()</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>daemon_start, daemon_stop <span class="op">=</span> create_watchdog_daemon(<span class="st">"/bin"</span>, lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">True</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>daemon_start, daemon_stop <span class="op">=</span> create_watchdog_daemon(<span class="st">"/bin"</span>, lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">False</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>daemon_start()</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>time.sleep(<span class="fl">0.1</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>_daemon_start, _daemon_stop <span class="op">=</span> create_watchdog_daemon(<span class="st">"/bin"</span>, lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">True</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>_daemon_start, _daemon_stop <span class="op">=</span> create_watchdog_daemon(<span class="st">"/bin"</span>, lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">False</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> _daemon_start <span class="kw">is</span> <span class="va">None</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>daemon_stop()</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>_daemon_start, _daemon_stop <span class="op">=</span> create_watchdog_daemon([<span class="st">"/bin"</span>, <span class="st">"/"</span>], lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">True</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>_daemon_start, _daemon_stop <span class="op">=</span> create_watchdog_daemon([<span class="st">"/bin"</span>, <span class="st">"/"</span>], lock_file_path, my_callback, verbose<span class="op">=</span><span class="va">False</span>, recursive<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> _daemon_start <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>_daemon_start()</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>time.sleep(<span class="fl">0.1</span>)</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>_daemon_stop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[watchdog_daemon] Daemon started.
-[watchdog_daemon] Lock file exists at /var/folders/22/k6clk3m10258k07mjcnlswt40000gn/T/tmpchehy2zc. Daemon will not start.
-[watchdog_daemon] Daemon started.</code></pre>
-</div>
 </div>
 
 

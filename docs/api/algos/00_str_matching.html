@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>asynchronous – adulib</title>
+<title>str_matching – adulib</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,23 +58,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-443ac161e34e8c1eedb78f958e3d9213.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5d4dd9db148681779f63c031488aa21a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-443ac161e34e8c1eedb78f958e3d9213.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5d4dd9db148681779f63c031488aa21a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../api/asynchronous.html">asynchronous</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/algos/00_str_matching.html">algos</a></li><li class="breadcrumb-item"><a href="../../api/algos/00_str_matching.html">str_matching</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -131,7 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">adulib</a> 
+      <a href="../../">adulib</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -152,31 +152,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/asynchronous.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../api/asynchronous.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">asynchronous</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">caching</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/git.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/git.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">git</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/reflection.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/reflection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">reflection</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/rest.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/rest.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">rest</span></a>
   </div>
 </li>
@@ -191,55 +191,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/00_base.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/00_base.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">base</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/01_rate_limits.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/01_rate_limits.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">rate_limits</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/02_call_logging.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/02_call_logging.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">call_logging</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/03_caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/03_caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">caching</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/04_internal_utils.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/04_internal_utils.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">_utils</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/05_tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/05_tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">tokens</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/06_completions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/06_completions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">completions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/07_text_completions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/07_text_completions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">text_completions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/llm/08_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/llm/08_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">embeddings</span></a>
   </div>
 </li>
@@ -256,13 +256,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/utils/00_base.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/utils/00_base.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">utils</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/utils/01_daemon.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/utils/01_daemon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">daemons</span></a>
   </div>
 </li>
@@ -279,13 +279,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/cli/00_base.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/cli/00_base.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cli</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/cli/01_data_questionnaire.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/cli/01_data_questionnaire.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">01_data_questionnaire</span></a>
   </div>
 </li>
@@ -293,22 +293,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">algos</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/algos/00_str_matching.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/algos/00_str_matching.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">str_matching</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/algos/01_smart_dedup.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/algos/01_smart_dedup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">algos.smart_dedup</span></a>
   </div>
 </li>
@@ -326,17 +326,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#is_in_event_loop" id="toc-is_in_event_loop" class="nav-link active" data-scroll-target="#is_in_event_loop">is_in_event_loop</a></li>
-  <li><a href="#batch_executor-async" id="toc-batch_executor-async" class="nav-link" data-scroll-target="#batch_executor-async">batch_executor <em>(async)</em></a></li>
+  <li><a href="#fuzzy_match" id="toc-fuzzy_match" class="nav-link active" data-scroll-target="#fuzzy_match">fuzzy_match</a></li>
+  <li><a href="#get_vector_dist_matrix" id="toc-get_vector_dist_matrix" class="nav-link" data-scroll-target="#get_vector_dist_matrix">get_vector_dist_matrix</a></li>
+  <li><a href="#embedding_match" id="toc-embedding_match" class="nav-link" data-scroll-target="#embedding_match">embedding_match</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../api/asynchronous.html">asynchronous</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/algos/00_str_matching.html">algos</a></li><li class="breadcrumb-item"><a href="../../api/algos/00_str_matching.html">str_matching</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">asynchronous</h1>
+<h1 class="title">str_matching</h1>
 </div>
 
 
@@ -353,52 +354,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Utilities for async programming.</p>
-<div id="45e74d65" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> adulib.asynchronous <span class="im">as</span> this_module</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>Utils for finding the closest match of a string in a list of strings.</p>
+</blockquote>
+<section id="fuzzy_match" class="level2">
+<h2 class="anchored" data-anchor-id="fuzzy_match">fuzzy_match</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fuzzy_match(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   query_string,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   candidate_strings,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   max_results,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   min_similarity,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   scorer</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Find the closest fuzzy matches to a query string from a list of candidate strings using RapidFuzz.</p>
+<p>This is a simplified wrapper around <code>rapidfuzz.process.extract</code> to find fuzzy matches. The equivalent of, and much faster version of, <code>difflib.get_close_matches</code>.</p>
+<p><strong>Arguments:</strong> - <code>query_string</code> (<em>str</em>): The string to match against the candidates. - <code>candidate_strings</code> (<em>Iterable[str]</em>): The list of candidate strings to search. - <code>max_results</code> (<em>int</em>): Maximum number of matches to return. Defaults to 8. - <code>min_similarity</code> (<em>float</em>): Minimum similarity threshold (0.0-1.0). Defaults to 0.1. - <code>scorer</code> (<em>callable</em>): Scoring function from rapidfuzz.fuzz. Defaults to rapidfuzz.fuzz.ratio. See rapidfuzz.fuzz for available scorers.</p>
+<p><strong>Returns:</strong> <em>List[Tuple[str, float, int]]</em>: List of tuples containing (matched_string, score, index).</p>
+<hr>
+<div id="63b8de98" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fuzzy_match(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apple Inc"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Apple Inc"</span>, <span class="st">"Apple"</span>, <span class="st">"Google LLC"</span>, <span class="st">"Microsoft Corp"</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[('Apple Inc', 100.0, 0),
+ ('Apple', 71.42857142857143, 1),
+ ('Google LLC', 31.57894736842105, 2),
+ ('Microsoft Corp', 8.695652173913048, 3)]</code></pre>
 </div>
-<section id="is_in_event_loop" class="level2">
-<h2 class="anchored" data-anchor-id="is_in_event_loop">is_in_event_loop</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>is_in_event_loop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
+</div>
 </section>
-<section id="batch_executor-async" class="level2">
-<h2 class="anchored" data-anchor-id="batch_executor-async">batch_executor <em>(async)</em></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>batch_executor(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   func: Callable,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>   constant_kwargs: Dict[<span class="bu">str</span>, Any],</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>   batch_args: Optional[Iterable[Tuple[Any, ...]]],</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>   batch_kwargs: Optional[Iterable[Dict[<span class="bu">str</span>, Any]]],</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>   concurrency_limit: Optional[<span class="bu">int</span>],</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>   verbose: <span class="bu">bool</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>   progress_bar_desc: <span class="bu">str</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Executes a batch of asynchronous tasks.</p>
-<p>Parameters: - func (Callable): The asynchronous function to execute for each batch. - constant_kwargs (Dict[str, Any], optional): Constant keyword arguments to pass to each function call. - batch_args (Optional[Iterable[Tuple[Any, …]]], optional): Iterable of argument tuples for each function call. - batch_kwargs (Optional[Iterable[Dict[str, Any]]], optional): Iterable of keyword argument dictionaries for each function call. - concurrency_limit (Optional[int], optional): Maximum number of concurrent tasks. If None, no limit is applied. - verbose (bool, optional): If True, displays a progress bar. Default is True. - progress_bar_desc (str, optional): Description for the progress bar. Default is “Processing”.</p>
-<p>Returns: - List of results from the executed tasks.</p>
-<p>Raises: - ValueError: If both ‘batch_args’ and ‘batch_kwargs’ are empty or if their lengths do not match.</p>
+<section id="get_vector_dist_matrix" class="level2">
+<h2 class="anchored" data-anchor-id="get_vector_dist_matrix">get_vector_dist_matrix</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_vector_dist_matrix(vectors: <span class="bu">list</span>[<span class="bu">list</span>[<span class="bu">float</span>]], metric: <span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Calculate the pairwise distance matrix for a set of vectors.</p>
+<p><strong>Arguments:</strong> - <code>vectors</code> (<em>List[List[float]]</em>): List of vectors to calculate distances for. - <code>metric</code> (<em>str</em>): Distance metric to use. Defaults to “cosine”. Options include “euclidean”, “manhattan”, “cosine”, etc. See sklearn.metrics.pairwise_distances for more options.</p>
+<p><strong>Returns:</strong> <em>np.ndarray</em>: Distance matrix. Each element [i, j] represents the distance between vectors[i] and vectors[j].</p>
 <hr>
-<div id="d2ae96a2" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> sample_function(x, y, z):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> asyncio.sleep(<span class="fl">0.1</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z<span class="op">*</span>(x <span class="op">+</span> y)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>constant_kwargs <span class="op">=</span> {<span class="st">'z'</span>: <span class="dv">10</span>}</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>batch_args <span class="op">=</span> [(<span class="dv">1</span>,), (<span class="dv">3</span>,), (<span class="dv">5</span>,)]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>batch_kwargs <span class="op">=</span> [{<span class="st">'y'</span>: <span class="dv">2</span>}, {<span class="st">'y'</span>: <span class="dv">4</span>}, {<span class="st">'y'</span>: <span class="dv">6</span>}]</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="cf">await</span> batch_executor(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    func<span class="op">=</span>sample_function,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    constant_kwargs<span class="op">=</span>constant_kwargs,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    batch_args<span class="op">=</span>batch_args,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    batch_kwargs<span class="op">=</span>batch_kwargs,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    concurrency_limit<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Results:"</span>, results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Results: [30, 70, 110]</code></pre>
+<div id="1b39ad61" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>vs <span class="op">=</span> [</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">6</span>],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>get_vector_dist_matrix(vs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>array([[1.11022302e-16, 2.94916146e-01, 2.28848079e-01],
+       [2.94916146e-01, 1.11022302e-16, 2.29985740e-01],
+       [2.28848079e-01, 2.29985740e-01, 0.00000000e+00]])</code></pre>
+</div>
+</div>
+</section>
+<section id="embedding_match" class="level2">
+<h2 class="anchored" data-anchor-id="embedding_match">embedding_match</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>embedding_match(embedding_index, dist_matrix, num_matches)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Find the indices and distances of the closest matches to a given embedding. Use it in combination with <code>get_vector_dist_matrix</code> to find the closest embeddings.</p>
+<p><strong>Arguments:</strong> - <code>embedding_index</code> (<em>int</em>): Index of the embedding to match. - <code>dist_matrix</code> (<em>np.ndarray</em>): Pairwise distance matrix of embeddings. Computed using <code>get_vector_dist_matrix</code>. - <code>num_matches</code> (<em>int</em>): Number of closest matches to return (excluding self). Defaults to 5.</p>
+<p><strong>Returns:</strong> <em>Tuple[np.ndarray, np.ndarray]</em>: Tuple of (indices of closest matches, distances to those matches).</p>
+<hr>
+<div id="9b679d39" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> adulib.llm <span class="im">import</span> async_batch_embeddings</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> [</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apple Inc"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apple"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Google LLC"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Microsoft Corp"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apple Inc is a technology company."</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Google is a search engine."</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Microsoft develops software and hardware."</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apple and Google are competitors in the tech industry."</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="cf">await</span> async_batch_embeddings(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"text-embedding-3-small"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span><span class="op">=</span>docs,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>dist_matrix <span class="op">=</span> get_vector_dist_matrix(embeddings)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>match_indices, _ <span class="op">=</span> embedding_match(docs.index(<span class="st">"Apple"</span>), dist_matrix, num_matches<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>[docs[i] <span class="cf">for</span> i <span class="kw">in</span> match_indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['Apple Inc', 'Apple Inc is a technology company.']</code></pre>
 </div>
 </div>
 
