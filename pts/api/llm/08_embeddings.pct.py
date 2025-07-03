@@ -12,6 +12,8 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 
 # %%
 #|export
+import inspect
+from inspect import Parameter
 try:
     import litellm
     import functools
@@ -51,6 +53,13 @@ embedding = _llm_func_factory(
 embedding.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/embedding/supported_embedding) for a full list of the available arguments.
 """.strip()
+sig = inspect.signature(embedding)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("input", Parameter.POSITIONAL_OR_KEYWORD, annotation=list[str]),
+    *sig.parameters.values()
+])
+embedding.__signature__ = sig
 
 # %%
 response = embedding(
@@ -80,15 +89,22 @@ async_embedding = _llm_async_func_factory(
     }
 )
 
-embedding.__doc__ = """
+async_embedding.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/embedding/supported_embedding) for a full list of the available arguments.
 """.strip()
+sig = inspect.signature(async_embedding)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("input", Parameter.POSITIONAL_OR_KEYWORD, annotation=list[str]),
+    *sig.parameters.values()
+])
+async_embedding.__signature__ = sig
 
 # %%
 response = await async_embedding(
     model="text-embedding-3-small",
     input=[
-        "First string to embsed",
+        "First string to embed",
         "Second string to embed",
     ],
 )
