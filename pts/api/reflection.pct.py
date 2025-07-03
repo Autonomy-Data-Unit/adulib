@@ -21,6 +21,7 @@ import types
 import functools
 import keyword
 import re
+from fastcore.basics import patch_to, patch
 
 # %%
 import adulib.reflection
@@ -42,6 +43,10 @@ def is_valid_python_name(name: str) -> bool:
 
 
 # %%
+assert is_valid_python_name('a_python_name')
+assert not is_valid_python_name('not a valid python name')
+
+# %%
 #|hide
 show_doc(adulib.reflection.find_module_root)
 
@@ -49,6 +54,20 @@ show_doc(adulib.reflection.find_module_root)
 # %%
 #|export
 def find_module_root(path):
+    """
+    Recursively finds the root directory of a Python module.
+
+    This function takes a file or directory path and determines the root
+    directory of the module it belongs to. A directory is considered a module
+    if it contains an '__init__.py' file. The function will traverse upwards
+    in the directory hierarchy until it finds the top-most module directory.
+
+    Parameters:
+    path (str or Path): The file or directory path to start the search from.
+
+    Returns:
+    Path or None: The root directory of the module if found, otherwise None.
+    """
     path = Path(path)
     path = path if path.is_dir() else path.parent
     is_module = '__init__.py' in [p.parts[-1] for p in path.glob('*')]
@@ -58,6 +77,9 @@ def find_module_root(path):
         if parent_module is None: return path
         else: return parent_module
 
+
+# %%
+module_root = find_module_root(adulib.reflection.__file__)
 
 # %%
 #|hide
@@ -87,6 +109,19 @@ def __get_module_path_hierarchy(path, hierarchy):
 # %%
 #|export        
 def get_module_path_hierarchy(path):
+    """
+    Get the hierarchy of module paths starting from the given path.
+
+    This function constructs a list of tuples representing the module hierarchy
+    starting from the specified path. Each tuple contains the module name and
+    its corresponding path.
+
+    Parameters:
+    path (str or Path): The file or directory path to start the hierarchy search from.
+
+    Returns:
+    list: A list of tuples where each tuple contains a module name and its path.
+    """
     hierarchy = []
     __get_module_path_hierarchy(path, hierarchy)
     return hierarchy
@@ -100,6 +135,24 @@ show_doc(adulib.reflection.get_function_from_py_file)
 # %%
 #|export
 def get_function_from_py_file(file_path, func_name=None, args=[], is_async=False, return_func_key=''):
+    """
+    Extracts and returns a function from a Python file.
+
+    This function reads a Python file, constructs a function from its contents,
+    and returns it. It can handle both synchronous and asynchronous functions,
+    and allows for optional argument specification and return value handling.
+
+    Parameters:
+    file_path (str or Path): The path to the Python file containing the function.
+    func_name (str, optional): The name of the function to extract. If not provided,
+                               the function name defaults to the file name without extension.
+    args (list, optional): A list of argument names for the function. Defaults to an empty list.
+    is_async (bool, optional): Indicates if the function is asynchronous. Defaults to False.
+    return_func_key (str, optional): A key to handle return values within the function. Defaults to an empty string.
+
+    Returns:
+    function: The extracted function, ready to be called with the specified arguments.
+    """
     file_path = Path(file_path)
     module_path = find_module_root(file_path)
     is_in_module = module_path is not None
@@ -219,7 +272,21 @@ show_doc(adulib.reflection.method_from_py_file)
 
 # %%
 #|export
-def method_from_py_file(file_path:str):
+def method_from_py_file(file_path: str):
+    """
+    A decorator that replaces the functionality of a method with the code from a specified Python file.
+
+    This decorator reads a Python file, extracts a function with the same name as the decorated method,
+    and replaces the original method's functionality with the extracted function. It supports both
+    synchronous and asynchronous functions.
+
+    Args:
+        file_path (str): The path to the Python file containing the function to be used as a replacement.
+
+    Returns:
+        function: A decorator that wraps the original function, replacing its functionality with the
+                  function from the specified file.
+    """
     def decorator(orig_func):
         args = list(inspect.signature(orig_func).parameters.keys())
         is_async = inspect.iscoroutinefunction(orig_func)
@@ -311,3 +378,127 @@ def cached_mod_property(func):
 def my_prop():
     print('my_prop called')
     return 42
+
+
+# %%
+def add_method(cls):
+    def decorator(func):
+        setattr(cls, func.__name__, func)
+        return func
+    return decorator
+
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+@add_method(MyClass)
+def double(self):
+    return self.value * 2
+
+@add_method(MyClass)
+def triple(self):
+    return self.value * 3
+
+obj = MyClass(10)
+print(obj.double())  # 20
+print(obj.triple())  # 30
+
+# %%
+#|echo: false
+show_doc(patch_to)
+
+
+# %% [markdown]
+# Define methods
+
+# %%
+class Foo:
+    ...
+    
+@patch_to(Foo)
+def bar(self):
+    return 'bar'
+
+Foo().bar()
+
+
+# %% [markdown]
+# Define properties
+
+# %%
+class Foo:
+    def __init__(self):
+        self.value = "bar"
+
+# Define a getter
+@patch_to(Foo, as_prop=True)
+def baz(self):
+    return self.value
+
+# Define a setter
+@patch_to(Foo, set_prop=True)
+def baz(self, value):
+    self.value = value
+
+foo = Foo()
+assert foo.baz == "bar"
+foo.baz = "???"
+assert foo.baz == "???"
+
+
+# %% [markdown]
+# Define a class method
+
+# %%
+@patch_to(Foo, cls_method=True)
+def qux(self):
+    return 'bar'
+
+Foo.qux()
+
+# %%
+#|echo: false
+show_doc(patch)
+
+
+# %% [markdown]
+# `patch` is similar to `patch_to`, except it uses type annotations in the signature to find the class to patch to.
+
+# %%
+class Foo:
+    ...
+    
+@patch
+def bar(self: Foo):
+    return 'bar'
+
+Foo().bar()
+
+
+# %%
+class Foo:
+    def __init__(self):
+        self.value = "bar"
+
+# Define a getter
+@patch(as_prop=True)
+def baz(self: Foo):
+    return self.value
+
+# Define a setter
+@patch(set_prop=True)
+def baz(self: Foo, value):
+    self.value = value
+
+foo = Foo()
+assert foo.baz == "bar"
+foo.baz = "???"
+assert foo.baz == "???"
+
+
+# %%
+@patch(cls_method=True)
+def qux(cls: Foo):
+    return 'bar'
+
+Foo.qux()
