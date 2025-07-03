@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2025-07-03
+
+### 🚀 Features
+
+- *(llm.embeddings)* 'batch_embeddings' and 'async_batch_embeddings'
+- *(algos)* Adulib.llm.str_matching. Util functions to do string matching. Currently supports fuzzy string matching and matching using embeddings.
+- *(algos)* Smart_dedup
+
+### 🐛 Bug Fixes
+
+- *(utils)* Bug in run_script
+
+### 📚 Documentation
+
+- *(reflection)* Added documentation
+- *(asynchronous)* Cleaned up output cell
+- *(git)* Cleaned up output cell
+- *(llm.completions)* Cleaned up output cell
+- *(utils.daemon)* Cleaned up output cell
+- Removed errors in the docs and signature for 'single' and 'async_single'
+- *(llm.embeddings)* Improved function signature docs
+- *(llm.completions)* Improved function signature docs
+- *(llm.text_completions)* Improved function signature docs
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Ran 'nbl prepare -f'
+- Updated uv.lock
+- Updated publish script
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.2.1] - 2025-06-20
 
 ### ⚙️ Miscellaneous Tasks
