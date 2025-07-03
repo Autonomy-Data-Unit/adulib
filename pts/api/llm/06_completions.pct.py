@@ -15,6 +15,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 try:
     import litellm
     import inspect
+    from inspect import Parameter
     import functools
     from typing import List, Dict
     from adulib.llm._utils import _llm_func_factory, _llm_async_func_factory
@@ -85,6 +86,14 @@ completion.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/completion/input) for a full list of the available arguments.
 """.strip()
 
+sig = inspect.signature(completion)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("messages", Parameter.POSITIONAL_OR_KEYWORD, annotation=List[Dict[str, str]]),
+    *sig.parameters.values()
+])
+completion.__signature__ = sig
+
 # %%
 response = completion(
     model="gpt-4o-mini",
@@ -148,6 +157,14 @@ async_completion = _llm_async_func_factory(
 completion.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/completion/input) for a full list of the available arguments.
 """.strip()
+
+sig = inspect.signature(async_completion)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("messages", Parameter.POSITIONAL_OR_KEYWORD, annotation=List[Dict[str, str]]),
+    *sig.parameters.values()
+])
+async_completion.__signature__ = sig
 
 # %%
 response = await async_completion(
