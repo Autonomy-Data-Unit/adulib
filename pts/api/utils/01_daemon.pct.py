@@ -195,7 +195,7 @@ def create_watchdog_daemon(
                 time.sleep(1)
                 if not os.path.exists(lock_file): break
         except BaseException as e:
-            print(f"[watchdog_daemon] Error: {e}")
+            if verbose: print(f"[watchdog_daemon] Error: {e}")
         finally:
             observer.stop()
             if verbose: print("[watchdog_daemon] Daemon stopped.")
@@ -224,13 +224,13 @@ def my_callback(event):
     print("Folder changed!", event)
 
 lock_file_path = tempfile.mktemp()
-daemon_start, daemon_stop = create_watchdog_daemon("/bin", lock_file_path, my_callback, verbose=True, recursive=False)
+daemon_start, daemon_stop = create_watchdog_daemon("/bin", lock_file_path, my_callback, verbose=False, recursive=False)
 daemon_start()
 time.sleep(0.1)
-_daemon_start, _daemon_stop = create_watchdog_daemon("/bin", lock_file_path, my_callback, verbose=True, recursive=False)
+_daemon_start, _daemon_stop = create_watchdog_daemon("/bin", lock_file_path, my_callback, verbose=False, recursive=False)
 assert _daemon_start is None
 daemon_stop()
-_daemon_start, _daemon_stop = create_watchdog_daemon(["/bin", "/"], lock_file_path, my_callback, verbose=True, recursive=False)
+_daemon_start, _daemon_stop = create_watchdog_daemon(["/bin", "/"], lock_file_path, my_callback, verbose=False, recursive=False)
 assert _daemon_start is not None
 _daemon_start()
 time.sleep(0.1)
