@@ -12,6 +12,9 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 
 # %%
 #|export
+import inspect
+from inspect import Parameter
+import asyncio
 try:
     import litellm
     import functools
@@ -51,6 +54,13 @@ embedding = _llm_func_factory(
 embedding.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/embedding/supported_embedding) for a full list of the available arguments.
 """.strip()
+sig = inspect.signature(embedding)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("input", Parameter.POSITIONAL_OR_KEYWORD, annotation=list[str]),
+    *sig.parameters.values()
+])
+embedding.__signature__ = sig
 
 # %%
 response = embedding(
@@ -80,16 +90,142 @@ async_embedding = _llm_async_func_factory(
     }
 )
 
-embedding.__doc__ = """
+async_embedding.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/embedding/supported_embedding) for a full list of the available arguments.
 """.strip()
+sig = inspect.signature(async_embedding)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("input", Parameter.POSITIONAL_OR_KEYWORD, annotation=list[str]),
+    *sig.parameters.values()
+])
+async_embedding.__signature__ = sig
 
 # %%
 response = await async_embedding(
     model="text-embedding-3-small",
     input=[
-        "First string to embsed",
+        "First string to embed",
         "Second string to embed",
     ],
 )
 response.data[1]['embedding'][:10]
+
+# %%
+#|hide
+show_doc(this_module.batch_embeddings)
+
+
+# %%
+#|export
+def batch_embeddings(
+    model: str,
+    input: list[str] = None,
+    batch_size: int = 1000,
+    verbose: bool = False,
+    **kwargs
+):
+    """
+    Compute embeddings for a list of input strings in batches synchronously.
+
+    Args:
+        model (str): The embedding model to use.
+        input (list[str]): List of input strings to embed.
+        batch_size (int): Number of inputs per batch.
+        verbose (bool): If True, display a progress bar.
+        **kwargs: Additional keyword arguments passed to `embedding`.
+
+    Returns:
+        list: List of embedding vectors for each input string.
+    """
+    batches = []
+    for i in range(0, len(input), batch_size):
+        batch = input[i:i + batch_size]
+        batches.append(batch)
+    
+    responses = []
+    if verbose:
+        from tqdm import tqdm
+        for batch in tqdm(batches, desc="Processing embedding batches"):
+            response = embedding(model=model, input=batch, **kwargs)
+            responses.append(response)
+    else:
+        for batch in batches:
+            response = embedding(model=model, input=batch, **kwargs)
+            responses.append(response)
+        
+    embeddings = []
+    for response in responses:
+        embeddings.extend([d['embedding'] for d in response.data])
+    return embeddings
+
+
+# %%
+embeddings = batch_embeddings(
+    model="text-embedding-3-small",
+    input=[
+        "First string to embed",
+        "Second string to embed",
+        "Third string to embed",
+        "Fourth string to embed",
+    ],
+    batch_size=2,
+    verbose=False,
+)
+
+# %%
+#|hide
+show_doc(this_module.async_batch_embeddings)
+
+
+# %%
+#|export
+async def async_batch_embeddings(
+    model: str,
+    input: list[str] = None,
+    batch_size: int = 1000,
+    verbose: bool = False,
+    **kwargs
+):
+    """
+    Compute embeddings for a list of input strings in batches asynchronously.
+
+    Args:
+        model (str): The embedding model to use.
+        input (list[str]): List of input strings to embed.
+        batch_size (int): Number of inputs per batch.
+        verbose (bool): If True, display a progress bar.
+        **kwargs: Additional keyword arguments passed to `async_embedding`.
+
+    Returns:
+        list: List of embedding vectors for each input string.
+    """
+    embedding_tasks = []
+    for i in range(0, len(input), batch_size):
+        batch = input[i:i + batch_size]
+        embedding_tasks.append(async_embedding(model=model, input=batch, **kwargs))
+    
+    if verbose:
+        from tqdm.asyncio import tqdm_asyncio
+        responses = await tqdm_asyncio.gather(*embedding_tasks, desc="Processing embedding batches", total=len(embedding_tasks))
+    else:
+        responses = await asyncio.gather(*embedding_tasks)
+        
+    embeddings = []
+    for response in responses:
+        embeddings.extend([d['embedding'] for d in response.data])
+    return embeddings
+
+
+# %%
+embeddings = await async_batch_embeddings(
+    model="text-embedding-3-small",
+    input=[
+        "First string to embed",
+        "Second string to embed",
+        "Third string to embed",
+        "Fourth string to embed",
+    ],
+    batch_size=2,
+    verbose=False,
+)
