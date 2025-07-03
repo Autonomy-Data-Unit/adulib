@@ -15,6 +15,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 try:
     import litellm
     import inspect
+    from inspect import Parameter
     import functools
     from typing import List, Dict
     from adulib.llm._utils import _llm_func_factory, _llm_async_func_factory
@@ -85,6 +86,14 @@ completion.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/completion/input) for a full list of the available arguments.
 """.strip()
 
+sig = inspect.signature(completion)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("messages", Parameter.POSITIONAL_OR_KEYWORD, annotation=List[Dict[str, str]]),
+    *sig.parameters.values()
+])
+completion.__signature__ = sig
+
 # %%
 response = completion(
     model="gpt-4o-mini",
@@ -149,6 +158,14 @@ completion.__doc__ = """
 This function is a wrapper around a corresponding function in the `litellm` library, see [this](https://docs.litellm.ai/docs/completion/input) for a full list of the available arguments.
 """.strip()
 
+sig = inspect.signature(async_completion)
+sig = sig.replace(parameters=[
+    Parameter("model", Parameter.POSITIONAL_OR_KEYWORD, annotation=str),
+    Parameter("messages", Parameter.POSITIONAL_OR_KEYWORD, annotation=List[Dict[str, str]]),
+    *sig.parameters.values()
+])
+async_completion.__signature__ = sig
+
 # %%
 response = await async_completion(
     model="gpt-3.5-turbo",
@@ -176,7 +193,6 @@ def _get_msgs(orig_msgs, response):
 
 # %%
 #|export
-@functools.wraps(completion)
 def single(
     prompt: str,
     model: str|None = None,
@@ -206,9 +222,7 @@ def single(
     if multi is not None: return res, {'model' : model, 'messages' : _get_msgs(messages, response)}
     else: return res
     
-sig = inspect.signature(completion)
-single.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
-single.__name__ = "prompt"
+single.__name__ = "single"
 single.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
 """.strip()
@@ -261,7 +275,6 @@ show_doc(this_module.async_single)
 
 # %%
 #|export
-@functools.wraps(completion)
 async def async_single(
     prompt: str,
     model: str|None = None,
@@ -291,9 +304,7 @@ async def async_single(
     if multi is not None: return res, {'model' : model, 'messages' : _get_msgs(messages, response)}
     else: return res
     
-sig = inspect.signature(completion)
-async_single.__signature__ = sig.replace(parameters=[p for p in sig.parameters.values() if p.name != 'messages'])
-async_single.__name__ = "async_prompt"
+async_single.__name__ = "async_single"
 async_single.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
 """.strip()
