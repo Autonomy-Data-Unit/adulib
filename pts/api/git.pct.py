@@ -37,4 +37,4 @@ def find_root_repo_path(path=None):
 
 
 # %%
-Path(find_root_repo_path()).name
+root_repo_path = find_root_repo_path()
