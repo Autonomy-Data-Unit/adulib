@@ -17,6 +17,7 @@ from adulib.algos import smart_dedup
 #|top_export
 import inspect
 from pydantic import BaseModel
+from typing import Optional
 from adulib.algos.str_matching import fuzzy_match, get_vector_dist_matrix, embedding_match
 from adulib.llm import async_batch_embeddings
 import rapidfuzz
@@ -42,6 +43,7 @@ async def smart_dedup(
     match_selection_temperature: float = 0.0,
     system_prompt: str = None,
     prompt_template: str = None,
+    entity_embeddings: Optional[list[list[float]]] = None,
     verbose: bool = False,
 ):
     """
@@ -60,6 +62,7 @@ async def smart_dedup(
         match_selection_temperature (float, optional): Temperature parameter for match selection model. Defaults to 0.0.
         system_prompt (str, optional): Optional system prompt for the match selection model.
         prompt_template (str, optional): Optional prompt template for the match selection model.
+        entity_embeddings (list[list[float]], optional): Precomputed embeddings for entities. If None, embeddings will be computed. Defaults to None.
         verbose (bool, optional): If True, displays progress bars and additional output. Defaults to False.
         
     Returns:
@@ -127,6 +130,7 @@ embedding_batch_size = 1000
 match_selection_temperature = 0.0
 system_prompt = None
 prompt_template = None
+entity_embeddings = None
 verbose = False
 
 # %% [markdown]
@@ -149,12 +153,15 @@ fuzzy_match_candidates = [
 
 # %%
 #|export
-embeddings = await async_batch_embeddings(
-    model=embedding_model,
-    input=entities,
-    batch_size=1000,
-    verbose=verbose,
-)
+if entity_embeddings is None:
+    embeddings = await async_batch_embeddings(
+        model=embedding_model,
+        input=entities,
+        batch_size=1000,
+        verbose=verbose,
+    )
+else:
+    embeddings = entity_embeddings  
 
 dist_matrix = get_vector_dist_matrix(embeddings, metric='cosine')
 
