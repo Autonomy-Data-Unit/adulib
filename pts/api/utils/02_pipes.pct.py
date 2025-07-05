@@ -12,6 +12,8 @@ import adulib.utils.pipes as this_module
 # %%
 #|export
 import pipe
+import tempfile
+import pickle
 
 # %% [markdown]
 # ## Mathematical operations
@@ -173,7 +175,6 @@ Foo() | pgetattr("x")
 #|export
 @pipe.Pipe
 def pwrite(content, file_path=None, mode='w'):
-    import tempfile
     if file_path is None:
         file_path = tempfile.NamedTemporaryFile(delete=False).name
     with open(file_path, mode) as f:
@@ -185,6 +186,21 @@ def pread(file_path, mode='r'):
     with open(file_path, mode) as f:
         return f.read()
     
+@pipe.Pipe
+def pto_pkl(obj, file_path=None):
+    """Write an object to a pickle file."""
+    if file_path is None:
+        file_path = tempfile.NamedTemporaryFile(delete=False).name
+    with open(file_path, 'wb') as f:
+        pickle.dump(obj, f)
+    return file_path
+    
+@pipe.Pipe
+def pfrom_pkl(file_path):
+    """Read a pickle file and return the object."""
+    with open(file_path, 'rb') as f:
+        return pickle.load(f)
+    
 pshow = pipe.Pipe(lambda x: print(x) or x)  # Returns x for chaining
 
 # %%
@@ -192,3 +208,6 @@ pshow = pipe.Pipe(lambda x: print(x) or x)  # Returns x for chaining
 
 # %%
 "hello world" | pshow
+
+# %%
+{'key': 'value'} | pto_pkl | pfrom_pkl
