@@ -177,13 +177,13 @@ embedding_match_candidates = [
 
 # %%
 #|top_export
-system_prompt = inspect.cleandoc("""
+default_system_prompt = inspect.cleandoc("""
 You are an expert in entity deduplication. You will be shown a string and a list of similar-looking strings (some may be aliases, abbreviations, misspellings, or closely related variants, while others may be unrelated).
 
 Your task is to identify which strings refer to the same entity as the reference. Return a Python list of **0-based indices** corresponding to the matching entries. Only include strings that could realistically refer to the same entity. Do not include unrelated strings. Do not explain your reasoning. If no strings match, return an empty list.
 """.strip())
 
-prompt_template = inspect.cleandoc("""
+default_prompt_template = inspect.cleandoc("""
 Entity: {entity}
 
 Entity duplicate candidates:
@@ -196,7 +196,7 @@ class Duplicates(BaseModel):
 
 # %%
 #|top_export
-async def select_duplicates(entity: str, duplicate_candidates: list[str], model, temperature):
+async def select_duplicates(entity: str, duplicate_candidates: list[str], model, temperature, system_prompt, prompt_template):
     """
     Use an LLM to select which candidates from a list are duplicates of a given entity.
 
@@ -231,8 +231,12 @@ async def select_duplicates(entity: str, duplicate_candidates: list[str], model,
 
 # %%
 #|export
+system_prompt = system_prompt or default_system_prompt
+prompt_template = prompt_template or default_prompt_template
+
 tasks = [
-    select_duplicates(entity, set(fuzzy_candidates+embedding_candidates), match_selection_model, match_selection_temperature)
+    select_duplicates(entity, set(fuzzy_candidates+embedding_candidates), match_selection_model, match_selection_temperature,
+                      system_prompt=system_prompt, prompt_template=prompt_template)
     for entity, fuzzy_candidates, embedding_candidates in zip(entities, fuzzy_match_candidates, embedding_match_candidates)
 ]
 
