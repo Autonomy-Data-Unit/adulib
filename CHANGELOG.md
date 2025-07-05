@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2025-07-05
+
+### 🚀 Features
+
+- *(adulib.utils.pipes)* New submodule adulib.utils.pipes. Various utility functions to do piping in Python.
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.0] - 2025-07-03
 
 ### 🚀 Features
