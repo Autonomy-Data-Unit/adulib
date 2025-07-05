@@ -161,6 +161,8 @@ if entity_embeddings is None:
         verbose=verbose,
     )
 else:
+    if len(entity_embeddings) != len(entities):
+        raise ValueError("Length of entity_embeddings must match length of entities.")
     embeddings = entity_embeddings  
 
 dist_matrix = get_vector_dist_matrix(embeddings, metric='cosine')
