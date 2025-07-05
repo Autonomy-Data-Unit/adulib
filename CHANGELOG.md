@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.2] - 2025-07-05
+
+### 🚀 Features
+
+- *(adulib.utils.pipes)* Added pto_pkl and pfrom_pkl
+- *(adulib.utils.pipes)* Pipes for dataframe and json files
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.1] - 2025-07-05
 
 ### 🚀 Features
