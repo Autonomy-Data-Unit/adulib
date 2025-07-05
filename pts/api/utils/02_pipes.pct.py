@@ -39,6 +39,16 @@ pmod = pipe.Pipe(lambda x, y: x % y)
 # %%
 2 | padd(3) | psub(2) | pmul(4) | pdiv(2) | pmod(10)
 
+# %%
+(
+    2 
+        | padd(3)
+        | psub(2)
+        | pmul(4)
+        | pdiv(2)
+        | pmod(10)
+)
+
 # %% [markdown]
 # ## Type conversions
 
@@ -186,21 +196,6 @@ def pread(file_path, mode='r'):
     with open(file_path, mode) as f:
         return f.read()
     
-@pipe.Pipe
-def pto_pkl(obj, file_path=None):
-    """Write an object to a pickle file."""
-    if file_path is None:
-        file_path = tempfile.NamedTemporaryFile(delete=False).name
-    with open(file_path, 'wb') as f:
-        pickle.dump(obj, f)
-    return file_path
-    
-@pipe.Pipe
-def pfrom_pkl(file_path):
-    """Read a pickle file and return the object."""
-    with open(file_path, 'rb') as f:
-        return pickle.load(f)
-    
 pshow = pipe.Pipe(lambda x: print(x) or x)  # Returns x for chaining
 
 # %%
@@ -209,5 +204,67 @@ pshow = pipe.Pipe(lambda x: print(x) or x)  # Returns x for chaining
 # %%
 "hello world" | pshow
 
+
+# %% [markdown]
+# ## Misc data wrangling operations
+
 # %%
-{'key': 'value'} | pto_pkl | pfrom_pkl
+#|export
+@pipe.Pipe
+def psave_pkl(obj, file_path=None):
+    """Write an object to a pickle file."""
+    if file_path is None:
+        file_path = tempfile.NamedTemporaryFile(delete=False).name
+    with open(file_path, 'wb') as f:
+        pickle.dump(obj, f)
+    return file_path
+    
+@pipe.Pipe
+def pload_pkl(file_path):
+    """Read a pickle file and return the object."""
+    with open(file_path, 'rb') as f:
+        return pickle.load(f)
+
+
+# %%
+{'key': 'value'} | psave_pkl | pload_pkl
+
+
+# %%
+#|export
+@pipe.Pipe
+def pto_df(data, **kwargs):
+    """Create a pandas DataFrame."""
+    import pandas as pd
+    return pd.DataFrame(data, **kwargs)
+
+@pipe.Pipe
+def pto_json(data, **kwargs):
+    """Convert data to JSON string."""
+    import json
+    return json.dumps(data, **kwargs)
+
+@pipe.Pipe
+def pfrom_json(json_str, **kwargs):
+    import json
+    """Convert JSON string to Python object."""
+    return json.loads(json_str, **kwargs)
+
+
+# %%
+[
+    {"name": "Alice", "age": 30},
+    {"name": "Bob", "age": 25}
+] | pto_df
+
+# %%
+{
+    'name' : ['Alice', 'Bob'],
+    'age' : [30, 25]
+} | pto_df
+
+# %%
+{
+    'name' : ['Alice', 'Bob'],
+    'age' : [30, 25]
+} | pto_json | pfrom_json
