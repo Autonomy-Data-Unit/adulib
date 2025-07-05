@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>rate_limits – adulib</title>
+<title>02_pipes – adulib</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/llm/00_base.html">llm</a></li><li class="breadcrumb-item"><a href="../../api/llm/01_rate_limits.html">rate_limits</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/utils/00_base.html">utils</a></li><li class="breadcrumb-item"><a href="../../api/utils/02_pipes.html">02_pipes</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,13 +182,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">llm</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../api/llm/00_base.html" class="sidebar-item-text sidebar-link">
@@ -197,7 +197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../api/llm/01_rate_limits.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../api/llm/01_rate_limits.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">rate_limits</span></a>
   </div>
 </li>
@@ -247,13 +247,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">utils</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../api/utils/00_base.html" class="sidebar-item-text sidebar-link">
@@ -268,7 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../api/utils/02_pipes.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/utils/02_pipes.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">02_pipes</span></a>
   </div>
 </li>
@@ -332,17 +332,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#set_default_request_rate_limit" id="toc-set_default_request_rate_limit" class="nav-link active" data-scroll-target="#set_default_request_rate_limit">set_default_request_rate_limit</a></li>
-  <li><a href="#set_request_rate_limit" id="toc-set_request_rate_limit" class="nav-link" data-scroll-target="#set_request_rate_limit">set_request_rate_limit</a></li>
+  <li><a href="#mathematical-operations" id="toc-mathematical-operations" class="nav-link active" data-scroll-target="#mathematical-operations">Mathematical operations</a></li>
+  <li><a href="#type-conversions" id="toc-type-conversions" class="nav-link" data-scroll-target="#type-conversions">Type conversions</a></li>
+  <li><a href="#string-operations" id="toc-string-operations" class="nav-link" data-scroll-target="#string-operations">String operations</a></li>
+  <li><a href="#function-operations" id="toc-function-operations" class="nav-link" data-scroll-target="#function-operations">Function operations</a></li>
+  <li><a href="#collection-operations" id="toc-collection-operations" class="nav-link" data-scroll-target="#collection-operations">Collection operations</a></li>
+  <li><a href="#pflatten_helper" id="toc-pflatten_helper" class="nav-link" data-scroll-target="#pflatten_helper">_pflatten_helper</a></li>
+  <li><a href="#misc-operations" id="toc-misc-operations" class="nav-link" data-scroll-target="#misc-operations">Misc operations</a></li>
+  <li><a href="#fileio-operations" id="toc-fileio-operations" class="nav-link" data-scroll-target="#fileio-operations">File/IO operations</a></li>
+  <li><a href="#pwrite" id="toc-pwrite" class="nav-link" data-scroll-target="#pwrite">pwrite</a></li>
+  <li><a href="#pread" id="toc-pread" class="nav-link" data-scroll-target="#pread">pread</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/llm/00_base.html">llm</a></li><li class="breadcrumb-item"><a href="../../api/llm/01_rate_limits.html">rate_limits</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/utils/00_base.html">utils</a></li><li class="breadcrumb-item"><a href="../../api/utils/02_pipes.html">02_pipes</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">rate_limits</h1>
+<h1 class="title">02_pipes</h1>
 </div>
 
 
@@ -359,30 +367,136 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="set_default_request_rate_limit" class="level2">
-<h2 class="anchored" data-anchor-id="set_default_request_rate_limit">set_default_request_rate_limit</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>set_default_request_rate_limit(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   request_rate: <span class="bu">float</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   request_rate_unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="mathematical-operations" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-operations">Mathematical operations</h2>
+<div id="5e58f3b4" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>] <span class="op">|</span> psum(start<span class="op">=</span><span class="dv">1</span>) <span class="op">==</span> <span class="bu">sum</span>([<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>], start<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="32ecd852" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>[(<span class="dv">5</span>,<span class="dv">2</span>), (<span class="dv">3</span>,<span class="dv">1</span>), (<span class="dv">4</span>,<span class="dv">2</span>), (<span class="dv">6</span>,<span class="dv">3</span>)] <span class="op">|</span> pmin(key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">0</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(3, 1)</code></pre>
+</div>
+</div>
+<div id="c0dda95f" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">|</span> padd(<span class="dv">3</span>) <span class="op">|</span> psub(<span class="dv">2</span>) <span class="op">|</span> pmul(<span class="dv">4</span>) <span class="op">|</span> pdiv(<span class="dv">2</span>) <span class="op">|</span> pmod(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>6.0</code></pre>
+</div>
+</div>
+</section>
+<section id="type-conversions" class="level2">
+<h2 class="anchored" data-anchor-id="type-conversions">Type conversions</h2>
+<div id="74743ec2" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">7</span>] <span class="op">|</span> pset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{1, 2, 4, 6, 7}</code></pre>
+</div>
+</div>
+</section>
+<section id="string-operations" class="level2">
+<h2 class="anchored" data-anchor-id="string-operations">String operations</h2>
+<div id="ebd12eb9" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"hello world!"</span> <span class="op">|</span> pupper <span class="op">|</span> prstrip(<span class="st">"!"</span>) <span class="op">|</span> psplit <span class="op">|</span> pjoin(<span class="st">"    "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'HELLO    WORLD'</code></pre>
+</div>
+</div>
+</section>
+<section id="function-operations" class="level2">
+<h2 class="anchored" data-anchor-id="function-operations">Function operations</h2>
+<div id="5455c137" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> square(x):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="op">|</span> pbind(square) <span class="op">|</span> pcall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>25</code></pre>
+</div>
+</div>
+<div id="d80da011" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span>: <span class="dv">10</span>) <span class="op">|</span> pcall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>10</code></pre>
+</div>
+</div>
+<div id="998ebe36" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> x, y: x <span class="op">+</span> y) <span class="op">|</span> ppartial(<span class="dv">2</span>) <span class="op">|</span> ppartial(<span class="dv">3</span>) <span class="op">|</span> pcall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>5</code></pre>
+</div>
+</div>
+</section>
+<section id="collection-operations" class="level2">
+<h2 class="anchored" data-anchor-id="collection-operations">Collection operations</h2>
+</section>
+<section id="pflatten_helper" class="level2">
+<h2 class="anchored" data-anchor-id="pflatten_helper">_pflatten_helper</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>_pflatten_helper(lst, curr_level, levels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Helper function to flatten a nested list.</p>
+<hr>
+<div id="c2edaf3b" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, [<span class="dv">2</span>, [<span class="dv">3</span>, [<span class="dv">4</span>, <span class="dv">5</span>]]]] <span class="op">|</span> pflatten <span class="op">|</span> plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1, 2, 3, 4, 5]</code></pre>
+</div>
+</div>
+<div id="1c3e4ed7" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, [<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]]] <span class="op">|</span> pflatten(levels<span class="op">=</span><span class="dv">1</span>) <span class="op">|</span> plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1, 2, 3, 4, 5, 6, [7, 8, 9]]</code></pre>
+</div>
+</div>
+</section>
+<section id="misc-operations" class="level2">
+<h2 class="anchored" data-anchor-id="misc-operations">Misc operations</h2>
+<div id="2b674afd" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>{<span class="st">"key1"</span>: <span class="st">"value1"</span>, <span class="st">"key2"</span>: <span class="st">"value2"</span>} <span class="op">|</span> pget(<span class="st">"key1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'value1'</code></pre>
+</div>
+</div>
+<div id="f646102c" class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Foo:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.x <span class="op">=</span> <span class="dv">123</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>Foo() <span class="op">|</span> pgetattr(<span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>123</code></pre>
+</div>
+</div>
+</section>
+<section id="fileio-operations" class="level2">
+<h2 class="anchored" data-anchor-id="fileio-operations">File/IO operations</h2>
+</section>
+<section id="pwrite" class="level2">
+<h2 class="anchored" data-anchor-id="pwrite">pwrite</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pwrite(content, file_path, mode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
-<section id="set_request_rate_limit" class="level2">
-<h2 class="anchored" data-anchor-id="set_request_rate_limit">set_request_rate_limit</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>set_request_rate_limit(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   model: <span class="bu">str</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   api_key: <span class="bu">str</span><span class="op">|</span><span class="va">None</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   request_rate: <span class="bu">float</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   request_rate_unit: Literal[<span class="st">'per-second'</span>, <span class="st">'per-minute'</span>, <span class="st">'per-hour'</span>]</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="pread" class="level2">
+<h2 class="anchored" data-anchor-id="pread">pread</h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pread(file_path, mode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
-<p>You may consult the rate limits to match those given in the developer consoles of the APIs you use. For example:</p>
-<ul>
-<li><a href="https://console.anthropic.com/settings/limits">Anthropic console</a></li>
-<li><a href="https://platform.openai.com/settings/organization/limits">OpenAI console</a></li>
-<li><a href="https://ai.google.dev/gemini-api/docs/rate-limits?authuser=1#tier-1">Google console</a></li>
-<li>DeepSeek currently does not impose any rate limits</li>
-</ul>
+<div id="c88da6b3" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">"hello world"</span> <span class="op">|</span> pwrite <span class="op">|</span> pread</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'hello world'</code></pre>
+</div>
+</div>
+<div id="d23f0c2c" class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">"hello world"</span> <span class="op">|</span> pshow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hello world</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>'hello world'</code></pre>
+</div>
+</div>
 
 
 </section>
