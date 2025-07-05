@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.3] - 2025-07-05
+
+### 🚀 Features
+
+- *(smart_dedup)* Sort output to ensure consistent output
+- *(adulib.algos.smart_dedup)* Added argument 'entity_embeddings'
+- *(adulib.algos.smart_dedup)* Added check that 'entity_embeddings' are of correct length.
+
+### 🐛 Bug Fixes
+
+- *(adulib.algos.smart_dedup)* System_prompt and prompt_template were not being used.
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.2] - 2025-07-05
 
 ### 🚀 Features
