@@ -281,6 +281,8 @@ def find_disconnected_subgraphs(matches):
             current_subgraph = set()
             dfs(node, current_subgraph)
             subgraphs.append(current_subgraph)
+            
+    subgraphs = sorted([tuple(sorted(subgraph)) for subgraph in subgraphs]) # Sorting ensures consistent output
 
     return subgraphs
 
