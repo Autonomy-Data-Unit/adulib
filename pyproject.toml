@@ -1,6 +1,6 @@
 [project]
 name = "adulib"
-version = "0.3.2"
+version = ""
 description = "Tools and utilities developed by the Autonomy Data Unit (ADU)."
 readme = "README.md"
 requires-python = ">=3.9"
