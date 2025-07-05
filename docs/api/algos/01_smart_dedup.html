@@ -367,11 +367,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="5db9d62c" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> adulib.algos.str_matching <span class="im">import</span> fuzzy_match, get_vector_dist_matrix, embedding_match</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> adulib.llm <span class="im">import</span> async_batch_embeddings</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rapidfuzz</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.asyncio <span class="im">import</span> tqdm_asyncio</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> adulib.algos.str_matching <span class="im">import</span> fuzzy_match, get_vector_dist_matrix, embedding_match</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> adulib.llm <span class="im">import</span> async_batch_embeddings</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rapidfuzz</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.asyncio <span class="im">import</span> tqdm_asyncio</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="735883ac" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> smart_dedup(</span>
@@ -386,34 +387,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    match_selection_temperature: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    system_prompt: <span class="bu">str</span> <span class="op">=</span> <span class="va">None</span>,</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    prompt_template: <span class="bu">str</span> <span class="op">=</span> <span class="va">None</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>):</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">    Entity deduplication of a list of strings using fuzzy string matching and embedding-based similarity, </span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">    followed by model-assisted duplicate selection.</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">        entities (list[str]): List of entity strings to deduplicate.</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">        embedding_model (str): Name or path of the embedding model to use.</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">        match_selection_model (str): Model identifier for selecting matches among candidates.</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">        max_fuzzy_str_matches (int, optional): Maximum number of fuzzy string match candidates per entity. Defaults to 5.</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">        min_fuzzy_str_match_score (float, optional): Minimum similarity score for fuzzy string matches. Defaults to 0.</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">        fuzzy_str_match_scorer (callable, optional): Scoring function for fuzzy string matching. Defaults to rapidfuzz.fuzz.ratio.</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">        num_embedding_matches (int, optional): Number of embedding-based match candidates per entity. Defaults to 5.</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">        embedding_batch_size (int, optional): Batch size for embedding computation. Defaults to 1000.</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">        match_selection_temperature (float, optional): Temperature parameter for match selection model. Defaults to 0.0.</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">        system_prompt (str, optional): Optional system prompt for the match selection model.</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">        prompt_template (str, optional): Optional prompt template for the match selection model.</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">        verbose (bool, optional): If True, displays progress bars and additional output. Defaults to False.</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple[list[list[tuple[str, str]]], list[str]]:</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">            - List of disconnected subgraphs, each representing a group of duplicate entities.</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co">            - List of entities without any detected matches.</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co">    Notes:</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">        See `adulib.algos._dedup.system_prompt` and `adulib.algos._dedup.prompt_template` for prompt details.</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    entity_embeddings: Optional[<span class="bu">list</span>[<span class="bu">list</span>[<span class="bu">float</span>]]] <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Entity deduplication of a list of strings using fuzzy string matching and embedding-based similarity, </span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">    followed by model-assisted duplicate selection.</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">        entities (list[str]): List of entity strings to deduplicate.</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">        embedding_model (str): Name or path of the embedding model to use.</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">        match_selection_model (str): Model identifier for selecting matches among candidates.</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">        max_fuzzy_str_matches (int, optional): Maximum number of fuzzy string match candidates per entity. Defaults to 5.</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">        min_fuzzy_str_match_score (float, optional): Minimum similarity score for fuzzy string matches. Defaults to 0.</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">        fuzzy_str_match_scorer (callable, optional): Scoring function for fuzzy string matching. Defaults to rapidfuzz.fuzz.ratio.</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">        num_embedding_matches (int, optional): Number of embedding-based match candidates per entity. Defaults to 5.</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">        embedding_batch_size (int, optional): Batch size for embedding computation. Defaults to 1000.</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">        match_selection_temperature (float, optional): Temperature parameter for match selection model. Defaults to 0.0.</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">        system_prompt (str, optional): Optional system prompt for the match selection model.</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">        prompt_template (str, optional): Optional prompt template for the match selection model.</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">        entity_embeddings (list[list[float]], optional): Precomputed embeddings for entities. If None, embeddings will be computed. Defaults to None.</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">        verbose (bool, optional): If True, displays progress bars and additional output. Defaults to False.</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple[list[list[tuple[str, str]]], list[str]]:</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co">            - List of disconnected subgraphs, each representing a group of duplicate entities.</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">            - List of entities without any detected matches.</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co">    Notes:</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co">        See `adulib.algos._dedup.system_prompt` and `adulib.algos._dedup.prompt_template` for prompt details.</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="b04b62ac" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>entities <span class="op">=</span> [</span>
@@ -462,7 +465,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>match_selection_temperature <span class="op">=</span> <span class="fl">0.0</span></span>
 <span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>system_prompt <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>prompt_template <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>verbose <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>entity_embeddings <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>verbose <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="find-duplicate-candidates-using-adulib.algos.fuzzy_match" class="level2">
 <h2 class="anchored" data-anchor-id="find-duplicate-candidates-using-adulib.algos.fuzzy_match">Find duplicate candidates using <code>adulib.algos.fuzzy_match</code></h2>
@@ -473,13 +477,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="select-duplicates-using-llms" class="level2">
 <h2 class="anchored" data-anchor-id="select-duplicates-using-llms">Select duplicates using LLMs</h2>
 <div id="0699495d" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>system_prompt <span class="op">=</span> inspect.cleandoc(<span class="st">"""</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>default_system_prompt <span class="op">=</span> inspect.cleandoc(<span class="st">"""</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">You are an expert in entity deduplication. You will be shown a string and a list of similar-looking strings (some may be aliases, abbreviations, misspellings, or closely related variants, while others may be unrelated).</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">Your task is to identify which strings refer to the same entity as the reference. Return a Python list of **0-based indices** corresponding to the matching entries. Only include strings that could realistically refer to the same entity. Do not include unrelated strings. Do not explain your reasoning. If no strings match, return an empty list.</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip())</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>prompt_template <span class="op">=</span> inspect.cleandoc(<span class="st">"""</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>default_prompt_template <span class="op">=</span> inspect.cleandoc(<span class="st">"""</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">Entity: </span><span class="sc">{entity}</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">Entity duplicate candidates:</span></span>
@@ -490,7 +494,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    duplicate_indices: <span class="bu">list</span>[<span class="bu">int</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="64ef72b2" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> select_duplicates(entity: <span class="bu">str</span>, duplicate_candidates: <span class="bu">list</span>[<span class="bu">str</span>], model, temperature):</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> select_duplicates(entity: <span class="bu">str</span>, duplicate_candidates: <span class="bu">list</span>[<span class="bu">str</span>], model, temperature, system_prompt, prompt_template):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Use an LLM to select which candidates from a list are duplicates of a given entity.</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -562,27 +566,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>            current_subgraph <span class="op">=</span> <span class="bu">set</span>()</span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>            dfs(node, current_subgraph)</span>
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>            subgraphs.append(current_subgraph)</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> subgraphs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    subgraphs <span class="op">=</span> <span class="bu">sorted</span>([<span class="bu">tuple</span>(<span class="bu">sorted</span>(subgraph)) <span class="cf">for</span> subgraph <span class="kw">in</span> subgraphs]) <span class="co"># Sorting ensures consistent output</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> subgraphs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="f3eee716" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>find_disconnected_subgraphs(matches), entities_without_matches</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>([{'Lockeed Martin Corp.', 'Lockheed Martin', 'Lockheed Martin Corporation'},
-  {'BAE Systems', 'BAE Systems plc'},
-  {'Naval Group', 'Naval Group SA'},
-  {'Leonardo', 'Leonardo S.p.A.'},
-  {'Northrop Grumman', 'Northrop Grumman Corp.'},
-  {'Raytheon', 'Raytheon Technologies'},
-  {'Saab', 'Saab AB'},
-  {'IAI', 'Israel Aerospace Industries'},
-  {'Hanwha', 'Hanwha Defense'},
-  {'Rheinmetall', 'Rheinmetall AG'},
-  {'Elbit', 'Elbit Systems'},
-  {'MBDA', 'MBDA Missile Systems'},
-  {'Boeing Defense', 'Boeing Defense, Space &amp; Security'},
-  {'General Dynamics', 'General Dynamics Corporation'},
-  {'Thales', 'Thales Group'}],
+<pre><code>([('BAE Systems', 'BAE Systems plc'),
+  ('Boeing Defense', 'Boeing Defense, Space &amp; Security'),
+  ('Elbit', 'Elbit Systems'),
+  ('General Dynamics', 'General Dynamics Corporation'),
+  ('Hanwha', 'Hanwha Defense'),
+  ('IAI', 'Israel Aerospace Industries'),
+  ('Leonardo', 'Leonardo S.p.A.'),
+  ('Lockeed Martin Corp.', 'Lockheed Martin', 'Lockheed Martin Corporation'),
+  ('MBDA', 'MBDA Missile Systems'),
+  ('Naval Group', 'Naval Group SA'),
+  ('Northrop Grumman', 'Northrop Grumman Corp.'),
+  ('Raytheon', 'Raytheon Technologies'),
+  ('Rheinmetall', 'Rheinmetall AG'),
+  ('Saab', 'Saab AB'),
+  ('Thales', 'Thales Group')],
  ['General Atomics'])</code></pre>
 </div>
 </div>
