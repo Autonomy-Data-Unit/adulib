@@ -157,6 +157,9 @@ ptraverse = pipe.traverse
 # %%
 [1, 2, 3, [4, 5, 6, [7, 8, 9]]] | pflatten(levels=1) | plist
 
+# %%
+["Joe", 32, "Mary", 28, "John", 45] | pbatched(2) | pdict
+
 # %% [markdown]
 # ## Misc operations
 
