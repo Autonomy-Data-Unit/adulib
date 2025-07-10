@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.5] - 2025-07-10
+
+### 🚀 Features
+
+- *(adulib.utils.pipes)* Added 'papply_mask'
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.4] - 2025-07-10
 
 ### 🚀 Features
