@@ -357,6 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pload_pkl" id="toc-pload_pkl" class="nav-link" data-scroll-target="#pload_pkl">pload_pkl</a></li>
   <li><a href="#pto_df" id="toc-pto_df" class="nav-link" data-scroll-target="#pto_df">pto_df</a></li>
   <li><a href="#pcopy_df" id="toc-pcopy_df" class="nav-link" data-scroll-target="#pcopy_df">pcopy_df</a></li>
+  <li><a href="#papply_mask" id="toc-papply_mask" class="nav-link" data-scroll-target="#papply_mask">papply_mask</a></li>
   <li><a href="#pto_json" id="toc-pto_json" class="nav-link" data-scroll-target="#pto_json">pto_json</a></li>
   <li><a href="#pfrom_json" id="toc-pfrom_json" class="nav-link" data-scroll-target="#pfrom_json">pfrom_json</a></li>
   </ul>
@@ -574,11 +575,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Usage:</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">&gt;&gt;</span> pcopy_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
+</section>
+<section id="papply_mask" class="level2">
+<h2 class="anchored" data-anchor-id="papply_mask">papply_mask</h2>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>papply_mask(mask, df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Apply a mask to a DataFrame.</p>
+<p>Usage:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">&gt;&gt;</span> papply_mask(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
 <div id="06e80112" class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>[</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Alice"</span>, <span class="st">"age"</span>: <span class="dv">30</span>},</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Bob"</span>, <span class="st">"age"</span>: <span class="dv">25</span>}</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>] <span class="op">|</span> pto_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>[</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Alice"</span>, <span class="st">"age"</span>: <span class="dv">30</span>},</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Bob"</span>, <span class="st">"age"</span>: <span class="dv">25</span>}</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>] <span class="op">|</span> pto_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -609,10 +618,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="002ac6a3" class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span> : [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>],</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'age'</span> : [<span class="dv">30</span>, <span class="dv">25</span>]</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>} <span class="op">|</span> pto_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> {</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span> : [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>],</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'age'</span> : [<span class="dv">30</span>, <span class="dv">25</span>]</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>} <span class="op">|</span> pto_df</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -642,31 +652,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="aa56b0ed" class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PipeWhole:</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, func):</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.func <span class="op">=</span> func</span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__ror__</span>(<span class="va">self</span>, other):</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.func(other)</span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="at">@PipeWhole</span></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_df(df):</span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Process a DataFrame."""</span></span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df)</span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Alice"</span>, <span class="st">"age"</span>: <span class="dv">30</span>},</span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Bob"</span>, <span class="st">"age"</span>: <span class="dv">25</span>}</span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="b4e31289" class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="32d8348a" class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>(df[<span class="st">'name'</span>] <span class="op">==</span> <span class="st">'Alice'</span>) <span class="op">&gt;&gt;</span> papply_mask(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>'name\tage\nAlice\t30\nBob\t25\n'</code></pre>
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Alice</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 </div>
 </div>
 </section>

@@ -411,7 +411,19 @@
     "href": "api/utils/02_pipes.html#pcopy_df",
     "title": "02_pipes",
     "section": "pcopy_df",
-    "text": "pcopy_df\npcopy_df(df)\nCopy a DataFrame to clipboard in a format compatible with Google Sheets or Excel.\nUsage:\ndf &gt;&gt; pcopy_df\n\n\n[\n    {\"name\": \"Alice\", \"age\": 30},\n    {\"name\": \"Bob\", \"age\": 25}\n] | pto_df\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n\n\n\n\n\n\n{\n    'name' : ['Alice', 'Bob'],\n    'age' : [30, 25]\n} | pto_df\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n\n\n\n\n\n\nimport pandas as pd\n\nclass PipeWhole:\n    def __init__(self, func):\n        self.func = func\n\n    def __ror__(self, other):\n        return self.func(other)\n\n@PipeWhole\ndef process_df(df):\n    \"\"\"Process a DataFrame.\"\"\"\n    print(df)\n\ndf = pd.DataFrame([\n    {\"name\": \"Alice\", \"age\": 30},\n    {\"name\": \"Bob\", \"age\": 25}\n])\n\n\n\ndf.to_csv(sep=\"\\t\", index=False)\n\n'name\\tage\\nAlice\\t30\\nBob\\t25\\n'",
+    "text": "pcopy_df\npcopy_df(df)\nCopy a DataFrame to clipboard in a format compatible with Google Sheets or Excel.\nUsage:\ndf &gt;&gt; pcopy_df",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#papply_mask",
+    "href": "api/utils/02_pipes.html#papply_mask",
+    "title": "02_pipes",
+    "section": "papply_mask",
+    "text": "papply_mask\npapply_mask(mask, df)\nApply a mask to a DataFrame.\nUsage:\nmask &gt;&gt; papply_mask(df)\n\n\n[\n    {\"name\": \"Alice\", \"age\": 30},\n    {\"name\": \"Bob\", \"age\": 25}\n] | pto_df\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n\n\n\n\n\n\ndf = {\n    'name' : ['Alice', 'Bob'],\n    'age' : [30, 25]\n} | pto_df\ndf\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n\n\n\n\n\n\n(df['name'] == 'Alice') &gt;&gt; papply_mask(df)\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30",
     "crumbs": [
       "api",
       "utils",
