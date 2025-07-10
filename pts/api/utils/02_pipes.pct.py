@@ -15,6 +15,18 @@ import pipe
 import tempfile
 import pickle
 
+
+# %%
+#|exporti
+class PipeRRShift:
+    def __init__(self, func):
+        self.__doc__ = func.__doc__
+        self.func = func
+
+    def __rrshift__(self, other):
+        return self.func(other)
+
+
 # %% [markdown]
 # ## Mathematical operations
 
@@ -201,6 +213,14 @@ def pread(file_path, mode='r'):
     
 pshow = pipe.Pipe(lambda x: print(x) or x)  # Returns x for chaining
 
+@pipe.Pipe
+def pcopy(content):
+    """Copy content to clipboard."""
+    import pyperclip
+    pyperclip.copy(content)
+    return content
+
+
 # %%
 "hello world" | pwrite | pread
 
@@ -209,7 +229,7 @@ pshow = pipe.Pipe(lambda x: print(x) or x)  # Returns x for chaining
 
 
 # %% [markdown]
-# ## Misc data wrangling operations
+# ## Data wrangling operations
 
 # %%
 #|export
@@ -241,17 +261,19 @@ def pto_df(data, **kwargs):
     import pandas as pd
     return pd.DataFrame(data, **kwargs)
 
-@pipe.Pipe
-def pto_json(data, **kwargs):
-    """Convert data to JSON string."""
-    import json
-    return json.dumps(data, **kwargs)
-
-@pipe.Pipe
-def pfrom_json(json_str, **kwargs):
-    import json
-    """Convert JSON string to Python object."""
-    return json.loads(json_str, **kwargs)
+@PipeRRShift
+def pcopy_df(df):
+    """
+    Copy a DataFrame to clipboard in a format compatible with Google Sheets or Excel.
+    
+    Usage:
+    ```python
+    df >> pcopy_df
+    ```
+    """
+    from adulib.utils.wrangle import df_to_clipboard
+    df_to_clipboard(df)
+    return df
 
 
 # %%
@@ -265,6 +287,47 @@ def pfrom_json(json_str, **kwargs):
     'name' : ['Alice', 'Bob'],
     'age' : [30, 25]
 } | pto_df
+
+# %%
+import pandas as pd
+
+class PipeWhole:
+    def __init__(self, func):
+        self.func = func
+
+    def __ror__(self, other):
+        return self.func(other)
+
+@PipeWhole
+def process_df(df):
+    """Process a DataFrame."""
+    print(df)
+
+df = pd.DataFrame([
+    {"name": "Alice", "age": 30},
+    {"name": "Bob", "age": 25}
+])
+
+
+
+# %%
+df.to_csv(sep="\t", index=False)
+
+
+# %%
+#|export
+@pipe.Pipe
+def pto_json(data, **kwargs):
+    """Convert data to JSON string."""
+    import json
+    return json.dumps(data, **kwargs)
+
+@pipe.Pipe
+def pfrom_json(json_str, **kwargs):
+    import json
+    """Convert JSON string to Python object."""
+    return json.loads(json_str, **kwargs)
+
 
 # %%
 {
