@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.4] - 2025-07-10
+
+### 🚀 Features
+
+- *(utils.wrangle)* Utilities for data wrangling. Added pipes for them as well.
+
+### 📚 Documentation
+
+- Added another example
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.3] - 2025-07-05
 
 ### 🚀 Features
