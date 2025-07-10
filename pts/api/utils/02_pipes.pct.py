@@ -23,6 +23,9 @@ class PipeRRShift:
         self.__doc__ = func.__doc__
         self.func = func
 
+    def __call__(self, *args, **kwargs):
+        return PipeRRShift(lambda x: self.func(x, *args, **kwargs))
+
     def __rrshift__(self, other):
         return self.func(other)
 
@@ -275,6 +278,18 @@ def pcopy_df(df):
     df_to_clipboard(df)
     return df
 
+@PipeRRShift
+def papply_mask(mask, df):
+    """
+    Apply a mask to a DataFrame.
+    
+    Usage:
+    ```python
+    mask >> papply_mask(df)
+    ```
+    """
+    return df[mask]
+
 
 # %%
 [
@@ -283,35 +298,14 @@ def pcopy_df(df):
 ] | pto_df
 
 # %%
-{
+df = {
     'name' : ['Alice', 'Bob'],
     'age' : [30, 25]
 } | pto_df
+df
 
 # %%
-import pandas as pd
-
-class PipeWhole:
-    def __init__(self, func):
-        self.func = func
-
-    def __ror__(self, other):
-        return self.func(other)
-
-@PipeWhole
-def process_df(df):
-    """Process a DataFrame."""
-    print(df)
-
-df = pd.DataFrame([
-    {"name": "Alice", "age": 30},
-    {"name": "Bob", "age": 25}
-])
-
-
-
-# %%
-df.to_csv(sep="\t", index=False)
+(df['name'] == 'Alice') >> papply_mask(df)
 
 
 # %%
