@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>cli – adulib</title>
+<title>03_wrangle – adulib</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/cli/00_base.html">cli</a></li><li class="breadcrumb-item"><a href="../../api/cli/00_base.html">cli</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/utils/00_base.html">utils</a></li><li class="breadcrumb-item"><a href="../../api/utils/03_wrangle.html">03_wrangle</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -247,13 +247,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">utils</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../api/utils/00_base.html" class="sidebar-item-text sidebar-link">
@@ -274,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../api/utils/03_wrangle.html" class="sidebar-item-text sidebar-link">
+  <a href="../../api/utils/03_wrangle.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">03_wrangle</span></a>
   </div>
 </li>
@@ -282,16 +282,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">cli</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../api/cli/00_base.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../api/cli/00_base.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cli</span></a>
   </div>
 </li>
@@ -338,16 +338,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#run_fzf" id="toc-run_fzf" class="nav-link active" data-scroll-target="#run_fzf">run_fzf</a></li>
+  <li><a href="#df_to_tsv" id="toc-df_to_tsv" class="nav-link active" data-scroll-target="#df_to_tsv">df_to_tsv</a></li>
+  <li><a href="#df_to_clipboard" id="toc-df_to_clipboard" class="nav-link" data-scroll-target="#df_to_clipboard">df_to_clipboard</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/cli/00_base.html">cli</a></li><li class="breadcrumb-item"><a href="../../api/cli/00_base.html">cli</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../api/asynchronous.html">api</a></li><li class="breadcrumb-item"><a href="../../api/utils/00_base.html">utils</a></li><li class="breadcrumb-item"><a href="../../api/utils/03_wrangle.html">03_wrangle</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">cli</h1>
+<h1 class="title">03_wrangle</h1>
 </div>
 
 
@@ -364,14 +365,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="run_fzf" class="level2">
-<h2 class="anchored" data-anchor-id="run_fzf">run_fzf</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>run_fzf(terms: List[<span class="bu">str</span>], disp_terms: Optional[List[<span class="bu">str</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Launches the fzf command-line fuzzy finder with a list of terms and returns</p>
-<p>the selected term.</p>
-<p>Parameters: terms (List[str]): A list of strings to be presented to fzf for selection.</p>
-<p>Returns: str or None: The selected string from fzf, or None if no selection was made or if fzf encountered an error.</p>
-<p>Raises: RuntimeError: If fzf is not installed or not found in the system PATH.</p>
+<section id="df_to_tsv" class="level2">
+<h2 class="anchored" data-anchor-id="df_to_tsv">df_to_tsv</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_to_tsv(df: pd.DataFrame, include_index: <span class="bu">bool</span>) <span class="op">-&gt;</span> <span class="bu">str</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Converts a DataFrame to a tab-separated string.</p>
+<p>Useful for copying to Excel or Google Sheets.</p>
+<hr>
+<div id="28c3cf35" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Alice"</span>, <span class="st">"age"</span>: <span class="dv">30</span>},</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"Bob"</span>, <span class="st">"age"</span>: <span class="dv">25</span>}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df_to_tsv(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'name\tage\nAlice\t30\nBob\t25\n'</code></pre>
+</div>
+</div>
+</section>
+<section id="df_to_clipboard" class="level2">
+<h2 class="anchored" data-anchor-id="df_to_clipboard">df_to_clipboard</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_to_clipboard(df: pd.DataFrame, include_index: <span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Converts a DataFrame to a tab-separated string and copies it to the clipboard,</p>
+<p>so it can be pasted directly into Google Sheets or Excel.</p>
+<p><strong>Arguments:</strong> - <code>df</code> (<em>pd.DataFrame</em>): The DataFrame to copy. - <code>include_index</code> (<em>bool</em>): Whether to include the index in the output.</p>
 <hr>
 
 
