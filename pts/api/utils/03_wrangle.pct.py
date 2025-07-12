@@ -119,7 +119,7 @@ show_doc(this_module.flatten_records_to_df)
 
 # %%
 #|export
-def flatten_records_to_df(records, col_prefix='', sep='_', max_cols=None):
+def flatten_records_to_df(records, col_prefix='', sep='.', max_cols=None):
     """
     Flattens a list of (potentially nested) dictionaries into a pandas DataFrame.
 
@@ -129,7 +129,7 @@ def flatten_records_to_df(records, col_prefix='', sep='_', max_cols=None):
     Args:
         records (list): List of dictionaries to flatten.
         col_prefix (str, optional): Prefix to add to all column names. Defaults to ''.
-        sep (str, optional): Separator to use between concatenated keys. Defaults to '_'.
+        sep (str, optional): Separator to use between concatenated keys. Defaults to '.'.
         max_cols (int, optional): Maximum allowed number of columns. Raises ValueError if exceeded.
 
     Returns:
