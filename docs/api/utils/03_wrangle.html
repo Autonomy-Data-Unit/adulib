@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,6 +102,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -340,6 +343,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#df_to_tsv" id="toc-df_to_tsv" class="nav-link active" data-scroll-target="#df_to_tsv">df_to_tsv</a></li>
   <li><a href="#df_to_clipboard" id="toc-df_to_clipboard" class="nav-link" data-scroll-target="#df_to_clipboard">df_to_clipboard</a></li>
+  <li><a href="#flatten_dict" id="toc-flatten_dict" class="nav-link" data-scroll-target="#flatten_dict">flatten_dict</a></li>
+  <li><a href="#flatten_records_to_df" id="toc-flatten_records_to_df" class="nav-link" data-scroll-target="#flatten_records_to_df">flatten_records_to_df</a></li>
   </ul>
 </nav>
     </div>
@@ -389,6 +394,104 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>so it can be pasted directly into Google Sheets or Excel.</p>
 <p><strong>Arguments:</strong> - <code>df</code> (<em>pd.DataFrame</em>): The DataFrame to copy. - <code>include_index</code> (<em>bool</em>): Whether to include the index in the output.</p>
 <hr>
+</section>
+<section id="flatten_dict" class="level2">
+<h2 class="anchored" data-anchor-id="flatten_dict">flatten_dict</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(d, prefix, sep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Flatten a nested dictionary into a single-level dictionary with compound keys.</p>
+<p>This function recursively flattens dictionaries and lists. Nested keys are concatenated using a separator (default is an underscore). Lists are flattened by appending the index to the key. Nested dictionaries and lists within lists are also handled.</p>
+<p><strong>Arguments:</strong> - <code>d</code> (<em>dict</em>): The dictionary to flatten. - <code>prefix</code> (<em>str</em>): The base key to use for the current level of recursion. Used internally during recursion. Defaults to ’‘. - <code>sep</code> (<em>str</em>): Separator to use between concatenated keys. Defaults to’_’.</p>
+<p><strong>Returns:</strong> <em>dict</em>: A new flattened dictionary with compound keys.</p>
+<hr>
+<div id="1e1220b3" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'key1'</span> : <span class="st">'val'</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'key2'</span> : [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'key3'</span> : {</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'foo'</span> : <span class="st">'bar'</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'baz'</span> : [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'qux'</span> : {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">'key4'</span> : <span class="st">'value'</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">'key5'</span> : [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>flatten_dict(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'key1': 'val',
+ 'key2_0': 1,
+ 'key2_1': 2,
+ 'key2_2': 3,
+ 'key3_foo': 'bar',
+ 'key3_baz_0': 1,
+ 'key3_baz_1': 2,
+ 'key3_baz_2': 3,
+ 'key3_qux_key4': 'value',
+ 'key3_qux_key5_0': 4,
+ 'key3_qux_key5_1': 5,
+ 'key3_qux_key5_2': 6}</code></pre>
+</div>
+</div>
+</section>
+<section id="flatten_records_to_df" class="level2">
+<h2 class="anchored" data-anchor-id="flatten_records_to_df">flatten_records_to_df</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records, col_prefix, sep, max_cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Flattens a list of (potentially nested) dictionaries into a pandas DataFrame.</p>
+<p>Each dictionary in the input list is flattened using compound keys for nested structures. Lists within dictionaries are expanded with indexed keys. The resulting DataFrame has one row per record.</p>
+<p><strong>Arguments:</strong> - <code>records</code> (<em>list</em>): List of dictionaries to flatten. - <code>col_prefix</code> (<em>str</em>): Prefix to add to all column names. Defaults to ’‘. - <code>sep</code> (<em>str</em>): Separator to use between concatenated keys. Defaults to’_’. - <code>max_cols</code> (<em>int</em>): Maximum allowed number of columns. Raises ValueError if exceeded.</p>
+<p><strong>Returns:</strong> <em>pd.DataFrame</em>: DataFrame with flattened records as rows.</p>
+<hr>
+<div id="0a59a8ff" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> [</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Alice'</span>, <span class="st">'age'</span>: <span class="dv">30</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Wonderland'</span>, <span class="st">'zip'</span>: <span class="st">'12345'</span>}},</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Bob'</span>, <span class="st">'age'</span>: <span class="dv">25</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Builderland'</span>, <span class="st">'zip'</span>: <span class="st">'67890'</span>}},</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Charlie'</span>, <span class="st">'age'</span>: <span class="dv">35</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Chocolate Factory'</span>, <span class="st">'zip'</span>: <span class="st">'54321'</span>}}</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">address_city</th>
+<th data-quarto-table-cell-role="th">address_zip</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Alice</td>
+<td>30</td>
+<td>Wonderland</td>
+<td>12345</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Bob</td>
+<td>25</td>
+<td>Builderland</td>
+<td>67890</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Charlie</td>
+<td>35</td>
+<td>Chocolate Factory</td>
+<td>54321</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 
 
 </section>
