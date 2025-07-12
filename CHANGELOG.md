@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.8] - 2025-07-12
+
+### 🚀 Features
+
+- *(utils.wrangle)* Updated the default separator for nested fields to '.' in 'flatten_records_to_df'
+- *(utils.wrangle)* Added 'keep_unflattened' argument to 'flatten_records_to_df' and 'flatten_dict'
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.7] - 2025-07-12
 
 ### 🚀 Features
