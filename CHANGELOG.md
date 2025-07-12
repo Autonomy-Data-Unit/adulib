@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.9] - 2025-07-12
+
+### 🚀 Features
+
+- *(utils.wrangle)* Added many features to the flatten functions
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.8] - 2025-07-12
 
 ### 🚀 Features
