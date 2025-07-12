@@ -12,6 +12,7 @@ import adulib.utils.wrangle as this_module
 # %%
 #|export
 import pandas as pd
+from typing import List
 
 # %%
 #|hide
@@ -62,7 +63,7 @@ show_doc(this_module.flatten_dict)
 
 # %%
 #|export
-def flatten_dict(d, prefix='', sep='_'):
+def flatten_dict(d, prefix='', sep='.', keep_unflattened: List[str] = None):
     """
     Flatten a nested dictionary into a single-level dictionary with compound keys.
 
@@ -74,21 +75,22 @@ def flatten_dict(d, prefix='', sep='_'):
         d (dict): The dictionary to flatten.
         prefix (str, optional): The base key to use for the current level of recursion. 
                                     Used internally during recursion. Defaults to ''.
-        sep (str, optional): Separator to use between concatenated keys. Defaults to '_'.
+        sep (str, optional): Separator to use between concatenated keys. Defaults to '.'.
 
     Returns:
         dict: A new flattened dictionary with compound keys.
     """
     items = []
+    keep_unflattened = keep_unflattened or []
     for k, v in d.items():
         new_key = f"{prefix}{sep}{k}" if prefix else k
-        if isinstance(v, dict):
-            items.extend(flatten_dict(v, new_key, sep=sep).items())
-        elif isinstance(v, list):
+        if isinstance(v, dict) and new_key not in keep_unflattened:
+            items.extend(flatten_dict(v, new_key, sep=sep, keep_unflattened=keep_unflattened).items())
+        elif isinstance(v, list) and new_key not in keep_unflattened:
             for i, item in enumerate(v):
                 indexed_key = f"{new_key}{sep}{i}"
-                if isinstance(item, dict):
-                    items.extend(flatten_dict(item, indexed_key, sep=sep).items())
+                if isinstance(item, dict) and indexed_key not in keep_unflattened:
+                    items.extend(flatten_dict(item, indexed_key, sep=sep, keep_unflattened=keep_unflattened).items())
                 else:
                     items.append((indexed_key, item))
         else:
@@ -113,13 +115,16 @@ data = {
 flatten_dict(data)
 
 # %%
+flatten_dict(data, keep_unflattened=['key3.qux'])
+
+# %%
 #|hide
 show_doc(this_module.flatten_records_to_df)
 
 
 # %%
 #|export
-def flatten_records_to_df(records, col_prefix='', sep='.', max_cols=None):
+def flatten_records_to_df(records, col_prefix='', sep='.', max_cols=None, keep_unflattened: List[str] = None):
     """
     Flattens a list of (potentially nested) dictionaries into a pandas DataFrame.
 
@@ -138,7 +143,7 @@ def flatten_records_to_df(records, col_prefix='', sep='.', max_cols=None):
     cols = set()
     flattened_records = []
     for record in records:
-        flattened = flatten_dict(record, prefix=col_prefix, sep=sep)
+        flattened = flatten_dict(record, prefix=col_prefix, sep=sep, keep_unflattened=keep_unflattened)
         flattened_records.append(flattened)
         cols.update(flattened.keys())
         if max_cols is not None and len(cols) >= max_cols:
@@ -154,3 +159,6 @@ records = [
 ]
 
 flatten_records_to_df(records)
+
+# %%
+flatten_records_to_df(records, keep_unflattened=['address'])
