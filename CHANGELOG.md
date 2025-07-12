@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.7] - 2025-07-12
+
+### 🚀 Features
+
+- *(utils.wrangle)* 'flatten_dict' and 'flatten_records_to_df'
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.6] - 2025-07-10
 
 ### 🚀 Features
