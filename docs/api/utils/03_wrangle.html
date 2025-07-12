@@ -397,10 +397,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="flatten_dict" class="level2">
 <h2 class="anchored" data-anchor-id="flatten_dict">flatten_dict</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(d, prefix, sep, keep_unflattened: List[<span class="bu">str</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   d,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>   sep,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   preserve: List[Any],</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>   keep: List[Union[<span class="bu">str</span>, Tuple[<span class="bu">str</span>]]],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   discard: List[Union[<span class="bu">str</span>, Tuple[<span class="bu">str</span>]]]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Flatten a nested dictionary into a single-level dictionary with compound keys.</p>
-<p>This function recursively flattens dictionaries and lists. Nested keys are concatenated using a separator (default is an underscore). Lists are flattened by appending the index to the key. Nested dictionaries and lists within lists are also handled.</p>
-<p><strong>Arguments:</strong> - <code>d</code> (<em>dict</em>): The dictionary to flatten. - <code>prefix</code> (<em>str</em>): The base key to use for the current level of recursion. Used internally during recursion. Defaults to ’‘. - <code>sep</code> (<em>str</em>): Separator to use between concatenated keys. Defaults to’.’.</p>
+<p>This function recursively flattens dictionaries and lists. Nested keys are concatenated using a separator (default is ‘.’). Lists are flattened by appending the index to the key. Nested dictionaries and lists within lists are also handled.</p>
+<p>Nested keys for <code>preserve</code>, <code>keep</code>, and <code>discard</code> can be specified either as strings in the form “{key}{sep}{child_key}…” or as tuples of keys.</p>
+<p><strong>Arguments:</strong> - <code>d</code> (<em>dict</em>): The dictionary to flatten. - <code>sep</code> (<em>str</em>): Separator to use between concatenated keys. Defaults to ‘.’. - <code>preserve</code> (<em>List[Any]</em>): List of compound keys to preserve as nested structures. If a key matches, its value will not be flattened further. - <code>keep</code> (<em>List[Union[str, Tuple[str]]]</em>): If provided, only these top-level keys will be kept. Cannot be used with ‘discard’. - <code>discard</code> (<em>List[Union[str, Tuple[str]]]</em>): If provided, these top-level keys will be excluded. Cannot be used with ‘keep’.</p>
 <p><strong>Returns:</strong> <em>dict</em>: A new flattened dictionary with compound keys.</p>
 <hr>
 <div id="1e1220b3" class="cell">
@@ -434,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="76e0b81e" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, keep_unflattened<span class="op">=</span>[<span class="st">'key3.qux'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, preserve<span class="op">=</span>[(<span class="st">'key3'</span>, <span class="st">'qux'</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>{'key1': 'val',
  'key2.0': 1,
@@ -447,29 +454,76 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  'key3.qux': {'key4': 'value', 'key5': [4, 5, 6]}}</code></pre>
 </div>
 </div>
+<div id="fb77870d" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, preserve<span class="op">=</span>[<span class="st">'key3.qux'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'key1': 'val',
+ 'key2.0': 1,
+ 'key2.1': 2,
+ 'key2.2': 3,
+ 'key3.foo': 'bar',
+ 'key3.baz.0': 1,
+ 'key3.baz.1': 2,
+ 'key3.baz.2': 3,
+ 'key3.qux': {'key4': 'value', 'key5': [4, 5, 6]}}</code></pre>
+</div>
+</div>
+<div id="5361460c" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, keep<span class="op">=</span>[<span class="st">'key2'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'key2.0': 1, 'key2.1': 2, 'key2.2': 3}</code></pre>
+</div>
+</div>
+<div id="aa37448a" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, keep<span class="op">=</span>[<span class="st">'key3.qux'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'key3.qux.key4': 'value',
+ 'key3.qux.key5.0': 4,
+ 'key3.qux.key5.1': 5,
+ 'key3.qux.key5.2': 6}</code></pre>
+</div>
+</div>
+<div id="db6c630d" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, keep<span class="op">=</span>[(<span class="st">'key3'</span>, <span class="st">'qux'</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'key3.qux.key4': 'value',
+ 'key3.qux.key5.0': 4,
+ 'key3.qux.key5.1': 5,
+ 'key3.qux.key5.2': 6}</code></pre>
+</div>
+</div>
+<div id="2d701af9" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>flatten_dict(data, discard<span class="op">=</span>[<span class="st">'key3'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'key1': 'val', 'key2.0': 1, 'key2.1': 2, 'key2.2': 3}</code></pre>
+</div>
+</div>
 </section>
 <section id="flatten_records_to_df" class="level2">
 <h2 class="anchored" data-anchor-id="flatten_records_to_df">flatten_records_to_df</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   records,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>   col_prefix,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>   sep,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>   max_cols,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   keep_unflattened: List[<span class="bu">str</span>]</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>   records: List[<span class="bu">dict</span>],</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>   col_prefix,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>   sep,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>   max_cols,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>   preserve: List[Any],</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>   keep: List[Union[<span class="bu">str</span>, Tuple[<span class="bu">str</span>]]],</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>   discard: List[Union[<span class="bu">str</span>, Tuple[<span class="bu">str</span>]]]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Flattens a list of (potentially nested) dictionaries into a pandas DataFrame.</p>
 <p>Each dictionary in the input list is flattened using compound keys for nested structures. Lists within dictionaries are expanded with indexed keys. The resulting DataFrame has one row per record.</p>
-<p><strong>Arguments:</strong> - <code>records</code> (<em>list</em>): List of dictionaries to flatten. - <code>col_prefix</code> (<em>str</em>): Prefix to add to all column names. Defaults to ’‘. - <code>sep</code> (<em>str</em>): Separator to use between concatenated keys. Defaults to’.’. - <code>max_cols</code> (<em>int</em>): Maximum allowed number of columns. Raises ValueError if exceeded.</p>
+<p>Nested keys for <code>preserve</code>, <code>keep</code>, and <code>discard</code> can be specified either as strings in the form “{key}{sep}{child_key}…” or as tuples of keys.</p>
+<p><strong>Arguments:</strong> - <code>records</code> (<em>List[dict]</em>): List of dictionaries to flatten. - <code>col_prefix</code> (<em>str</em>): Prefix to add to all column names. Defaults to ’‘. - <code>sep</code> (<em>str</em>): Separator to use between concatenated keys. Defaults to’.’. - <code>max_cols</code> (<em>int</em>): Maximum allowed number of columns. Raises ValueError if exceeded. - <code>preserve</code> (<em>List[Any]</em>): List of compound keys to preserve as nested structures. - <code>keep</code> (<em>List[Union[str, Tuple[str]]]</em>): Only these top-level keys will be kept. Cannot be used with ‘discard’. - <code>discard</code> (<em>List[Union[str, Tuple[str]]]</em>): These top-level keys will be excluded. Cannot be used with ‘keep’.</p>
 <p><strong>Returns:</strong> <em>pd.DataFrame</em>: DataFrame with flattened records as rows.</p>
 <hr>
 <div id="0a59a8ff" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> [</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Alice'</span>, <span class="st">'age'</span>: <span class="dv">30</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Wonderland'</span>, <span class="st">'zip'</span>: <span class="st">'12345'</span>}},</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Bob'</span>, <span class="st">'age'</span>: <span class="dv">25</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Builderland'</span>, <span class="st">'zip'</span>: <span class="st">'67890'</span>}},</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Charlie'</span>, <span class="st">'age'</span>: <span class="dv">35</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Chocolate Factory'</span>, <span class="st">'zip'</span>: <span class="st">'54321'</span>}}</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> [</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Alice'</span>, <span class="st">'age'</span>: <span class="dv">30</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Wonderland'</span>, <span class="st">'zip'</span>: <span class="st">'12345'</span>}},</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Bob'</span>, <span class="st">'age'</span>: <span class="dv">25</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Builderland'</span>, <span class="st">'zip'</span>: <span class="st">'67890'</span>}},</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Charlie'</span>, <span class="st">'age'</span>: <span class="dv">35</span>, <span class="st">'address'</span>: {<span class="st">'city'</span>: <span class="st">'Chocolate Factory'</span>, <span class="st">'zip'</span>: <span class="st">'54321'</span>}}</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -513,7 +567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="caed5aec" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records, keep_unflattened<span class="op">=</span>[<span class="st">'address'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records, preserve<span class="op">=</span>[<span class="st">'address'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -545,6 +599,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Charlie</td>
 <td>35</td>
 <td>{'city': 'Chocolate Factory', 'zip': '54321'}</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="b0edaf16" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flatten_records_to_df(records, discard<span class="op">=</span>[<span class="st">'address'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Alice</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Bob</td>
+<td>25</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Charlie</td>
+<td>35</td>
 </tr>
 </tbody>
 </table>
