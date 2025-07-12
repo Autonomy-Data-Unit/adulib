@@ -253,16 +253,16 @@ def flatten_records_to_df(
         0 Alice   30   {'city': 'Wonderland', 'zip': '12345'}
         1   Bob   25  {'city': 'Builderland', 'zip': '67890'}
     """
-    cols = set()
+    cols = []
     flattened_records = []
     for record in records:
         flattened = flatten_dict(record, sep=sep, preserve=preserve, keep=keep, discard=discard)
         if col_prefix:
             flattened = {f"{col_prefix}{k}": v for k, v in flattened.items()}
         flattened_records.append(flattened)
-        cols.update(flattened.keys())
-        if max_cols is not None and len(cols) >= max_cols:
-            raise ValueError(f"Maximum number of columns ({max_cols}) exceeded.")
+        cols.extend(list(set(flattened.keys()) - set(cols)))
+        if max_cols is not None and len(cols) > max_cols:
+            raise ValueError(f"Maximum number of columns ({max_cols}) exceeded.\nCols: {cols}.")
     return pd.DataFrame(flattened_records)
 
 
@@ -280,3 +280,9 @@ flatten_records_to_df(records, preserve=['address'])
 
 # %%
 flatten_records_to_df(records, discard=['address'])
+
+# %%
+try:
+    flatten_records_to_df(records, max_cols=2)
+except ValueError as e:
+    print(e)
