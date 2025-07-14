@@ -44,6 +44,8 @@ async def smart_dedup(
     system_prompt: str = None,
     prompt_template: str = None,
     entity_embeddings: Optional[list[list[float]]] = None,
+    use_fuzzy_str_matching: bool = True,
+    use_embedding_matching: bool = True,
     verbose: bool = False,
 ):
     """
@@ -63,6 +65,8 @@ async def smart_dedup(
         system_prompt (str, optional): Optional system prompt for the match selection model.
         prompt_template (str, optional): Optional prompt template for the match selection model.
         entity_embeddings (list[list[float]], optional): Precomputed embeddings for entities. If None, embeddings will be computed. Defaults to None.
+        use_fuzzy_str_matching (bool, optional): If True, uses fuzzy string matching to find potential duplicates. Defaults to True.
+        use_embedding_matching (bool, optional): If True, uses embedding-based matching to find potential
         verbose (bool, optional): If True, displays progress bars and additional output. Defaults to False.
         
     Returns:
@@ -131,46 +135,60 @@ match_selection_temperature = 0.0
 system_prompt = None
 prompt_template = None
 entity_embeddings = None
+use_fuzzy_str_matching = False
+use_embedding_matching = True
 verbose = False
-
-# %% [markdown]
-# ## Find duplicate candidates using `adulib.algos.fuzzy_match`
 
 # %%
 #|export
 _entities = set(entities)
 entities = list(_entities)
 
-fuzzy_match_candidates = [
-    [
-        candidate for candidate, _, _, in
-        fuzzy_match(entity, _entities - {entity}, max_results=max_fuzzy_str_matches, min_similarity=min_fuzzy_str_match_score, scorer=fuzzy_str_match_scorer)
-    ] for entity in entities
-]
+# %% [markdown]
+# ## Find duplicate candidates using `adulib.algos.fuzzy_match`
+
+# %%
+#|export
+if use_fuzzy_str_matching:
+    fuzzy_match_candidates = [
+        [
+            candidate for candidate, _, _, in
+            fuzzy_match(entity, _entities - {entity}, max_results=max_fuzzy_str_matches, min_similarity=min_fuzzy_str_match_score, scorer=fuzzy_str_match_scorer)
+        ] for entity in entities
+    ]
+else:
+    fuzzy_match_candidates = [
+        [] for _ in range(len(entities))
+    ]
 
 # %% [markdown]
 # ## Find duplicate candidates using `adulib.algos.embedding_match`
 
 # %%
 #|export
-if entity_embeddings is None:
-    embeddings = await async_batch_embeddings(
-        model=embedding_model,
-        input=entities,
-        batch_size=1000,
-        verbose=verbose,
-    )
+if use_embedding_matching:
+    if entity_embeddings is None:
+        embeddings = await async_batch_embeddings(
+            model=embedding_model,
+            input=entities,
+            batch_size=1000,
+            verbose=verbose,
+        )
+    else:
+        if len(entity_embeddings) != len(entities):
+            raise ValueError("Length of entity_embeddings must match length of entities.")
+        embeddings = entity_embeddings  
+
+    dist_matrix = get_vector_dist_matrix(embeddings, metric='cosine')
+
+    embedding_match_candidates = [
+        [entities[match_i] for match_i in embedding_match(i, dist_matrix, num_matches=num_embedding_matches)[0]]
+        for i in range(len(entities))
+    ]
 else:
-    if len(entity_embeddings) != len(entities):
-        raise ValueError("Length of entity_embeddings must match length of entities.")
-    embeddings = entity_embeddings  
-
-dist_matrix = get_vector_dist_matrix(embeddings, metric='cosine')
-
-embedding_match_candidates = [
-    [entities[match_i] for match_i in embedding_match(i, dist_matrix, num_matches=num_embedding_matches)[0]]
-    for i in range(len(entities))
-]
+    embedding_match_candidates = [
+        [] for _ in range(len(entities))
+    ]
 
 # %% [markdown]
 # ## Select duplicates using LLMs
