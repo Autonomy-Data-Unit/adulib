@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.10] - 2025-08-13
+
+### 🚀 Features
+
+- *(utils.wrangle)* More helpful error message when max cols reached in 'flatten_records_to_df'
+- *(algos.smart_dedup)* Added arguemnts 'use_fuzzy_str_matching' and 'use_embedding_matching'
+- *(utils)* Utils.set_func_defaults
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update docs
+- Update version in pyproject.toml
+
 ## [0.3.9] - 2025-07-12
 
 ### 🚀 Features
