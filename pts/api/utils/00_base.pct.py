@@ -131,3 +131,48 @@ def run_script(script_path: Path, cwd: Path = None, env: dict = None, interactiv
         raise Exception(f"Script '{script_path}' failed with return code {ret_code}. Stdout:\n{ret_stdout}")
         
     return ret_code, ret_stdout, output
+
+
+# %%
+#|hide
+show_doc(this_module.set_func_defaults)
+
+
+# %%
+#|export
+def set_func_defaults(func, target_dict):
+    """
+    Set default values of a function's parameters into a target dictionary.
+    
+    Meant to be used with function notebooks in nblite to set up test arguments.
+
+    Example:
+    
+    ```python
+    # CELL 1
+    #|set_func_signature
+    def my_function(my_var="test"):
+        ...
+        
+    # CELL 2
+    set_func_defaults(my_function, locals())
+    ```
+
+    Args:
+        func (callable): The function whose defaults are to be set.
+        target_dict (dict): The dictionary where defaults will be set.
+    """
+    import inspect
+    sig = inspect.signature(func)
+    for param in sig.parameters.values():
+        if param.default is not inspect.Parameter.empty:
+            target_dict[param.name] = param.default
+
+
+# %%
+def foo(my_variable1="hello", my_variable2="world"):
+    pass
+
+set_func_defaults(foo, locals())
+
+print(my_variable1, my_variable2)
