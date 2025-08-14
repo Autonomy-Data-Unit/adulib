@@ -1,0 +1,1378 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "adulib",
+    "section": "",
+    "text": "Tools and utilities for the Autonomy Data Unit (ADU)\nThe lifecycle of a shared ADU utility or tool is as follows:"
+  },
+  {
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "adulib",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\nInstall uv.\nInstall direnv to automatically load the project virtual environment when entering it.\n\nMac: brew install direnv\nLinux: curl -sfL https://direnv.net/install.sh | bash"
+  },
+  {
+    "objectID": "index.html#setting-up-the-environment",
+    "href": "index.html#setting-up-the-environment",
+    "title": "adulib",
+    "section": "Setting up the environment",
+    "text": "Setting up the environment\nRun the following:\n# CD into the root of the repo folder\nuv sync --all-extras # Installs the virtual environment at './.venv'\ndirenv allow # Allows the automatic running of the script './.envrc'\nnbl install-hooks # Installs some git hooks that ensures that notebooks are added properly\nYou are now set up to develop the codebase.\nFurther instructions:\n\nTo export notebooks run nbl export.\nTo clean notebooks run nbl clean.\nTo see other available commands run just nbl.\nTo add a new dependency run uv add package-name. See the the uv documentation for more details.\nYou need to git add all ‘twinned’ notebooks for the commit to be validated. For example, if you add nbs/my-nb.ipynb, you must also add pts/my-nb.pct.py.\nTo render the documentation, run nbl render-docs. To preview it run nbl preview-docs"
+  },
+  {
+    "objectID": "api/config.html",
+    "href": "api/config.html",
+    "title": "config",
+    "section": "",
+    "text": "Utilities for setting up and managing configurations in a project.",
+    "crumbs": [
+      "api",
+      "config"
+    ]
+  },
+  {
+    "objectID": "api/config.html#pathref",
+    "href": "api/config.html#pathref",
+    "title": "config",
+    "section": "PathRef",
+    "text": "PathRef\nInherits from: BaseModel\n\n\nMethods\n\n\nprocess_path\nprocess_path(cls, data: Any) -&gt; Any",
+    "crumbs": [
+      "api",
+      "config"
+    ]
+  },
+  {
+    "objectID": "api/config.html#pkgconfig",
+    "href": "api/config.html#pkgconfig",
+    "title": "config",
+    "section": "PkgConfig",
+    "text": "PkgConfig\nInherits from: BaseModel\n\n\nMethods\n\n\n_post_process\n_post_process(cls, obj: 'PkgConfig') -&gt; Any\n\n\n\nfrom_toml\nfrom_toml(cls, toml_path: str) -&gt; 'PkgConfig'\n\n\n\nimpart\nimpart(self, target_obj)\nImparts the configuration values to the target object.\nThe target object should have attributes matching the config keys.\n\n\nclass FooConfig(PkgConfig):\n    my_path1: PathRef\n    my_path2: PathRef\n    my_path3: PathRef = '/an/absolute/path/'\n    my_path4: PathRef = '~/my/path4'\n    my_path5: PathRef = Path('~/my/path5')\n    my_path6: PathRef|None = None\n    my_path7: PathRef|None\n    \nfoo = FooConfig(\n    my_path1 = \"~/my/path1\",\n    my_path2 = PathRef(parent='my_path1', path='subdir/my_path2'),\n    my_path7 = \"~/my/path7\",\n)\n\nassert isinstance(foo.my_path1, Path) and foo.my_path1 == Path('~/my/path1').expanduser().resolve()\nassert isinstance(foo.my_path2, Path) and foo.my_path2 == foo.my_path1 / 'subdir/my_path2'\nassert isinstance(foo.my_path3, Path) and foo.my_path3 == Path('/an/absolute/path/')\nassert isinstance(foo.my_path4, Path) and foo.my_path4 == Path('~/my/path4').expanduser().resolve()\nassert isinstance(foo.my_path5, Path) and foo.my_path5 == Path('~/my/path5').expanduser().resolve()\nassert foo.my_path6 is None\nassert isinstance(foo.my_path7, Path) and foo.my_path7 == Path('~/my/path7').expanduser().resolve()",
+    "crumbs": [
+      "api",
+      "config"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html",
+    "href": "api/reflection.html",
+    "title": "reflection",
+    "section": "",
+    "text": "Utilities for Python reflection.\nimport adulib.reflection\npatch_to\npatch_to(cls, as_prop, cls_method, set_prop)\nDecorator: add f to cls\nDefine methods\nclass Foo:\n    ...\n    \n@patch_to(Foo)\ndef bar(self):\n    return 'bar'\n\nFoo().bar()\n\n'bar'\nDefine properties\nclass Foo:\n    def __init__(self):\n        self.value = \"bar\"\n\n# Define a getter\n@patch_to(Foo, as_prop=True)\ndef baz(self):\n    return self.value\n\n# Define a setter\n@patch_to(Foo, set_prop=True)\ndef baz(self, value):\n    self.value = value\n\nfoo = Foo()\nassert foo.baz == \"bar\"\nfoo.baz = \"???\"\nassert foo.baz == \"???\"\nDefine a class method\n@patch_to(Foo, cls_method=True)\ndef qux(self):\n    return 'bar'\n\nFoo.qux()\n\n'bar'\npatch\npatch(f, as_prop, cls_method, set_prop)\nDecorator: add f to the first parameter’s class (based on f’s type annotations)\npatch is similar to patch_to, except it uses type annotations in the signature to find the class to patch to.\nclass Foo:\n    ...\n    \n@patch\ndef bar(self: Foo):\n    return 'bar'\n\nFoo().bar()\n\n'bar'\nclass Foo:\n    def __init__(self):\n        self.value = \"bar\"\n\n# Define a getter\n@patch(as_prop=True)\ndef baz(self: Foo):\n    return self.value\n\n# Define a setter\n@patch(set_prop=True)\ndef baz(self: Foo, value):\n    self.value = value\n\nfoo = Foo()\nassert foo.baz == \"bar\"\nfoo.baz = \"???\"\nassert foo.baz == \"???\"\n@patch(cls_method=True)\ndef qux(cls: Foo):\n    return 'bar'\n\nFoo.qux()\n\n'bar'",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#is_valid_python_name",
+    "href": "api/reflection.html#is_valid_python_name",
+    "title": "reflection",
+    "section": "is_valid_python_name",
+    "text": "is_valid_python_name\nis_valid_python_name(name: str) -&gt; bool\n\n\nassert is_valid_python_name('a_python_name')\nassert not is_valid_python_name('not a valid python name')",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#find_module_root",
+    "href": "api/reflection.html#find_module_root",
+    "title": "reflection",
+    "section": "find_module_root",
+    "text": "find_module_root\nfind_module_root(path)\nRecursively finds the root directory of a Python module.\nThis function takes a file or directory path and determines the root directory of the module it belongs to. A directory is considered a module if it contains an ‘init.py’ file. The function will traverse upwards in the directory hierarchy until it finds the top-most module directory.\nParameters: path (str or Path): The file or directory path to start the search from.\nReturns: Path or None: The root directory of the module if found, otherwise None.\n\n\nmodule_root = find_module_root(adulib.reflection.__file__)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_module_path_hierarchy",
+    "href": "api/reflection.html#get_module_path_hierarchy",
+    "title": "reflection",
+    "section": "get_module_path_hierarchy",
+    "text": "get_module_path_hierarchy\nget_module_path_hierarchy(path)\nGet the hierarchy of module paths starting from the given path.\nThis function constructs a list of tuples representing the module hierarchy starting from the specified path. Each tuple contains the module name and its corresponding path.\nParameters: path (str or Path): The file or directory path to start the hierarchy search from.\nReturns: list: A list of tuples where each tuple contains a module name and its path.",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#get_function_from_py_file",
+    "href": "api/reflection.html#get_function_from_py_file",
+    "title": "reflection",
+    "section": "get_function_from_py_file",
+    "text": "get_function_from_py_file\nget_function_from_py_file(file_path, func_name, args, is_async, return_func_key)\nExtracts and returns a function from a Python file.\nThis function reads a Python file, constructs a function from its contents, and returns it. It can handle both synchronous and asynchronous functions, and allows for optional argument specification and return value handling.\nParameters: file_path (str or Path): The path to the Python file containing the function. func_name (str, optional): The name of the function to extract. If not provided, the function name defaults to the file name without extension. args (list, optional): A list of argument names for the function. Defaults to an empty list. is_async (bool, optional): Indicates if the function is asynchronous. Defaults to False. return_func_key (str, optional): A key to handle return values within the function. Defaults to an empty string.\nReturns: function: The extracted function, ready to be called with the specified arguments.\n\n\nimport tempfile\n\n\npy_code = \"\"\"\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, args=['name'])\nfunc('world')\n\nHello...\n...world!\n\n\n\npy_code = \"\"\"\nimport asyncio\nawait asyncio.sleep(0)\nprint('Hello...')\nprint(f'...{name}!')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nfunc = get_function_from_py_file(temp_file_path, is_async=True, args=['name'])\nawait func('world')\n\nHello...\n...world!",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#method_from_py_file",
+    "href": "api/reflection.html#method_from_py_file",
+    "title": "reflection",
+    "section": "method_from_py_file",
+    "text": "method_from_py_file\nmethod_from_py_file(file_path: str)\nA decorator that replaces the functionality of a method with the code from a specified Python file.\nThis decorator reads a Python file, extracts a function with the same name as the decorated method, and replaces the original method’s functionality with the extracted function. It supports both synchronous and asynchronous functions.\nArguments: - file_path (str): The path to the Python file containing the function to be used as a replacement.\nReturns: function: A decorator that wraps the original function, replacing its functionality with the function from the specified file.\n\n\npy_code = \"\"\"\nprint(f'Hello {self.name}')\n\"\"\"\n\nwith tempfile.NamedTemporaryFile(delete=False, suffix=\".py\") as temp_file:\n    temp_file.write(py_code.encode('utf-8'))\n    temp_file_path = temp_file.name\n\nclass TestClass:\n    def __init__(self, name):\n        self.name = name\n\n    @method_from_py_file(temp_file_path)\n    def print_name(self): pass\n    \nTestClass(\"world\").print_name()\n\nHello world",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#mod_property",
+    "href": "api/reflection.html#mod_property",
+    "title": "reflection",
+    "section": "mod_property",
+    "text": "mod_property\nmod_property(func, cached)\nUsed to create module-level properties.",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#cached_mod_property",
+    "href": "api/reflection.html#cached_mod_property",
+    "title": "reflection",
+    "section": "cached_mod_property",
+    "text": "cached_mod_property\ncached_mod_property(func)\n\n\n@mod_property\ndef my_prop():\n    print('my_prop called')\n    return 42\n\n\ndef add_method(cls):\n    def decorator(func):\n        setattr(cls, func.__name__, func)\n        return func\n    return decorator\n\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n\n@add_method(MyClass)\ndef double(self):\n    return self.value * 2\n\n@add_method(MyClass)\ndef triple(self):\n    return self.value * 3\n\nobj = MyClass(10)\nprint(obj.double())  # 20\nprint(obj.triple())  # 30\n\n20\n30",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#patch_to",
+    "href": "api/reflection.html#patch_to",
+    "title": "reflection",
+    "section": "patch_to",
+    "text": "patch_to\npatch_to(cls, as_prop, cls_method, set_prop)\nDecorator: add f to cls",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/reflection.html#patch",
+    "href": "api/reflection.html#patch",
+    "title": "reflection",
+    "section": "patch",
+    "text": "patch\npatch(f, as_prop, cls_method, set_prop)\nDecorator: add f to the first parameter’s class (based on f’s type annotations)",
+    "crumbs": [
+      "api",
+      "reflection"
+    ]
+  },
+  {
+    "objectID": "api/algos/00_str_matching.html",
+    "href": "api/algos/00_str_matching.html",
+    "title": "str_matching",
+    "section": "",
+    "text": "Utils for finding the closest match of a string in a list of strings.",
+    "crumbs": [
+      "api",
+      "algos",
+      "str_matching"
+    ]
+  },
+  {
+    "objectID": "api/algos/00_str_matching.html#fuzzy_match",
+    "href": "api/algos/00_str_matching.html#fuzzy_match",
+    "title": "str_matching",
+    "section": "fuzzy_match",
+    "text": "fuzzy_match\nfuzzy_match(\n   query_string,\n   candidate_strings,\n   max_results,\n   min_similarity,\n   scorer\n)\nFind the closest fuzzy matches to a query string from a list of candidate strings using RapidFuzz.\nThis is a simplified wrapper around rapidfuzz.process.extract to find fuzzy matches. The equivalent of, and much faster version of, difflib.get_close_matches.\nArguments: - query_string (str): The string to match against the candidates. - candidate_strings (Iterable[str]): The list of candidate strings to search. - max_results (int): Maximum number of matches to return. Defaults to 8. - min_similarity (float): Minimum similarity threshold (0.0-1.0). Defaults to 0.1. - scorer (callable): Scoring function from rapidfuzz.fuzz. Defaults to rapidfuzz.fuzz.ratio. See rapidfuzz.fuzz for available scorers.\nReturns: List[Tuple[str, float, int]]: List of tuples containing (matched_string, score, index).\n\n\nfuzzy_match(\n    \"Apple Inc\",\n    [\"Apple Inc\", \"Apple\", \"Google LLC\", \"Microsoft Corp\"],\n)\n\n[('Apple Inc', 100.0, 0),\n ('Apple', 71.42857142857143, 1),\n ('Google LLC', 31.57894736842105, 2),\n ('Microsoft Corp', 8.695652173913048, 3)]",
+    "crumbs": [
+      "api",
+      "algos",
+      "str_matching"
+    ]
+  },
+  {
+    "objectID": "api/algos/00_str_matching.html#get_vector_dist_matrix",
+    "href": "api/algos/00_str_matching.html#get_vector_dist_matrix",
+    "title": "str_matching",
+    "section": "get_vector_dist_matrix",
+    "text": "get_vector_dist_matrix\nget_vector_dist_matrix(vectors: list[list[float]], metric: str)\nCalculate the pairwise distance matrix for a set of vectors.\nArguments: - vectors (List[List[float]]): List of vectors to calculate distances for. - metric (str): Distance metric to use. Defaults to “cosine”. Options include “euclidean”, “manhattan”, “cosine”, etc. See sklearn.metrics.pairwise_distances for more options.\nReturns: np.ndarray: Distance matrix. Each element [i, j] represents the distance between vectors[i] and vectors[j].\n\n\nvs = [\n    [9,7,1,2,6],\n    [1,8,3,3,2],\n    [4,5,6,7,8]\n]\nget_vector_dist_matrix(vs)\n\narray([[1.11022302e-16, 2.94916146e-01, 2.28848079e-01],\n       [2.94916146e-01, 1.11022302e-16, 2.29985740e-01],\n       [2.28848079e-01, 2.29985740e-01, 0.00000000e+00]])",
+    "crumbs": [
+      "api",
+      "algos",
+      "str_matching"
+    ]
+  },
+  {
+    "objectID": "api/algos/00_str_matching.html#embedding_match",
+    "href": "api/algos/00_str_matching.html#embedding_match",
+    "title": "str_matching",
+    "section": "embedding_match",
+    "text": "embedding_match\nembedding_match(embedding_index, dist_matrix, num_matches)\nFind the indices and distances of the closest matches to a given embedding. Use it in combination with get_vector_dist_matrix to find the closest embeddings.\nArguments: - embedding_index (int): Index of the embedding to match. - dist_matrix (np.ndarray): Pairwise distance matrix of embeddings. Computed using get_vector_dist_matrix. - num_matches (int): Number of closest matches to return (excluding self). Defaults to 5.\nReturns: Tuple[np.ndarray, np.ndarray]: Tuple of (indices of closest matches, distances to those matches).\n\n\nfrom adulib.llm import async_batch_embeddings\ndocs = [\n    \"Apple Inc\",\n    \"Apple\",\n    \"Google LLC\",\n    \"Microsoft Corp\",\n    \"Apple Inc is a technology company.\",\n    \"Google is a search engine.\",\n    \"Microsoft develops software and hardware.\",\n    \"Apple and Google are competitors in the tech industry.\"\n]\nembeddings = await async_batch_embeddings(\n    model=\"text-embedding-3-small\",\n    input=docs,\n    batch_size=1000,\n    verbose=False,\n)\ndist_matrix = get_vector_dist_matrix(embeddings)\nmatch_indices, _ = embedding_match(docs.index(\"Apple\"), dist_matrix, num_matches=2)\n[docs[i] for i in match_indices]\n\n['Apple Inc', 'Apple Inc is a technology company.']",
+    "crumbs": [
+      "api",
+      "algos",
+      "str_matching"
+    ]
+  },
+  {
+    "objectID": "api/cli/00_base.html",
+    "href": "api/cli/00_base.html",
+    "title": "cli",
+    "section": "",
+    "text": "run_fzf(terms: List[str], disp_terms: Optional[List[str]])\nLaunches the fzf command-line fuzzy finder with a list of terms and returns\nthe selected term.\nParameters: terms (List[str]): A list of strings to be presented to fzf for selection.\nReturns: str or None: The selected string from fzf, or None if no selection was made or if fzf encountered an error.\nRaises: RuntimeError: If fzf is not installed or not found in the system PATH.",
+    "crumbs": [
+      "api",
+      "cli",
+      "cli"
+    ]
+  },
+  {
+    "objectID": "api/cli/00_base.html#run_fzf",
+    "href": "api/cli/00_base.html#run_fzf",
+    "title": "cli",
+    "section": "",
+    "text": "run_fzf(terms: List[str], disp_terms: Optional[List[str]])\nLaunches the fzf command-line fuzzy finder with a list of terms and returns\nthe selected term.\nParameters: terms (List[str]): A list of strings to be presented to fzf for selection.\nReturns: str or None: The selected string from fzf, or None if no selection was made or if fzf encountered an error.\nRaises: RuntimeError: If fzf is not installed or not found in the system PATH.",
+    "crumbs": [
+      "api",
+      "cli",
+      "cli"
+    ]
+  },
+  {
+    "objectID": "api/utils/01_daemon.html",
+    "href": "api/utils/01_daemon.html",
+    "title": "daemons",
+    "section": "",
+    "text": "create_interval_daemon(\n   lock_file: str,\n   callback: Callable[[], None],\n   interval: float,\n   verbose: bool,\n   error_callback: Callable[[BaseException], None]\n) -&gt; Callable[[], None]\nCreates a daemon that calls the callback function at fixed intervals.\nArguments: - callback: The function to call at each interval. - interval: Number of seconds between callbacks. - verbose: Whether to print status messages.\nReturns:: A (start, stop) function pair for the daemon.\n\n\nimport tempfile\nfrom pathlib import Path\n\ndef my_callback():\n    print(\"Interval callback!\")\n\nstart, stop, wait_for_stop = create_interval_daemon(tempfile.mktemp(), my_callback, interval=2.0, verbose=True)\nstart()  # Will print \"Interval callback!\" every 2 seconds\nstop()   # Stops the daemon\n\n[interval_daemon] Daemon started with 2.0s interval\nInterval callback!",
+    "crumbs": [
+      "api",
+      "utils",
+      "daemons"
+    ]
+  },
+  {
+    "objectID": "api/utils/01_daemon.html#create_interval_daemon",
+    "href": "api/utils/01_daemon.html#create_interval_daemon",
+    "title": "daemons",
+    "section": "",
+    "text": "create_interval_daemon(\n   lock_file: str,\n   callback: Callable[[], None],\n   interval: float,\n   verbose: bool,\n   error_callback: Callable[[BaseException], None]\n) -&gt; Callable[[], None]\nCreates a daemon that calls the callback function at fixed intervals.\nArguments: - callback: The function to call at each interval. - interval: Number of seconds between callbacks. - verbose: Whether to print status messages.\nReturns:: A (start, stop) function pair for the daemon.\n\n\nimport tempfile\nfrom pathlib import Path\n\ndef my_callback():\n    print(\"Interval callback!\")\n\nstart, stop, wait_for_stop = create_interval_daemon(tempfile.mktemp(), my_callback, interval=2.0, verbose=True)\nstart()  # Will print \"Interval callback!\" every 2 seconds\nstop()   # Stops the daemon\n\n[interval_daemon] Daemon started with 2.0s interval\nInterval callback!",
+    "crumbs": [
+      "api",
+      "utils",
+      "daemons"
+    ]
+  },
+  {
+    "objectID": "api/utils/01_daemon.html#create_watchdog_daemon",
+    "href": "api/utils/01_daemon.html#create_watchdog_daemon",
+    "title": "daemons",
+    "section": "create_watchdog_daemon",
+    "text": "create_watchdog_daemon\ncreate_watchdog_daemon(\n   folder_paths: Union[str, List[str]],\n   lock_file: str,\n   callback: Callable[[object], None],\n   recursive: bool,\n   verbose: bool,\n   rate_limit: float\n) -&gt; Callable[[], None]\nStarts a background daemon that watches folder_paths for changes.\nCalls callback(event) whenever a file changes.\nArguments: - folder_paths: A path or list of paths to watch. - callback: The function to call when a file changes. Receives the event as argument. - recursive: Whether to watch folders recursively. - lock_file: Optional path to a lock file to ensure only one daemon is running. - rate_limit: Minimum number of seconds between callbacks.\nReturns:: A (start, stop) function pair for the daemon.\n\n\nimport tempfile\nfrom pathlib import Path\n\ndef my_callback(event):\n    print(\"Folder changed!\", event)\n\nlock_file_path = tempfile.mktemp()\ndaemon_start, daemon_stop = create_watchdog_daemon(\"/bin\", lock_file_path, my_callback, verbose=False, recursive=False)\ndaemon_start()\ntime.sleep(0.1)\n_daemon_start, _daemon_stop = create_watchdog_daemon(\"/bin\", lock_file_path, my_callback, verbose=False, recursive=False)\nassert _daemon_start is None\ndaemon_stop()\n_daemon_start, _daemon_stop = create_watchdog_daemon([\"/bin\", \"/\"], lock_file_path, my_callback, verbose=False, recursive=False)\nassert _daemon_start is not None\n_daemon_start()\ntime.sleep(0.1)\n_daemon_stop()",
+    "crumbs": [
+      "api",
+      "utils",
+      "daemons"
+    ]
+  },
+  {
+    "objectID": "api/utils/00_base.html",
+    "href": "api/utils/00_base.html",
+    "title": "utils",
+    "section": "",
+    "text": "General utility functions.\nimport adulib.utils as this_module",
+    "crumbs": [
+      "api",
+      "utils",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils/00_base.html#as_dict",
+    "href": "api/utils/00_base.html#as_dict",
+    "title": "utils",
+    "section": "as_dict",
+    "text": "as_dict\nas_dict(**kwargs)\nConvert keyword arguments to a dictionary.",
+    "crumbs": [
+      "api",
+      "utils",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils/00_base.html#check_mutual_exclusivity",
+    "href": "api/utils/00_base.html#check_mutual_exclusivity",
+    "title": "utils",
+    "section": "check_mutual_exclusivity",
+    "text": "check_mutual_exclusivity\ncheck_mutual_exclusivity(*args)\nCheck if only one of the arguments is falsy (or truthy, if check_falsy is False).",
+    "crumbs": [
+      "api",
+      "utils",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils/00_base.html#run_script",
+    "href": "api/utils/00_base.html#run_script",
+    "title": "utils",
+    "section": "run_script",
+    "text": "run_script\nrun_script(\n   script_path: Path,\n   cwd: Path,\n   env: dict,\n   interactive: bool,\n   raise_on_error: bool\n)\nExecute a Python or Bash script with specified parameters and environment variables.\nArguments: - script_path (Path): Path to the script file to execute (.py or .sh) - cwd (Path): Working directory for script execution. Defaults to None. - env (dict): Additional environment variables to pass to the script. Defaults to None. - interactive (bool): Whether to run the script in interactive mode. Defaults to False. - raise_on_error (bool): Whether to raise an exception on non-zero exit code. Defaults to True.\nReturns: tuple: A tuple containing: - int: Return code from the script execution - str or None: Standard output (None if interactive mode) - bytes: Contents of the temporary output file",
+    "crumbs": [
+      "api",
+      "utils",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/utils/00_base.html#set_func_defaults",
+    "href": "api/utils/00_base.html#set_func_defaults",
+    "title": "utils",
+    "section": "set_func_defaults",
+    "text": "set_func_defaults\nset_func_defaults(func, target_dict)\nSet default values of a function’s parameters into a target dictionary.\nMeant to be used with function notebooks in nblite to set up test arguments.\nArguments: - func (callable): The function whose defaults are to be set. - target_dict (dict): The dictionary where defaults will be set.\n\n\ndef foo(my_variable1=\"hello\", my_variable2=\"world\"):\n    pass\n\nset_func_defaults(foo, locals())\n\nprint(my_variable1, my_variable2)\n\nhello world",
+    "crumbs": [
+      "api",
+      "utils",
+      "utils"
+    ]
+  },
+  {
+    "objectID": "api/llm/04_internal_utils.html",
+    "href": "api/llm/04_internal_utils.html",
+    "title": "_utils",
+    "section": "",
+    "text": "is_in_cache?",
+    "crumbs": [
+      "api",
+      "llm",
+      "_utils"
+    ]
+  },
+  {
+    "objectID": "api/llm/03_caching.html",
+    "href": "api/llm/03_caching.html",
+    "title": "caching",
+    "section": "",
+    "text": "get_cache_key(\n   model: str,\n   func_name,\n   content: any,\n   key_prefix: Union[str, None],\n   include_model_in_cache_key: bool\n) -&gt; tuple",
+    "crumbs": [
+      "api",
+      "llm",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/03_caching.html#get_cache_key",
+    "href": "api/llm/03_caching.html#get_cache_key",
+    "title": "caching",
+    "section": "",
+    "text": "get_cache_key(\n   model: str,\n   func_name,\n   content: any,\n   key_prefix: Union[str, None],\n   include_model_in_cache_key: bool\n) -&gt; tuple",
+    "crumbs": [
+      "api",
+      "llm",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html",
+    "href": "api/llm/01_rate_limits.html",
+    "title": "rate_limits",
+    "section": "",
+    "text": "set_default_request_rate_limit(\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html#set_default_request_rate_limit",
+    "href": "api/llm/01_rate_limits.html#set_default_request_rate_limit",
+    "title": "rate_limits",
+    "section": "",
+    "text": "set_default_request_rate_limit(\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/01_rate_limits.html#set_request_rate_limit",
+    "href": "api/llm/01_rate_limits.html#set_request_rate_limit",
+    "title": "rate_limits",
+    "section": "set_request_rate_limit",
+    "text": "set_request_rate_limit\nset_request_rate_limit(\n   model: str,\n   api_key: str|None,\n   request_rate: float,\n   request_rate_unit: Literal['per-second', 'per-minute', 'per-hour']\n)\n\nYou may consult the rate limits to match those given in the developer consoles of the APIs you use. For example:\n\nAnthropic console\nOpenAI console\nGoogle console\nDeepSeek currently does not impose any rate limits",
+    "crumbs": [
+      "api",
+      "llm",
+      "rate_limits"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html",
+    "href": "api/llm/02_call_logging.html",
+    "title": "call_logging",
+    "section": "",
+    "text": "Inherits from: BaseModel",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#calllog",
+    "href": "api/llm/02_call_logging.html#calllog",
+    "title": "call_logging",
+    "section": "",
+    "text": "Inherits from: BaseModel",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#set_call_log_save_path",
+    "href": "api/llm/02_call_logging.html#set_call_log_save_path",
+    "title": "call_logging",
+    "section": "set_call_log_save_path",
+    "text": "set_call_log_save_path\nset_call_log_save_path(path: Path)",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_call_logs",
+    "href": "api/llm/02_call_logging.html#get_call_logs",
+    "title": "call_logging",
+    "section": "get_call_logs",
+    "text": "get_call_logs\nget_call_logs(model: Optional[str]) -&gt; List[CallLog]",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_costs",
+    "href": "api/llm/02_call_logging.html#get_total_costs",
+    "title": "call_logging",
+    "section": "get_total_costs",
+    "text": "get_total_costs\nget_total_costs(model: Optional[str]) -&gt; float",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_input_tokens",
+    "href": "api/llm/02_call_logging.html#get_total_input_tokens",
+    "title": "call_logging",
+    "section": "get_total_input_tokens",
+    "text": "get_total_input_tokens\nget_total_input_tokens(model: Optional[str]) -&gt; int",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_output_tokens",
+    "href": "api/llm/02_call_logging.html#get_total_output_tokens",
+    "title": "call_logging",
+    "section": "get_total_output_tokens",
+    "text": "get_total_output_tokens\nget_total_output_tokens(model: Optional[str]) -&gt; int",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_total_tokens",
+    "href": "api/llm/02_call_logging.html#get_total_tokens",
+    "title": "call_logging",
+    "section": "get_total_tokens",
+    "text": "get_total_tokens\nget_total_tokens(model: Optional[str]) -&gt; int",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#save_call_log",
+    "href": "api/llm/02_call_logging.html#save_call_log",
+    "title": "call_logging",
+    "section": "save_call_log",
+    "text": "save_call_log\nsave_call_log(path: Path, combine_with_existing: bool)",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#load_call_log_file",
+    "href": "api/llm/02_call_logging.html#load_call_log_file",
+    "title": "call_logging",
+    "section": "load_call_log_file",
+    "text": "load_call_log_file\nload_call_log_file(path: Optional[Path]) -&gt; List[CallLog]",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/00_base.html",
+    "href": "api/llm/00_base.html",
+    "title": "base",
+    "section": "",
+    "text": "search_models(query: str)\n\n\nsearch_models('gpt-4o')\n\n['gpt-4o',\n 'gpt-4o-search-preview-2025-03-11',\n 'gpt-4o-search-preview',\n 'gpt-4o-audio-preview',\n 'gpt-4o-audio-preview-2024-12-17',\n 'gpt-4o-audio-preview-2024-10-01',\n 'gpt-4o-audio-preview-2025-06-03',\n 'gpt-4o-mini-audio-preview',\n 'gpt-4o-mini-audio-preview-2024-12-17',\n 'gpt-4o-mini',\n 'gpt-4o-mini-search-preview-2025-03-11',\n 'gpt-4o-mini-search-preview',\n 'gpt-4o-mini-2024-07-18',\n 'chatgpt-4o-latest',\n 'gpt-4o-2024-05-13',\n 'gpt-4o-2024-08-06',\n 'gpt-4o-2024-11-20',\n 'gpt-4o-realtime-preview-2024-10-01',\n 'gpt-4o-realtime-preview',\n 'gpt-4o-realtime-preview-2024-12-17',\n 'gpt-4o-realtime-preview-2025-06-03',\n 'gpt-4o-mini-realtime-preview',\n 'gpt-4o-mini-realtime-preview-2024-12-17',\n 'ft:gpt-4o-2024-08-06',\n 'ft:gpt-4o-2024-11-20',\n 'ft:gpt-4o-mini-2024-07-18',\n 'gpt-4o-transcribe',\n 'gpt-4o-mini-transcribe',\n 'gpt-4o-mini-tts',\n 'azure/gpt-4o-mini-tts',\n 'azure/gpt-4o-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-10-01',\n 'azure/us/gpt-4o-realtime-preview-2024-10-01',\n 'azure/eu/gpt-4o-realtime-preview-2024-10-01',\n 'azure/gpt-4o-transcribe',\n 'azure/gpt-4o-mini-transcribe',\n 'azure/gpt-4o',\n 'azure/global/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-08-06',\n 'azure/global/gpt-4o-2024-08-06',\n 'azure/gpt-4o-2024-11-20',\n 'azure/us/gpt-4o-2024-11-20',\n 'azure/eu/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-05-13',\n 'azure/global-standard/gpt-4o-2024-08-06',\n 'azure/us/gpt-4o-2024-08-06',\n 'azure/eu/gpt-4o-2024-08-06',\n 'azure/global-standard/gpt-4o-2024-11-20',\n 'azure/global-standard/gpt-4o-mini',\n 'azure/gpt-4o-mini',\n 'azure/gpt-4o-mini-2024-07-18',\n 'azure/us/gpt-4o-mini-2024-07-18',\n 'azure/eu/gpt-4o-mini-2024-07-18',\n 'openrouter/openai/gpt-4o',\n 'openrouter/openai/gpt-4o-2024-05-13',\n 'gradient_ai/openai-gpt-4o',\n 'gradient_ai/openai-gpt-4o-mini']",
+    "crumbs": [
+      "api",
+      "llm",
+      "base"
+    ]
+  },
+  {
+    "objectID": "api/llm/00_base.html#search_models",
+    "href": "api/llm/00_base.html#search_models",
+    "title": "base",
+    "section": "",
+    "text": "search_models(query: str)\n\n\nsearch_models('gpt-4o')\n\n['gpt-4o',\n 'gpt-4o-search-preview-2025-03-11',\n 'gpt-4o-search-preview',\n 'gpt-4o-audio-preview',\n 'gpt-4o-audio-preview-2024-12-17',\n 'gpt-4o-audio-preview-2024-10-01',\n 'gpt-4o-audio-preview-2025-06-03',\n 'gpt-4o-mini-audio-preview',\n 'gpt-4o-mini-audio-preview-2024-12-17',\n 'gpt-4o-mini',\n 'gpt-4o-mini-search-preview-2025-03-11',\n 'gpt-4o-mini-search-preview',\n 'gpt-4o-mini-2024-07-18',\n 'chatgpt-4o-latest',\n 'gpt-4o-2024-05-13',\n 'gpt-4o-2024-08-06',\n 'gpt-4o-2024-11-20',\n 'gpt-4o-realtime-preview-2024-10-01',\n 'gpt-4o-realtime-preview',\n 'gpt-4o-realtime-preview-2024-12-17',\n 'gpt-4o-realtime-preview-2025-06-03',\n 'gpt-4o-mini-realtime-preview',\n 'gpt-4o-mini-realtime-preview-2024-12-17',\n 'ft:gpt-4o-2024-08-06',\n 'ft:gpt-4o-2024-11-20',\n 'ft:gpt-4o-mini-2024-07-18',\n 'gpt-4o-transcribe',\n 'gpt-4o-mini-transcribe',\n 'gpt-4o-mini-tts',\n 'azure/gpt-4o-mini-tts',\n 'azure/gpt-4o-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-audio-preview-2024-12-17',\n 'azure/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-mini-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-12-17',\n 'azure/us/gpt-4o-realtime-preview-2024-12-17',\n 'azure/eu/gpt-4o-realtime-preview-2024-12-17',\n 'azure/gpt-4o-realtime-preview-2024-10-01',\n 'azure/us/gpt-4o-realtime-preview-2024-10-01',\n 'azure/eu/gpt-4o-realtime-preview-2024-10-01',\n 'azure/gpt-4o-transcribe',\n 'azure/gpt-4o-mini-transcribe',\n 'azure/gpt-4o',\n 'azure/global/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-08-06',\n 'azure/global/gpt-4o-2024-08-06',\n 'azure/gpt-4o-2024-11-20',\n 'azure/us/gpt-4o-2024-11-20',\n 'azure/eu/gpt-4o-2024-11-20',\n 'azure/gpt-4o-2024-05-13',\n 'azure/global-standard/gpt-4o-2024-08-06',\n 'azure/us/gpt-4o-2024-08-06',\n 'azure/eu/gpt-4o-2024-08-06',\n 'azure/global-standard/gpt-4o-2024-11-20',\n 'azure/global-standard/gpt-4o-mini',\n 'azure/gpt-4o-mini',\n 'azure/gpt-4o-mini-2024-07-18',\n 'azure/us/gpt-4o-mini-2024-07-18',\n 'azure/eu/gpt-4o-mini-2024-07-18',\n 'openrouter/openai/gpt-4o',\n 'openrouter/openai/gpt-4o-2024-05-13',\n 'gradient_ai/openai-gpt-4o',\n 'gradient_ai/openai-gpt-4o-mini']",
+    "crumbs": [
+      "api",
+      "llm",
+      "base"
+    ]
+  },
+  {
+    "objectID": "api/git.html",
+    "href": "api/git.html",
+    "title": "git",
+    "section": "",
+    "text": "find_root_repo_path(path)\n\n\nroot_repo_path = find_root_repo_path()",
+    "crumbs": [
+      "api",
+      "git"
+    ]
+  },
+  {
+    "objectID": "api/git.html#find_root_repo_path",
+    "href": "api/git.html#find_root_repo_path",
+    "title": "git",
+    "section": "",
+    "text": "find_root_repo_path(path)\n\n\nroot_repo_path = find_root_repo_path()",
+    "crumbs": [
+      "api",
+      "git"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html",
+    "href": "api/llm/06_completions.html",
+    "title": "completions",
+    "section": "",
+    "text": "Otherwise known as chat completions. See the litellm documention.\nThe two required fields for completions are model and message. Some optional arguments are:\ncompletion\ncompletion(\n   model: str,\n   messages: typing.List[typing.Dict[str, str]],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = completion(\n    model=\"gpt-4o-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is the capital of France?\"}\n    ],\n)\nresponse.choices[0].message.content\n\n'The capital of France is Paris.'\nclass Recipe(BaseModel):\n    name: str\n    ingredients: List[str]\n    steps: List[str]\n\nresponse = completion(\n    model=\"gpt-4o-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful cooking assistant.\"},\n        {\"role\": \"user\", \"content\": \"Give me a simple recipe for pancakes.\"}\n    ],\n    response_format=Recipe\n)\n\nRecipe.model_validate_json(response.choices[0].message.content).model_dump()\n\n{'name': 'Simple Pancakes',\n 'ingredients': ['1 cup all-purpose flour',\n  '2 tablespoons sugar',\n  '2 teaspoons baking powder',\n  '1/2 teaspoon salt',\n  '1 cup milk',\n  '1 egg',\n  '2 tablespoons melted butter (or vegetable oil)',\n  '1 teaspoon vanilla extract (optional)'],\n 'steps': ['In a large bowl, whisk together the flour, sugar, baking powder, and salt.',\n  'In another bowl, combine the milk, egg, melted butter, and vanilla extract, and whisk until smooth.',\n  'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; a few lumps are okay.',\n  'Preheat a non-stick pan or griddle over medium heat and lightly grease it with butter or oil.',\n  'Pour about 1/4 cup of batter for each pancake onto the pan.',\n  'Cook until bubbles form on the surface of the pancake, about 2-3 minutes, then flip and cook for an additional 1-2 minutes until golden brown.',\n  'Serve warm with your favorite toppings such as syrup, fruits, or whipped cream.']}\nYou can save costs during testing using mock responses:\nresponse = completion(\n    model=\"gpt-4o-mini\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is the capital of Sweden?\"}\n    ],\n    mock_response = \"Stockholm\"\n)\nresponse.choices[0].message.content\n\n'Stockholm'\nasync_completion (async)\nasync_completion(\n   model: str,\n   messages: typing.List[typing.Dict[str, str]],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nresponse = await async_completion(\n    model=\"gpt-3.5-turbo\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is the capital of France?\"}\n    ],\n)\nresponse.choices[0].message.content\n\n'The capital of France is Paris.'",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#completion",
+    "href": "api/llm/06_completions.html#completion",
+    "title": "completions",
+    "section": "completion",
+    "text": "completion\ncompletion(\n   model: str,\n   messages: typing.List[typing.Dict[str, str]],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#async_completion-async",
+    "href": "api/llm/06_completions.html#async_completion-async",
+    "title": "completions",
+    "section": "async_completion (async)",
+    "text": "async_completion (async)\nasync_completion(\n   model: str,\n   messages: typing.List[typing.Dict[str, str]],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#single",
+    "href": "api/llm/06_completions.html#single",
+    "title": "completions",
+    "section": "single",
+    "text": "single\nsingle(prompt: str, model: str|None, system: str|None, *args, **kwargs)\n\n\nsingle(\n    model='gpt-4o-mini',\n    system='You are a helpful assistant.',\n    prompt='What is the capital of France?',\n)\n\n'The capital of France is Paris.'\n\n\n\nclass Recipe(BaseModel):\n    name: str\n    ingredients: List[str]\n    steps: List[str]\n\nresponse = single(\n    model=\"gpt-4o-mini\",\n    system=\"You are a helpful cooking assistant.\",\n    prompt=\"Give me a simple recipe for pancakes.\",\n    response_format=Recipe\n)\n\nRecipe.model_validate_json(response)\n\nRecipe(name='Simple Pancakes', ingredients=['1 cup all-purpose flour', '2 tablespoons sugar', '2 teaspoons baking powder', '1/2 teaspoon salt', '1 cup milk', '1 egg', '2 tablespoons melted butter (or vegetable oil)', '1 teaspoon vanilla extract (optional)'], steps=['In a large bowl, whisk together the flour, sugar, baking powder, and salt.', 'In another bowl, combine the milk, egg, melted butter, and vanilla extract, and whisk until smooth.', 'Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; a few lumps are okay.', 'Preheat a non-stick pan or griddle over medium heat and lightly grease it with butter or oil.', 'Pour about 1/4 cup of batter for each pancake onto the pan.', 'Cook until bubbles form on the surface of the pancake, about 2-3 minutes, then flip and cook for an additional 1-2 minutes until golden brown.', 'Serve warm with your favorite toppings such as syrup, fruits, or whipped cream.'])\n\n\nCan do multi-turn completions using get_msgs=True and passing the messages to the prev argument:\n\nres, _ctx = single(\n    model='gpt-4o-mini',\n    system='You are a helpful assistant.',\n    prompt='Add 1 and 1',\n    multi=True\n)\nprint(res)\n\nres, _ctx = single(\n    prompt='Multiply that by 10',\n    multi=_ctx,\n)\nprint(res)\n\n1 and 1 equals 2.\n2 multiplied by 10 equals 20.",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/06_completions.html#async_single-async",
+    "href": "api/llm/06_completions.html#async_single-async",
+    "title": "completions",
+    "section": "async_single (async)",
+    "text": "async_single (async)\nasync_single(prompt: str, model: str|None, system: str|None, *args, **kwargs)\n\n\nawait async_single(\n    model='gpt-4o-mini',\n    system='You are a helpful assistant.',\n    prompt='What is the capital of France?',\n)\n\n'The capital of France is Paris.'\n\n\nYou can execute a batch of prompt calls using adulib.asynchronous.batch_executor\n\nresults = await batch_executor(\n    func=async_single,\n    constant_kwargs=as_dict(model='gpt-4o-mini', system='You are a helpful assistant.'),\n    batch_kwargs=[\n        { 'prompt': 'What is the capital of France?' },\n        { 'prompt': 'What is the capital of Germany?' },\n        { 'prompt': 'What is the capital of Italy?' },\n        { 'prompt': 'What is the capital of Spain?' },\n        { 'prompt': 'What is the capital of Portugal?' },\n    ],\n    concurrency_limit=2,\n    verbose=False,\n)\n\nprint(\"Results:\", results)\n\nResults: ['The capital of France is Paris.', 'The capital of Germany is Berlin.', 'The capital of Italy is Rome.', 'The capital of Spain is Madrid.', 'The capital of Portugal is Lisbon.']",
+    "crumbs": [
+      "api",
+      "llm",
+      "completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html",
+    "href": "api/llm/08_embeddings.html",
+    "title": "embeddings",
+    "section": "",
+    "text": "See the litellm documention.\nembedding\nembedding(\n   model: str,\n   input: list[str],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = embedding(\n    model=\"text-embedding-3-small\",\n    input=[\n        \"First string to embsed\",\n        \"Second string to embed\",\n    ],\n)\nresponse.data[1]['embedding'][:10]\n\n[-0.0012842135038226843,\n -0.013222426176071167,\n -0.008362501859664917,\n -0.04306064546108246,\n -0.004547890741378069,\n 0.003748304443433881,\n 0.03082892671227455,\n -0.012777778320014477,\n -0.01638176664710045,\n -0.01972052827477455]\nasync_embedding (async)\nasync_embedding(\n   model: str,\n   input: list[str],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = await async_embedding(\n    model=\"text-embedding-3-small\",\n    input=[\n        \"First string to embed\",\n        \"Second string to embed\",\n    ],\n)\nresponse.data[1]['embedding'][:10]\n\n[-0.0012842135038226843,\n -0.013222426176071167,\n -0.008362501859664917,\n -0.04306064546108246,\n -0.004547890741378069,\n 0.003748304443433881,\n 0.03082892671227455,\n -0.012777778320014477,\n -0.01638176664710045,\n -0.01972052827477455]",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html#embedding",
+    "href": "api/llm/08_embeddings.html#embedding",
+    "title": "embeddings",
+    "section": "embedding",
+    "text": "embedding\nembedding(\n   model: str,\n   input: list[str],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html#async_embedding-async",
+    "href": "api/llm/08_embeddings.html#async_embedding-async",
+    "title": "embeddings",
+    "section": "async_embedding (async)",
+    "text": "async_embedding (async)\nasync_embedding(\n   model: str,\n   input: list[str],\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html#batch_embeddings",
+    "href": "api/llm/08_embeddings.html#batch_embeddings",
+    "title": "embeddings",
+    "section": "batch_embeddings",
+    "text": "batch_embeddings\nbatch_embeddings(\n   model: str,\n   input: list[str],\n   batch_size: int,\n   verbose: bool,\n   **kwargs\n)\nCompute embeddings for a list of input strings in batches synchronously.\nArguments: - model (str): The embedding model to use. - input (list[str]): List of input strings to embed. - batch_size (int): Number of inputs per batch. - verbose (bool): If True, display a progress bar. - **kwargs: Additional keyword arguments passed to embedding.\nReturns: list: List of embedding vectors for each input string.\n\n\nembeddings = batch_embeddings(\n    model=\"text-embedding-3-small\",\n    input=[\n        \"First string to embed\",\n        \"Second string to embed\",\n        \"Third string to embed\",\n        \"Fourth string to embed\",\n    ],\n    batch_size=2,\n    verbose=False,\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/08_embeddings.html#async_batch_embeddings-async",
+    "href": "api/llm/08_embeddings.html#async_batch_embeddings-async",
+    "title": "embeddings",
+    "section": "async_batch_embeddings (async)",
+    "text": "async_batch_embeddings (async)\nasync_batch_embeddings(\n   model: str,\n   input: list[str],\n   batch_size: int,\n   verbose: bool,\n   **kwargs\n)\nCompute embeddings for a list of input strings in batches asynchronously.\nArguments: - model (str): The embedding model to use. - input (list[str]): List of input strings to embed. - batch_size (int): Number of inputs per batch. - verbose (bool): If True, display a progress bar. - **kwargs: Additional keyword arguments passed to async_embedding.\nReturns: list: List of embedding vectors for each input string.\n\n\nembeddings = await async_batch_embeddings(\n    model=\"text-embedding-3-small\",\n    input=[\n        \"First string to embed\",\n        \"Second string to embed\",\n        \"Third string to embed\",\n        \"Fourth string to embed\",\n    ],\n    batch_size=2,\n    verbose=False,\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "embeddings"
+    ]
+  },
+  {
+    "objectID": "api/llm/07_text_completions.html",
+    "href": "api/llm/07_text_completions.html",
+    "title": "text_completions",
+    "section": "",
+    "text": "See the litellm documention.\nText completions generate a continuation of a single prompt string, making them ideal for tasks like autocomplete, code completion, or single-turn text generation. This is contrast to chat completions, which are meant for multi-turn conversations, where the input is a list of messages with roles (like “user” and “assistant”), allowing the model to maintain context and produce more coherent, context-aware responses across multiple exchanges. Use text completions for simple, stateless tasks, and chat completions for interactive, context-dependent scenarios.\ntext_completion\ntext_completion(\n   model: str,\n   prompt: str,\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = text_completion(\n    model=\"gpt-4o-mini\",\n    prompt=\"1 + 1 = \",\n)\nresponse.choices[0].text\n\n'1 + 1 = 2.'\nasync_text_completion (async)\nasync_text_completion(\n   model: str,\n   prompt: str,\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.\nresponse = await async_text_completion(\n    model=\"gpt-4o-mini\",\n    prompt=\"1 + 2 = \",\n)\nresponse.choices[0].text\n\n'1 + 2 = 3.'",
+    "crumbs": [
+      "api",
+      "llm",
+      "text_completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/07_text_completions.html#text_completion",
+    "href": "api/llm/07_text_completions.html#text_completion",
+    "title": "text_completions",
+    "section": "text_completion",
+    "text": "text_completion\ntext_completion(\n   model: str,\n   prompt: str,\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "text_completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/07_text_completions.html#async_text_completion-async",
+    "href": "api/llm/07_text_completions.html#async_text_completion-async",
+    "title": "text_completions",
+    "section": "async_text_completion (async)",
+    "text": "async_text_completion (async)\nasync_text_completion(\n   model: str,\n   prompt: str,\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   timeout: typing.Optional[int],\n   **kwargs\n)\nThis function is a wrapper around a corresponding function in the litellm library, see this for a full list of the available arguments.",
+    "crumbs": [
+      "api",
+      "llm",
+      "text_completions"
+    ]
+  },
+  {
+    "objectID": "api/llm/05_tokens.html",
+    "href": "api/llm/05_tokens.html",
+    "title": "tokens",
+    "section": "",
+    "text": "token_counter(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)\ntoken_counter(\n    model=\"gpt-3.5-turbo\",\n    messages=[\n        {\"role\": \"user\", \"content\": \"Hello, how are you?\"}\n    ]\n)\n\n13\nIf we set return_cache_key=True, the function is not executed and only the cache key is returned instead.\n# This will not execute the function, but only return the cache key.\ncache_key = token_counter(\n    model=\"gpt-4o\",\n    text=\"Hello, how are you?\",\n    return_cache_key=True\n)\n\nassert not is_in_cache(cache_key)\n\n# This will cache the result.\ntoken_counter(\n    model=\"gpt-4o\",\n    text=\"Hello, how are you?\"\n)\n\nassert is_in_cache(cache_key)\nclear_cache_key(cache_key)",
+    "crumbs": [
+      "api",
+      "llm",
+      "tokens"
+    ]
+  },
+  {
+    "objectID": "api/llm/05_tokens.html#token_counter",
+    "href": "api/llm/05_tokens.html#token_counter",
+    "title": "tokens",
+    "section": "",
+    "text": "token_counter(\n   *args,\n   cache_enabled: bool,\n   cache_path: typing.Union[str, pathlib.Path, NoneType],\n   cache_key_prefix: typing.Optional[str],\n   include_model_in_cache_key: bool,\n   return_cache_key: bool,\n   enable_retries: bool,\n   retry_on_exceptions: typing.Optional[list[Exception]],\n   retry_on_all_exceptions: bool,\n   max_retries: typing.Optional[int],\n   retry_delay: typing.Optional[int],\n   **kwargs\n)",
+    "crumbs": [
+      "api",
+      "llm",
+      "tokens"
+    ]
+  },
+  {
+    "objectID": "api/caching.html",
+    "href": "api/caching.html",
+    "title": "caching",
+    "section": "",
+    "text": "Utilities for working with notebooks.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#set_default_cache_path",
+    "href": "api/caching.html#set_default_cache_path",
+    "title": "caching",
+    "section": "set_default_cache_path",
+    "text": "set_default_cache_path\nset_default_cache_path(cache_path: Path)\nSet the path for the temporary cache.\n\n\nrepo_path = nblite.config.get_project_root_and_config()[0]\nset_default_cache_path(repo_path / '.tmp_cache')",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_default_cache_path",
+    "href": "api/caching.html#get_default_cache_path",
+    "title": "caching",
+    "section": "get_default_cache_path",
+    "text": "get_default_cache_path\nget_default_cache_path() -&gt; Path|None\nSet the path for the temporary cache.\n\n\nshow_doc(this_module.get_default_cache)\n\nget_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_default_cache",
+    "href": "api/caching.html#get_default_cache",
+    "title": "caching",
+    "section": "get_default_cache",
+    "text": "get_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_default_cache-1",
+    "href": "api/caching.html#get_default_cache-1",
+    "title": "caching",
+    "section": "get_default_cache",
+    "text": "get_default_cache\nget_default_cache()\nRetrieve the default cache.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#get_cache",
+    "href": "api/caching.html#get_cache",
+    "title": "caching",
+    "section": "get_cache",
+    "text": "get_cache\nget_cache(cache_path: Union[Path,None])\nRetrieve a cache instance for the given path. If no path is provided,\nthe default cache is used. If the cache does not exist, it is created using the specified cache path or the default cache path.",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#clear_cache_key",
+    "href": "api/caching.html#clear_cache_key",
+    "title": "caching",
+    "section": "clear_cache_key",
+    "text": "clear_cache_key\nclear_cache_key(cache_key, cache: Union[Path,diskcache.Cache,None])",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#is_in_cache",
+    "href": "api/caching.html#is_in_cache",
+    "title": "caching",
+    "section": "is_in_cache",
+    "text": "is_in_cache\nis_in_cache(key: tuple, cache: Union[Path,diskcache.Cache,None])",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/caching.html#memoize",
+    "href": "api/caching.html#memoize",
+    "title": "caching",
+    "section": "memoize",
+    "text": "memoize\nmemoize(\n   cache: Union[Path,diskcache.Cache,None],\n   temp,\n   typed,\n   expire,\n   tag,\n   return_cache_key\n)\nDecorator for memoizing function results to improve performance.\nThis decorator stores the results of function calls, allowing subsequent calls with the same arguments to retrieve the result from the cache instead of recomputing it. You can specify a cache object or use a temporary cache if none is provided.\nParameters: - cache (Union[Path, diskcache.Cache, None], optional): A cache object or a path to the cache directory. Defaults to a temporary cache if None. - temp (bool, optional): If True, use a temporary cache. Cannot be True if a cache is provided. Defaults to False. - typed (bool, optional): If True, cache function arguments of different types separately. Defaults to True. - expire (int, optional): Cache expiration time in seconds. If None, cache entries do not expire. - tag (str, optional): A tag to associate with cache entries. - return_cache_key (bool, optional): If True, return the cache key along with the result, in the order (cache_key, result). Defaults to False.\nReturns: - function: A decorator that applies memoization to the target function.\n\n\n@memoize(temp=True)\ndef foo():\n    time.sleep(1)\n    return \"bar\"\n\nfoo() # Takes 1 second\nfoo() # Is retrieved from cache and returns immediately\n\n'bar'\n\n\n\n@memoize(return_cache_key=True)\nasync def async_foo():\n    time.sleep(1)\n    return \"bar\"\n\nawait async_foo() # Takes 1 second\ncache_key, result = await async_foo() # Is retrieved from cache and returns immediately\nclear_cache_key(cache_key) # Clears the cache key\nawait async_foo(); # This should again take 1 second",
+    "crumbs": [
+      "api",
+      "caching"
+    ]
+  },
+  {
+    "objectID": "api/utils/03_wrangle.html",
+    "href": "api/utils/03_wrangle.html",
+    "title": "03_wrangle",
+    "section": "",
+    "text": "df_to_tsv(df: pd.DataFrame, include_index: bool) -&gt; str\nConverts a DataFrame to a tab-separated string.\nUseful for copying to Excel or Google Sheets.\n\n\ndf = pd.DataFrame([\n    {\"name\": \"Alice\", \"age\": 30},\n    {\"name\": \"Bob\", \"age\": 25}\n])\ndf_to_tsv(df)\n\n'name\\tage\\nAlice\\t30\\nBob\\t25\\n'",
+    "crumbs": [
+      "api",
+      "utils",
+      "03_wrangle"
+    ]
+  },
+  {
+    "objectID": "api/utils/03_wrangle.html#df_to_tsv",
+    "href": "api/utils/03_wrangle.html#df_to_tsv",
+    "title": "03_wrangle",
+    "section": "",
+    "text": "df_to_tsv(df: pd.DataFrame, include_index: bool) -&gt; str\nConverts a DataFrame to a tab-separated string.\nUseful for copying to Excel or Google Sheets.\n\n\ndf = pd.DataFrame([\n    {\"name\": \"Alice\", \"age\": 30},\n    {\"name\": \"Bob\", \"age\": 25}\n])\ndf_to_tsv(df)\n\n'name\\tage\\nAlice\\t30\\nBob\\t25\\n'",
+    "crumbs": [
+      "api",
+      "utils",
+      "03_wrangle"
+    ]
+  },
+  {
+    "objectID": "api/utils/03_wrangle.html#df_to_clipboard",
+    "href": "api/utils/03_wrangle.html#df_to_clipboard",
+    "title": "03_wrangle",
+    "section": "df_to_clipboard",
+    "text": "df_to_clipboard\ndf_to_clipboard(df: pd.DataFrame, include_index: bool)\nConverts a DataFrame to a tab-separated string and copies it to the clipboard,\nso it can be pasted directly into Google Sheets or Excel.\nArguments: - df (pd.DataFrame): The DataFrame to copy. - include_index (bool): Whether to include the index in the output.",
+    "crumbs": [
+      "api",
+      "utils",
+      "03_wrangle"
+    ]
+  },
+  {
+    "objectID": "api/utils/03_wrangle.html#flatten_dict",
+    "href": "api/utils/03_wrangle.html#flatten_dict",
+    "title": "03_wrangle",
+    "section": "flatten_dict",
+    "text": "flatten_dict\nflatten_dict(\n   d,\n   sep,\n   preserve: List[Any],\n   keep: List[Union[str, Tuple[str]]],\n   discard: List[Union[str, Tuple[str]]]\n) -&gt; dict\nFlatten a nested dictionary into a single-level dictionary with compound keys.\nThis function recursively flattens dictionaries and lists. Nested keys are concatenated using a separator (default is ‘.’). Lists are flattened by appending the index to the key. Nested dictionaries and lists within lists are also handled.\nNested keys for preserve, keep, and discard can be specified either as strings in the form “{key}{sep}{child_key}…” or as tuples of keys.\nArguments: - d (dict): The dictionary to flatten. - sep (str): Separator to use between concatenated keys. Defaults to ‘.’. - preserve (List[Any]): List of compound keys to preserve as nested structures. If a key matches, its value will not be flattened further. - keep (List[Union[str, Tuple[str]]]): If provided, only these top-level keys will be kept. Cannot be used with ‘discard’. - discard (List[Union[str, Tuple[str]]]): If provided, these top-level keys will be excluded. Cannot be used with ‘keep’.\nReturns: dict: A new flattened dictionary with compound keys.\n\n\ndata = {\n    'key1' : 'val',\n    'key2' : [1, 2, 3],\n    'key3' : {\n        'foo' : 'bar',\n        'baz' : [1, 2, 3],\n        'qux' : {\n            'key4' : 'value',\n            'key5' : [4, 5, 6]\n        }\n    }\n}\n\nflatten_dict(data)\n\n{'key1': 'val',\n 'key2.0': 1,\n 'key2.1': 2,\n 'key2.2': 3,\n 'key3.foo': 'bar',\n 'key3.baz.0': 1,\n 'key3.baz.1': 2,\n 'key3.baz.2': 3,\n 'key3.qux.key4': 'value',\n 'key3.qux.key5.0': 4,\n 'key3.qux.key5.1': 5,\n 'key3.qux.key5.2': 6}\n\n\n\nflatten_dict(data, preserve=[('key3', 'qux')])\n\n{'key1': 'val',\n 'key2.0': 1,\n 'key2.1': 2,\n 'key2.2': 3,\n 'key3.foo': 'bar',\n 'key3.baz.0': 1,\n 'key3.baz.1': 2,\n 'key3.baz.2': 3,\n 'key3.qux': {'key4': 'value', 'key5': [4, 5, 6]}}\n\n\n\nflatten_dict(data, preserve=['key3.qux'])\n\n{'key1': 'val',\n 'key2.0': 1,\n 'key2.1': 2,\n 'key2.2': 3,\n 'key3.foo': 'bar',\n 'key3.baz.0': 1,\n 'key3.baz.1': 2,\n 'key3.baz.2': 3,\n 'key3.qux': {'key4': 'value', 'key5': [4, 5, 6]}}\n\n\n\nflatten_dict(data, keep=['key2'])\n\n{'key2.0': 1, 'key2.1': 2, 'key2.2': 3}\n\n\n\nflatten_dict(data, keep=['key3.qux'])\n\n{'key3.qux.key4': 'value',\n 'key3.qux.key5.0': 4,\n 'key3.qux.key5.1': 5,\n 'key3.qux.key5.2': 6}\n\n\n\nflatten_dict(data, keep=[('key3', 'qux')])\n\n{'key3.qux.key4': 'value',\n 'key3.qux.key5.0': 4,\n 'key3.qux.key5.1': 5,\n 'key3.qux.key5.2': 6}\n\n\n\nflatten_dict(data, discard=['key3'])\n\n{'key1': 'val', 'key2.0': 1, 'key2.1': 2, 'key2.2': 3}",
+    "crumbs": [
+      "api",
+      "utils",
+      "03_wrangle"
+    ]
+  },
+  {
+    "objectID": "api/utils/03_wrangle.html#flatten_records_to_df",
+    "href": "api/utils/03_wrangle.html#flatten_records_to_df",
+    "title": "03_wrangle",
+    "section": "flatten_records_to_df",
+    "text": "flatten_records_to_df\nflatten_records_to_df(\n   records: List[dict],\n   col_prefix,\n   sep,\n   max_cols,\n   preserve: List[Any],\n   keep: List[Union[str, Tuple[str]]],\n   discard: List[Union[str, Tuple[str]]]\n)\nFlattens a list of (potentially nested) dictionaries into a pandas DataFrame.\nEach dictionary in the input list is flattened using compound keys for nested structures. Lists within dictionaries are expanded with indexed keys. The resulting DataFrame has one row per record.\nNested keys for preserve, keep, and discard can be specified either as strings in the form “{key}{sep}{child_key}…” or as tuples of keys.\nArguments: - records (List[dict]): List of dictionaries to flatten. - col_prefix (str): Prefix to add to all column names. Defaults to ’‘. - sep (str): Separator to use between concatenated keys. Defaults to’.’. - max_cols (int): Maximum allowed number of columns. Raises ValueError if exceeded. - preserve (List[Any]): List of compound keys to preserve as nested structures. - keep (List[Union[str, Tuple[str]]]): Only these top-level keys will be kept. Cannot be used with ‘discard’. - discard (List[Union[str, Tuple[str]]]): These top-level keys will be excluded. Cannot be used with ‘keep’.\nReturns: pd.DataFrame: DataFrame with flattened records as rows.\n\n\nrecords = [\n    {'name': 'Alice', 'age': 30, 'address': {'city': 'Wonderland', 'zip': '12345'}},\n    {'name': 'Bob', 'age': 25, 'address': {'city': 'Builderland', 'zip': '67890'}},\n    {'name': 'Charlie', 'age': 35, 'address': {'city': 'Chocolate Factory', 'zip': '54321'}}\n]\n\nflatten_records_to_df(records)\n\n\n\n\n\n\n\n\nname\nage\naddress.city\naddress.zip\n\n\n\n\n0\nAlice\n30\nWonderland\n12345\n\n\n1\nBob\n25\nBuilderland\n67890\n\n\n2\nCharlie\n35\nChocolate Factory\n54321\n\n\n\n\n\n\n\n\nflatten_records_to_df(records, preserve=['address'])\n\n\n\n\n\n\n\n\nname\nage\naddress\n\n\n\n\n0\nAlice\n30\n{'city': 'Wonderland', 'zip': '12345'}\n\n\n1\nBob\n25\n{'city': 'Builderland', 'zip': '67890'}\n\n\n2\nCharlie\n35\n{'city': 'Chocolate Factory', 'zip': '54321'}\n\n\n\n\n\n\n\n\nflatten_records_to_df(records, discard=['address'])\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n2\nCharlie\n35\n\n\n\n\n\n\n\n\ntry:\n    flatten_records_to_df(records, max_cols=2)\nexcept ValueError as e:\n    print(e)\n\nMaximum number of columns (2) exceeded.\nCols: ['name', 'age', 'address.city', 'address.zip'].",
+    "crumbs": [
+      "api",
+      "utils",
+      "03_wrangle"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html",
+    "href": "api/utils/02_pipes.html",
+    "title": "02_pipes",
+    "section": "",
+    "text": "[2,3,4] | psum(start=1) == sum([2,3,4], start=1)\n\nTrue\n\n\n\n[(5,2), (3,1), (4,2), (6,3)] | pmin(key=lambda x: x[0]) \n\n(3, 1)\n\n\n\n2 | padd(3) | psub(2) | pmul(4) | pdiv(2) | pmod(10)\n\n6.0\n\n\n\n(\n    2 \n        | padd(3)\n        | psub(2)\n        | pmul(4)\n        | pdiv(2)\n        | pmod(10)\n)\n\n6.0",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#mathematical-operations",
+    "href": "api/utils/02_pipes.html#mathematical-operations",
+    "title": "02_pipes",
+    "section": "",
+    "text": "[2,3,4] | psum(start=1) == sum([2,3,4], start=1)\n\nTrue\n\n\n\n[(5,2), (3,1), (4,2), (6,3)] | pmin(key=lambda x: x[0]) \n\n(3, 1)\n\n\n\n2 | padd(3) | psub(2) | pmul(4) | pdiv(2) | pmod(10)\n\n6.0\n\n\n\n(\n    2 \n        | padd(3)\n        | psub(2)\n        | pmul(4)\n        | pdiv(2)\n        | pmod(10)\n)\n\n6.0",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#type-conversions",
+    "href": "api/utils/02_pipes.html#type-conversions",
+    "title": "02_pipes",
+    "section": "Type conversions",
+    "text": "Type conversions\n\n[1,6,2,6,2,4,6,7] | pset\n\n{1, 2, 4, 6, 7}",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#string-operations",
+    "href": "api/utils/02_pipes.html#string-operations",
+    "title": "02_pipes",
+    "section": "String operations",
+    "text": "String operations\n\n\"hello world!\" | pupper | prstrip(\"!\") | psplit | pjoin(\"    \")\n\n'HELLO    WORLD'",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#function-operations",
+    "href": "api/utils/02_pipes.html#function-operations",
+    "title": "02_pipes",
+    "section": "Function operations",
+    "text": "Function operations\n\ndef square(x):\n    return x**2\n\n5 | pbind(square) | pcall\n\n25\n\n\n\n(lambda: 10) | pcall\n\n10\n\n\n\n(lambda x, y: x + y) | ppartial(2) | ppartial(3) | pcall\n\n5",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#collection-operations",
+    "href": "api/utils/02_pipes.html#collection-operations",
+    "title": "02_pipes",
+    "section": "Collection operations",
+    "text": "Collection operations",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pflatten_helper",
+    "href": "api/utils/02_pipes.html#pflatten_helper",
+    "title": "02_pipes",
+    "section": "_pflatten_helper",
+    "text": "_pflatten_helper\n_pflatten_helper(lst, curr_level, levels)\nHelper function to flatten a nested list.\n\n\n[1, [2, [3, [4, 5]]]] | pflatten | plist\n\n[1, 2, 3, 4, 5]\n\n\n\n[1, 2, 3, [4, 5, 6, [7, 8, 9]]] | pflatten(levels=1) | plist\n\n[1, 2, 3, 4, 5, 6, [7, 8, 9]]\n\n\n\n[\"Joe\", 32, \"Mary\", 28, \"John\", 45] | pbatched(2) | pdict\n\n{'Joe': 32, 'Mary': 28, 'John': 45}",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#misc-operations",
+    "href": "api/utils/02_pipes.html#misc-operations",
+    "title": "02_pipes",
+    "section": "Misc operations",
+    "text": "Misc operations\n\n{\"key1\": \"value1\", \"key2\": \"value2\"} | pget(\"key1\")\n\n'value1'\n\n\n\nclass Foo:\n    def __init__(self):\n        self.x = 123\n        \nFoo() | pgetattr(\"x\")\n\n123",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#fileio-operations",
+    "href": "api/utils/02_pipes.html#fileio-operations",
+    "title": "02_pipes",
+    "section": "File/IO operations",
+    "text": "File/IO operations",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pwrite",
+    "href": "api/utils/02_pipes.html#pwrite",
+    "title": "02_pipes",
+    "section": "pwrite",
+    "text": "pwrite\npwrite(content, file_path, mode)",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pread",
+    "href": "api/utils/02_pipes.html#pread",
+    "title": "02_pipes",
+    "section": "pread",
+    "text": "pread\npread(file_path, mode)",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pcopy",
+    "href": "api/utils/02_pipes.html#pcopy",
+    "title": "02_pipes",
+    "section": "pcopy",
+    "text": "pcopy\npcopy(content)\nCopy content to clipboard.\n\n\n\"hello world\" | pwrite | pread\n\n'hello world'\n\n\n\n\"hello world\" | pshow\n\nhello world\n\n\n'hello world'",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#data-wrangling-operations",
+    "href": "api/utils/02_pipes.html#data-wrangling-operations",
+    "title": "02_pipes",
+    "section": "Data wrangling operations",
+    "text": "Data wrangling operations",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#psave_pkl",
+    "href": "api/utils/02_pipes.html#psave_pkl",
+    "title": "02_pipes",
+    "section": "psave_pkl",
+    "text": "psave_pkl\npsave_pkl(obj, file_path)\nWrite an object to a pickle file.",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pload_pkl",
+    "href": "api/utils/02_pipes.html#pload_pkl",
+    "title": "02_pipes",
+    "section": "pload_pkl",
+    "text": "pload_pkl\npload_pkl(file_path)\nRead a pickle file and return the object.\n\n\n{'key': 'value'} | psave_pkl | pload_pkl\n\n{'key': 'value'}",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pto_df",
+    "href": "api/utils/02_pipes.html#pto_df",
+    "title": "02_pipes",
+    "section": "pto_df",
+    "text": "pto_df\npto_df(data, **kwargs)\nCreate a pandas DataFrame.",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pcopy_df",
+    "href": "api/utils/02_pipes.html#pcopy_df",
+    "title": "02_pipes",
+    "section": "pcopy_df",
+    "text": "pcopy_df\npcopy_df(df)\nCopy a DataFrame to clipboard in a format compatible with Google Sheets or Excel.\nUsage:\ndf &gt;&gt; pcopy_df",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#papply_mask",
+    "href": "api/utils/02_pipes.html#papply_mask",
+    "title": "02_pipes",
+    "section": "papply_mask",
+    "text": "papply_mask\npapply_mask(mask, df)\nApply a mask to a DataFrame.\nUsage:\nmask &gt;&gt; papply_mask(df)\n\n\n[\n    {\"name\": \"Alice\", \"age\": 30},\n    {\"name\": \"Bob\", \"age\": 25}\n] | pto_df\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n\n\n\n\n\n\ndf = {\n    'name' : ['Alice', 'Bob'],\n    'age' : [30, 25]\n} | pto_df\ndf\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30\n\n\n1\nBob\n25\n\n\n\n\n\n\n\n\n(df['name'] == 'Alice') &gt;&gt; papply_mask(df)\n\n\n\n\n\n\n\n\nname\nage\n\n\n\n\n0\nAlice\n30",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pto_json",
+    "href": "api/utils/02_pipes.html#pto_json",
+    "title": "02_pipes",
+    "section": "pto_json",
+    "text": "pto_json\npto_json(data, **kwargs)\nConvert data to JSON string.",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/utils/02_pipes.html#pfrom_json",
+    "href": "api/utils/02_pipes.html#pfrom_json",
+    "title": "02_pipes",
+    "section": "pfrom_json",
+    "text": "pfrom_json\npfrom_json(json_str, **kwargs)\n\n\n{\n    'name' : ['Alice', 'Bob'],\n    'age' : [30, 25]\n} | pto_json | pfrom_json\n\n{'name': ['Alice', 'Bob'], 'age': [30, 25]}",
+    "crumbs": [
+      "api",
+      "utils",
+      "02_pipes"
+    ]
+  },
+  {
+    "objectID": "api/cli/01_data_questionnaire.html",
+    "href": "api/cli/01_data_questionnaire.html",
+    "title": "01_data_questionnaire",
+    "section": "",
+    "text": "data_questionnaire(\n   model_cls: Type[BaseModel],\n   initial_data: Optional[Dict[str, Any]],\n   print_final: bool\n) -&gt; BaseModel\n\nExample:\nfrom typing import List, Dict\nfrom pydantic import BaseModel\nimport enum\n\nclass Role(enum.Enum):\n    ADMIN = \"admin\"\n    USER = \"user\"\n    GUEST = \"guest\"\n\nclass Tag(BaseModel):\n    label: str\n    score: int\n\nclass Preferences(BaseModel):\n    dark_mode: bool\n    language: str\n\nclass UserProfile(BaseModel):\n    username: str\n    age: int\n    primary_role: Role\n    roles: List[Role]\n    preferences: Preferences\n    skills: List[str]\n    tags: List[Tag]\n    notes: Dict[str, str]\n    projects: Dict[str, Tag]\n    \n    \nuser = data_questionnaire(UserProfile, initial_data={\n    'username': 'lukas',\n    'primary_role' : Role.USER,\n    'preferences': {\n        'language': 'en'\n    },\n    'roles': [Role.USER, Role.ADMIN],\n    'tags': [\n        Tag(label='tag1', score=1),\n    ]\n})",
+    "crumbs": [
+      "api",
+      "cli",
+      "01_data_questionnaire"
+    ]
+  },
+  {
+    "objectID": "api/cli/01_data_questionnaire.html#data_questionnaire",
+    "href": "api/cli/01_data_questionnaire.html#data_questionnaire",
+    "title": "01_data_questionnaire",
+    "section": "",
+    "text": "data_questionnaire(\n   model_cls: Type[BaseModel],\n   initial_data: Optional[Dict[str, Any]],\n   print_final: bool\n) -&gt; BaseModel\n\nExample:\nfrom typing import List, Dict\nfrom pydantic import BaseModel\nimport enum\n\nclass Role(enum.Enum):\n    ADMIN = \"admin\"\n    USER = \"user\"\n    GUEST = \"guest\"\n\nclass Tag(BaseModel):\n    label: str\n    score: int\n\nclass Preferences(BaseModel):\n    dark_mode: bool\n    language: str\n\nclass UserProfile(BaseModel):\n    username: str\n    age: int\n    primary_role: Role\n    roles: List[Role]\n    preferences: Preferences\n    skills: List[str]\n    tags: List[Tag]\n    notes: Dict[str, str]\n    projects: Dict[str, Tag]\n    \n    \nuser = data_questionnaire(UserProfile, initial_data={\n    'username': 'lukas',\n    'primary_role' : Role.USER,\n    'preferences': {\n        'language': 'en'\n    },\n    'roles': [Role.USER, Role.ADMIN],\n    'tags': [\n        Tag(label='tag1', score=1),\n    ]\n})",
+    "crumbs": [
+      "api",
+      "cli",
+      "01_data_questionnaire"
+    ]
+  },
+  {
+    "objectID": "api/algos/01_smart_dedup.html",
+    "href": "api/algos/01_smart_dedup.html",
+    "title": "algos.smart_dedup",
+    "section": "",
+    "text": "An entity deduplication algorithm that uses a combination of fuzzy string matching, vector embeddings, and LLM-based selection to identify duplicates in a list of entities.\nimport inspect\nfrom pydantic import BaseModel\nfrom typing import Optional\nfrom adulib.algos.str_matching import fuzzy_match, get_vector_dist_matrix, embedding_match\nfrom adulib.llm import async_batch_embeddings\nimport rapidfuzz\nfrom tqdm.asyncio import tqdm_asyncio\nimport asyncio\nasync def smart_dedup(\n    entities: list[str],\n    embedding_model: str,\n    match_selection_model: str,\n    max_fuzzy_str_matches: int = 5,\n    min_fuzzy_str_match_score: float = 0,\n    fuzzy_str_match_scorer=rapidfuzz.fuzz.ratio,\n    num_embedding_matches: int = 5,\n    embedding_batch_size: int = 1000,\n    match_selection_temperature: float = 0.0,\n    system_prompt: str = None,\n    prompt_template: str = None,\n    entity_embeddings: Optional[list[list[float]]] = None,\n    use_fuzzy_str_matching: bool = True,\n    use_embedding_matching: bool = True,\n    verbose: bool = False,\n):\n    \"\"\"\n    Entity deduplication of a list of strings using fuzzy string matching and embedding-based similarity, \n    followed by model-assisted duplicate selection.\n    \n    Args:\n        entities (list[str]): List of entity strings to deduplicate.\n        embedding_model (str): Name or path of the embedding model to use.\n        match_selection_model (str): Model identifier for selecting matches among candidates.\n        max_fuzzy_str_matches (int, optional): Maximum number of fuzzy string match candidates per entity. Defaults to 5.\n        min_fuzzy_str_match_score (float, optional): Minimum similarity score for fuzzy string matches. Defaults to 0.\n        fuzzy_str_match_scorer (callable, optional): Scoring function for fuzzy string matching. Defaults to rapidfuzz.fuzz.ratio.\n        num_embedding_matches (int, optional): Number of embedding-based match candidates per entity. Defaults to 5.\n        embedding_batch_size (int, optional): Batch size for embedding computation. Defaults to 1000.\n        match_selection_temperature (float, optional): Temperature parameter for match selection model. Defaults to 0.0.\n        system_prompt (str, optional): Optional system prompt for the match selection model.\n        prompt_template (str, optional): Optional prompt template for the match selection model.\n        entity_embeddings (list[list[float]], optional): Precomputed embeddings for entities. If None, embeddings will be computed. Defaults to None.\n        use_fuzzy_str_matching (bool, optional): If True, uses fuzzy string matching to find potential duplicates. Defaults to True.\n        use_embedding_matching (bool, optional): If True, uses embedding-based matching to find potential\n        verbose (bool, optional): If True, displays progress bars and additional output. Defaults to False.\n        \n    Returns:\n        tuple[list[list[tuple[str, str]]], list[str]]:\n            - List of disconnected subgraphs, each representing a group of duplicate entities.\n            - List of entities without any detected matches.\n    Notes:\n        See `adulib.algos._dedup.system_prompt` and `adulib.algos._dedup.prompt_template` for prompt details.\n    \"\"\"\n    ...\nentities = [\n    \"Lockheed Martin\",\n    \"Raytheon Technologies\",\n    \"Northrop Grumman\",\n    \"BAE Systems\",\n    \"Boeing Defense\",\n    \"General Dynamics\",\n    \"Thales Group\",\n    \"Leonardo S.p.A.\",\n    \"Rheinmetall AG\",\n    \"Elbit Systems\",\n    \"Saab AB\",\n    \"MBDA\",\n    \"Hanwha Defense\",\n    \"Israel Aerospace Industries\",\n    \"Naval Group\",\n    # Duplicates for testing deduplication\n    \"Lockheed Martin Corporation\",\n    \"Lockeed Martin Corp.\",\n    \"Raytheon\",\n    \"Northrop Grumman Corp.\",\n    \"BAE Systems plc\",\n    \"Boeing Defense, Space & Security\",\n    \"General Dynamics Corporation\",\n    \"Thales\",\n    \"Leonardo\",\n    \"Rheinmetall\",\n    \"Elbit\",\n    \"Saab\",\n    \"MBDA Missile Systems\",\n    \"Hanwha\",\n    \"IAI\",\n    \"Naval Group SA\",\n    # Additional entity without a duplicate\n    \"General Atomics\",\n]\nembedding_model=\"text-embedding-3-small\"\nmatch_selection_model=\"gpt-4.1-mini\"\nmax_fuzzy_str_matches = 1\nmin_fuzzy_str_match_score = 0\nfuzzy_str_match_scorer = rapidfuzz.fuzz.ratio\nnum_embedding_matches = 1\nembedding_batch_size = 1000\nmatch_selection_temperature = 0.0\nsystem_prompt = None\nprompt_template = None\nentity_embeddings = None\nuse_fuzzy_str_matching = False\nuse_embedding_matching = True\nverbose = False",
+    "crumbs": [
+      "api",
+      "algos",
+      "algos.smart_dedup"
+    ]
+  },
+  {
+    "objectID": "api/algos/01_smart_dedup.html#find-duplicate-candidates-using-adulib.algos.fuzzy_match",
+    "href": "api/algos/01_smart_dedup.html#find-duplicate-candidates-using-adulib.algos.fuzzy_match",
+    "title": "algos.smart_dedup",
+    "section": "Find duplicate candidates using adulib.algos.fuzzy_match",
+    "text": "Find duplicate candidates using adulib.algos.fuzzy_match",
+    "crumbs": [
+      "api",
+      "algos",
+      "algos.smart_dedup"
+    ]
+  },
+  {
+    "objectID": "api/algos/01_smart_dedup.html#find-duplicate-candidates-using-adulib.algos.embedding_match",
+    "href": "api/algos/01_smart_dedup.html#find-duplicate-candidates-using-adulib.algos.embedding_match",
+    "title": "algos.smart_dedup",
+    "section": "Find duplicate candidates using adulib.algos.embedding_match",
+    "text": "Find duplicate candidates using adulib.algos.embedding_match",
+    "crumbs": [
+      "api",
+      "algos",
+      "algos.smart_dedup"
+    ]
+  },
+  {
+    "objectID": "api/algos/01_smart_dedup.html#select-duplicates-using-llms",
+    "href": "api/algos/01_smart_dedup.html#select-duplicates-using-llms",
+    "title": "algos.smart_dedup",
+    "section": "Select duplicates using LLMs",
+    "text": "Select duplicates using LLMs\n\ndefault_system_prompt = inspect.cleandoc(\"\"\"\nYou are an expert in entity deduplication. You will be shown a string and a list of similar-looking strings (some may be aliases, abbreviations, misspellings, or closely related variants, while others may be unrelated).\n\nYour task is to identify which strings refer to the same entity as the reference. Return a Python list of **0-based indices** corresponding to the matching entries. Only include strings that could realistically refer to the same entity. Do not include unrelated strings. Do not explain your reasoning. If no strings match, return an empty list.\n\"\"\".strip())\n\ndefault_prompt_template = inspect.cleandoc(\"\"\"\nEntity: {entity}\n\nEntity duplicate candidates:\n{duplicate_candidates}\n\"\"\".strip())\n\nclass Duplicates(BaseModel):\n    duplicate_indices: list[int]\n\n\nasync def select_duplicates(entity: str, duplicate_candidates: list[str], model, temperature, system_prompt, prompt_template):\n    \"\"\"\n    Use an LLM to select which candidates from a list are duplicates of a given entity.\n\n    Args:\n        entity (str): The reference entity string.\n        duplicate_candidates (list[str]): List of candidate strings to check for duplication.\n        model: The LLM model to use.\n        temperature: Sampling temperature for the LLM.\n\n    Returns:\n        tuple: (indices of matches in duplicate_candidates, matched candidate strings, sorted candidate list)\n    \"\"\"\n    import adulib.llm\n    import json\n    \n    duplicate_candidates = sorted(set(duplicate_candidates)) # This ensures consistent caching.\n\n    res = await adulib.llm.async_single(\n        model=model,\n        system=system_prompt,\n        prompt=prompt_template.format(\n            entity=entity,\n            duplicate_candidates=\"\\n\".join([f\"{i}. {m}\" for i, m in enumerate(duplicate_candidates, start=0)]),\n        ),\n        temperature=temperature,\n        response_format=Duplicates,\n    )\n    \n    match_indices = Duplicates(**json.loads(res)).duplicate_indices\n    return [duplicate_candidates.index(duplicate_candidates[i]) for i in match_indices], [duplicate_candidates[i] for i in match_indices]",
+    "crumbs": [
+      "api",
+      "algos",
+      "algos.smart_dedup"
+    ]
+  },
+  {
+    "objectID": "api/algos/01_smart_dedup.html#find-disconnected-subgraphs-in-the-matched-pairs",
+    "href": "api/algos/01_smart_dedup.html#find-disconnected-subgraphs-in-the-matched-pairs",
+    "title": "algos.smart_dedup",
+    "section": "Find disconnected subgraphs in the matched pairs",
+    "text": "Find disconnected subgraphs in the matched pairs\n\ndef find_disconnected_subgraphs(matches):\n    \"\"\"\n    Given a list of pairwise matches (edges), find all disconnected subgraphs (connected components).\n\n    Args:\n        matches (list of tuple): List of pairs representing edges between nodes.\n\n    Returns:\n        list of set: Each set contains the nodes in one connected component.\n    \"\"\"\n    from collections import defaultdict\n\n    # Create a graph from the matches\n    graph = defaultdict(set)\n    for item1, item2 in matches:\n        graph[item1].add(item2)\n        graph[item2].add(item1)\n\n    visited = set()\n    subgraphs = []\n\n    def dfs(node, current_subgraph):\n        stack = [node]\n        while stack:\n            current = stack.pop()\n            if current not in visited:\n                visited.add(current)\n                current_subgraph.add(current)\n                stack.extend(graph[current] - visited)\n\n    # Find all disconnected subgraphs\n    for node in graph:\n        if node not in visited:\n            current_subgraph = set()\n            dfs(node, current_subgraph)\n            subgraphs.append(current_subgraph)\n            \n    subgraphs = sorted([tuple(sorted(subgraph)) for subgraph in subgraphs]) # Sorting ensures consistent output\n\n    return subgraphs\n\n\nfind_disconnected_subgraphs(matches), entities_without_matches\n\n([('BAE Systems', 'BAE Systems plc'),\n  ('Boeing Defense', 'Boeing Defense, Space & Security'),\n  ('Elbit', 'Elbit Systems'),\n  ('General Dynamics', 'General Dynamics Corporation'),\n  ('Hanwha', 'Hanwha Defense'),\n  ('IAI', 'Israel Aerospace Industries'),\n  ('Leonardo', 'Leonardo S.p.A.'),\n  ('Lockeed Martin Corp.', 'Lockheed Martin', 'Lockheed Martin Corporation'),\n  ('MBDA', 'MBDA Missile Systems'),\n  ('Naval Group', 'Naval Group SA'),\n  ('Northrop Grumman', 'Northrop Grumman Corp.'),\n  ('Raytheon', 'Raytheon Technologies'),\n  ('Rheinmetall', 'Rheinmetall AG'),\n  ('Saab', 'Saab AB'),\n  ('Thales', 'Thales Group')],\n ['General Atomics'])",
+    "crumbs": [
+      "api",
+      "algos",
+      "algos.smart_dedup"
+    ]
+  },
+  {
+    "objectID": "api/rest.html",
+    "href": "api/rest.html",
+    "title": "rest",
+    "section": "",
+    "text": "import adulib.rest",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_get-async",
+    "href": "api/rest.html#async_get-async",
+    "title": "rest",
+    "section": "async_get (async)",
+    "text": "async_get (async)\nasync_get(endpoint, params, headers)\nFetch data from a given RESTful API endpoint using an HTTP GET request.\nArguments: - endpoint: The API endpoint URL (string). - params: A dictionary of query parameters (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_put-async",
+    "href": "api/rest.html#async_put-async",
+    "title": "rest",
+    "section": "async_put (async)",
+    "text": "async_put (async)\nasync_put(endpoint, data, headers)\nUpdate data at a given RESTful API endpoint using an HTTP PUT request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_post-async",
+    "href": "api/rest.html#async_post-async",
+    "title": "rest",
+    "section": "async_post (async)",
+    "text": "async_post (async)\nasync_post(endpoint, data, headers)\nSend data to a given RESTful API endpoint using an HTTP POST request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#async_delete-async",
+    "href": "api/rest.html#async_delete-async",
+    "title": "rest",
+    "section": "async_delete (async)",
+    "text": "async_delete (async)\nasync_delete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nawait async_get(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-689ddf30-605a876b01991ebf342d5cc8'},\n 'origin': '89.44.40.179',\n 'url': 'https://httpbin.org/get?query=test&page=2'}\n\n\n\nawait async_put(\"https://httpbin.org/put\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.13',\n  'X-Amzn-Trace-Id': 'Root=1-689ddf33-69fc82ad160c585c45e3e810'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '89.44.40.179',\n 'url': 'https://httpbin.org/put'}\n\n\n\nawait async_post(\"https://httpbin.org/post\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.13',\n  'X-Amzn-Trace-Id': 'Root=1-689ddf34-38aa9c5f66959a5c73498d2c'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '89.44.40.179',\n 'url': 'https://httpbin.org/post'}\n\n\n\nawait async_delete(\"https://httpbin.org/delete\",\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '0',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.13',\n  'X-Amzn-Trace-Id': 'Root=1-689ddf3b-619a0ac759e6f38c0d127bb6'},\n 'json': None,\n 'origin': '89.44.40.179',\n 'url': 'https://httpbin.org/delete'}",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#get",
+    "href": "api/rest.html#get",
+    "title": "rest",
+    "section": "get",
+    "text": "get\nget(endpoint, params, headers)\nFetch data from a given RESTful API endpoint using an HTTP GET request.\nArguments: - endpoint: The API endpoint URL (string). - params: A dictionary of query parameters (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#post",
+    "href": "api/rest.html#post",
+    "title": "rest",
+    "section": "post",
+    "text": "post\npost(endpoint, data, headers)\nSend data to a given RESTful API endpoint using an HTTP POST request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#put",
+    "href": "api/rest.html#put",
+    "title": "rest",
+    "section": "put",
+    "text": "put\nput(endpoint, data, headers)\nUpdate data at a given RESTful API endpoint using an HTTP PUT request.\nArguments: - endpoint: The API endpoint URL (string). - data: A dictionary of data to send in the body of the request (default is None). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#delete",
+    "href": "api/rest.html#delete",
+    "title": "rest",
+    "section": "delete",
+    "text": "delete\ndelete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nget(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-689ddf3d-3b00334a41d54bda091063d6'},\n 'origin': '89.44.40.179',\n 'url': 'https://httpbin.org/get?query=test&page=2'}",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/rest.html#asyncapihandler-1",
+    "href": "api/rest.html#asyncapihandler-1",
+    "title": "rest",
+    "section": "AsyncAPIHandler",
+    "text": "AsyncAPIHandler\n\n\nMethods\n\n\ninit\n__init__(\n   self,\n   base_url,\n   default_params,\n   default_headers,\n   rate_limit,\n   use_cache,\n   cache_dir,\n   call_quota\n)\nA handler for making asynchronous API calls with support for caching, rate limiting, and default parameters.\nArguments: - base_url: The base URL of the API. This will be prepended to all endpoint calls. - default_params: A dictionary of default query parameters to be included in every request. - default_headers: A dictionary of default headers to be included in every request. - rate_limit: The rate limit for API calls, specified as the number of calls per second. - use_cache: A boolean indicating whether to enable caching of API responses. - cache_dir: The directory where cached responses will be stored. If None, a temporary directory will be created. - call_quota: An optional limit on the number of API calls that can be made. If None, there is no limit. This class provides methods for making GET, POST, PUT, and DELETE requests asynchronously, while managing caching and rate limiting. It also allows checking and clearing the cache for specific API calls.\n\n\n\nremaining_call_quota\nremaining_call_quota(self)\n\n\n\nreset_quota\nreset_quota(self)\n\n\n\n__get_defaults\n__get_defaults(self, method, endpoint, params, headers)\n\n\n\n__load_cache_or_make_call (async)\n__load_cache_or_make_call(self, func, args, only_use_cache, cache_key)\n\n\n\ncall (async)\ncall(\n   self,\n   method,\n   endpoint,\n   params,\n   data,\n   headers,\n   only_use_cache,\n   **param_kwargs\n)\nMake a request to the API.\nArguments: - method: The HTTP method to use (e.g., “get”, “put”, “post”, “delete”). - endpoint: The API endpoint to request. - params: A dictionary of query parameters for the request.\n\n\n\nget (async)\nget(self, endpoint, params, headers, only_use_cache, **param_kwargs)\n\n\n\nput (async)\nput(self, endpoint, data, only_use_cache, headers)\n\n\n\npost (async)\npost(self, endpoint, data, only_use_cache, headers)\n\n\n\ndelete (async)\ndelete(self, endpoint, only_use_cache, headers)\n\n\n\ncheck_cache\ncheck_cache(self, method, endpoint, params, headers, **param_kwargs)\n\n\n\nclear_cache_key\nclear_cache_key(self, method, endpoint, params, headers, **param_kwargs)\n\n\napi_handler = AsyncAPIHandler(\n    base_url=\"https://httpbin.org/\",\n    default_params={\"api_key\": \"your_api_key\"},\n    default_headers={\"User-Agent\": \"MyTestClient/1.0\"},\n    rate_limit=10\n)\n\nawait api_handler.get(\"get\")\n\n{'args': {'api_key': 'your_api_key'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-689ddf3e-0a52e8cb225190ac4682c4cf'},\n 'origin': '89.44.40.179',\n 'url': 'https://httpbin.org/get?api_key=your_api_key'}\n\n\n\napi_handler.check_cache(\"get\", \"get\")\n\nTrue\n\n\n\napi_handler.clear_cache_key(\"get\", \"get\")\napi_handler.check_cache(\"get\", \"get\")\n\nFalse",
+    "crumbs": [
+      "api",
+      "rest"
+    ]
+  },
+  {
+    "objectID": "api/asynchronous.html",
+    "href": "api/asynchronous.html",
+    "title": "asynchronous",
+    "section": "",
+    "text": "Utilities for async programming.\nimport adulib.asynchronous as this_module",
+    "crumbs": [
+      "api",
+      "asynchronous"
+    ]
+  },
+  {
+    "objectID": "api/asynchronous.html#is_in_event_loop",
+    "href": "api/asynchronous.html#is_in_event_loop",
+    "title": "asynchronous",
+    "section": "is_in_event_loop",
+    "text": "is_in_event_loop\nis_in_event_loop()",
+    "crumbs": [
+      "api",
+      "asynchronous"
+    ]
+  },
+  {
+    "objectID": "api/asynchronous.html#batch_executor-async",
+    "href": "api/asynchronous.html#batch_executor-async",
+    "title": "asynchronous",
+    "section": "batch_executor (async)",
+    "text": "batch_executor (async)\nbatch_executor(\n   func: Callable,\n   constant_kwargs: Dict[str, Any],\n   batch_args: Optional[Iterable[Tuple[Any, ...]]],\n   batch_kwargs: Optional[Iterable[Dict[str, Any]]],\n   concurrency_limit: Optional[int],\n   verbose: bool,\n   progress_bar_desc: str\n)\nExecutes a batch of asynchronous tasks.\nParameters: - func (Callable): The asynchronous function to execute for each batch. - constant_kwargs (Dict[str, Any], optional): Constant keyword arguments to pass to each function call. - batch_args (Optional[Iterable[Tuple[Any, …]]], optional): Iterable of argument tuples for each function call. - batch_kwargs (Optional[Iterable[Dict[str, Any]]], optional): Iterable of keyword argument dictionaries for each function call. - concurrency_limit (Optional[int], optional): Maximum number of concurrent tasks. If None, no limit is applied. - verbose (bool, optional): If True, displays a progress bar. Default is True. - progress_bar_desc (str, optional): Description for the progress bar. Default is “Processing”.\nReturns: - List of results from the executed tasks.\nRaises: - ValueError: If both ‘batch_args’ and ‘batch_kwargs’ are empty or if their lengths do not match.\n\n\nasync def sample_function(x, y, z):\n    await asyncio.sleep(0.1)\n    return z*(x + y)\n\nconstant_kwargs = {'z': 10}\nbatch_args = [(1,), (3,), (5,)]\nbatch_kwargs = [{'y': 2}, {'y': 4}, {'y': 6}]\n\nresults = await batch_executor(\n    func=sample_function,\n    constant_kwargs=constant_kwargs,\n    batch_args=batch_args,\n    batch_kwargs=batch_kwargs,\n    concurrency_limit=2,\n    verbose=False,\n)\n\nprint(\"Results:\", results)\n\nResults: [30, 70, 110]",
+    "crumbs": [
+      "api",
+      "asynchronous"
+    ]
+  }
+]
