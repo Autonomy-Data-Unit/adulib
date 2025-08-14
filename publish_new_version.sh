@@ -1,15 +1,12 @@
 nbl export
 nbl clean
 
-nbl render-docs -o docs
-git add docs
-git commit -m "chore: Update docs"
-nbl readme
+sh ./update_docs.sh
 
 git push
 
 latest_version=$(git describe --tags $(git rev-list --tags --max-count=1))
-echo "The latest published version of nblite is $latest_version"
+echo "The latest published version is $latest_version"
 
 version=$(sed -n 's/^version = "\([^"]*\)"/\1/p' pyproject.toml)
 echo "The current version in pyproject.toml is $version"
