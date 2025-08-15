@@ -74,9 +74,6 @@ response, cache_hit, call_log = text_completion(
 response.choices[0].text
 
 # %%
-call_log
-
-# %%
 #|echo: false
 show_doc(this_module.async_text_completion)
 
