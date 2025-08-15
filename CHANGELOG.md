@@ -1,3 +1,13 @@
+## [0.4.2] - 2025-08-15
+
+### 🚀 Features
+
+- *(adulib.llm)* Converted to using 'tuples[str, ...]' cache keys. Much safer
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
 ## [0.4.1] - 2025-08-15
 
 ### 🐛 Bug Fixes
