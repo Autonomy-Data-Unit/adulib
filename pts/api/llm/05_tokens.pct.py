@@ -38,6 +38,7 @@ token_counter = _llm_func_factory(
     func_name="token_counter",
     func_cache_name="token_counter",
     module_name=__name__,
+    cache_key_content_args=['messages', 'text'],
     default_return_info=False,
 )
 

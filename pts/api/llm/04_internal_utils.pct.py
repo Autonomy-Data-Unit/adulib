@@ -52,6 +52,7 @@ def _llm_func_factory(
     func_name: str,
     func_cache_name: str,
     module_name: str,
+    cache_key_content_args: list[str],
     retrieve_log_data: Optional[Callable] = None,
     default_return_info: bool = True,
 ):
@@ -77,10 +78,15 @@ def _llm_func_factory(
         if max_retries is None: max_retries = default_max_retries
         if retry_delay is None: retry_delay = default_retry_delay
         
+        # Check that all args in cache_key_content are valid
+        if not all(arg in func_sig.parameters for arg in cache_key_content_args):
+            raise ValueError(f"Invalid cache_key_content_args: {cache_key_content_args}.")
+        
         # Generate cache key
         bound = func_sig.bind(*args, **kwargs)
         func_args_and_kwargs = dict(bound.arguments)
-        model = func_args_and_kwargs.pop('model') # we treat 'model' separately, as we can optionally exclude it from the cache key
+        cache_key_content = {k: func_args_and_kwargs[k] for k in cache_key_content_args if k in func_args_and_kwargs}
+        model = func_args_and_kwargs['model']
         cache_key = get_cache_key(model, func_cache_name, func_args_and_kwargs, cache_key_prefix, include_model_in_cache_key)
         if return_cache_key: return cache_key
         
@@ -140,18 +146,19 @@ def _llm_func_factory(
 
 # %%
 #|hide
-def foo(model):
+def foo(model, arg):
     raise litellm.RateLimitError(None, None, None)
 
 _foo = _llm_func_factory(
     func=foo,
     func_name="foo",
     func_cache_name="foo",
-    module_name="foo_module"
+    module_name="foo_module",
+    cache_key_content_args=['arg'],
 )
 
 try:
-    _foo(model="foo", retry_delay=0.01)
+    _foo(model="foo", arg=123, retry_delay=0.01)
 except MaximumRetriesException as e:
     print(e)
 
@@ -166,6 +173,7 @@ _foo = _llm_func_factory(
     func_name="foo",
     func_cache_name="foo",
     module_name="foo_module",
+    cache_key_content_args=[],
     retrieve_log_data=lambda model, func_kwargs, response: { "method": "foo", "input_tokens": None, "output_tokens": None, "cost": 0 },
 )
 
@@ -182,6 +190,7 @@ def _llm_async_func_factory(
     func_name: str,
     func_cache_name: str,
     module_name: str,
+    cache_key_content_args: list[str],
     retrieve_log_data: Optional[Callable] = None,
     default_return_info: bool = True,
 ):
@@ -209,11 +218,16 @@ def _llm_async_func_factory(
         if retry_delay is None: retry_delay = default_retry_delay
         if timeout is None: timeout = default_timeout
         
+        # Check that all args in cache_key_content are valid
+        if not all(arg in func_sig.parameters for arg in cache_key_content_args):
+            raise ValueError(f"Invalid cache_key_content_args: {cache_key_content_args}.")
+        
         # Generate cache key
         bound = func_sig.bind(*args, **kwargs)
         func_args_and_kwargs = dict(bound.arguments)
-        model = func_args_and_kwargs.pop('model') # we treat 'model' separately, as we can optionally exclude it from the cache key
-        cache_key = get_cache_key(model, func_cache_name, func_args_and_kwargs, cache_key_prefix, include_model_in_cache_key)
+        cache_key_content = {k: func_args_and_kwargs[k] for k in cache_key_content_args if k in func_args_and_kwargs}
+        model = func_args_and_kwargs['model']
+        cache_key = get_cache_key(model, func_cache_name, cache_key_content, cache_key_prefix, include_model_in_cache_key)
         if return_cache_key: return cache_key
         
         if cache_path is None:
@@ -288,6 +302,7 @@ _foo = _llm_async_func_factory(
     func_name="foo",
     func_cache_name="foo",
     module_name="foo_module",
+    cache_key_content_args=[],
 )
 
 try:
@@ -306,6 +321,7 @@ _foo = _llm_async_func_factory(
     func_name="bar",
     func_cache_name="bar",
     module_name="bar_module",
+    cache_key_content_args=[],
 )
 
 try:

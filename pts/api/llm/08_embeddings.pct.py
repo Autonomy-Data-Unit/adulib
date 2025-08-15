@@ -44,6 +44,7 @@ embedding = _llm_func_factory(
     func_name="embedding",
     func_cache_name="embedding",
     module_name=__name__,
+    cache_key_content_args=['input'],
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "embedding",
         "input_tokens": sum([token_counter(model=model, text=inp, **cache_args) for inp in func_kwargs['input']]),
@@ -84,6 +85,7 @@ async_embedding = _llm_async_func_factory(
     func_name="async_embedding",
     func_cache_name="embedding",
     module_name=__name__,
+    cache_key_content_args=['input'],
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "embedding",
         "input_tokens": sum([token_counter(model=model, text=inp, **cache_args) for inp in func_kwargs['input']]),

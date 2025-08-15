@@ -46,6 +46,7 @@ text_completion = _llm_func_factory(
     func_name="text_completion",
     func_cache_name="text_completion",
     module_name=__name__,
+    cache_key_content_args=['prompt'],
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "text_completion",
         "input_tokens": token_counter(model=model, text=func_kwargs['prompt'], **cache_args),
@@ -84,6 +85,7 @@ async_text_completion = _llm_async_func_factory(
     func_name="async_text_completion",
     func_cache_name="text_completion",
     module_name=__name__,
+    cache_key_content_args=['prompt'],
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "text_completion",
         "input_tokens": token_counter(model=model, text=func_kwargs['prompt'], **cache_args),
