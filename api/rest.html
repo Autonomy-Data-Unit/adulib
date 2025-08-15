@@ -441,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Authorization': 'Bearer testtoken123',
   'Host': 'httpbin.org',
   'User-Agent': 'MyTestClient/1.0',
-  'X-Amzn-Trace-Id': 'Root=1-689f5469-450800a10876424b547c015b'},
+  'X-Amzn-Trace-Id': 'Root=1-689f5d74-2f86fe5a3db2a4e24eb16c99'},
  'origin': '217.138.102.210',
  'url': 'https://httpbin.org/get?query=test&amp;page=2'}</code></pre>
 </div>
@@ -465,7 +465,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Content-Type': 'application/json',
   'Host': 'httpbin.org',
   'User-Agent': 'Python/3.11 aiohttp/3.12.15',
-  'X-Amzn-Trace-Id': 'Root=1-689f546d-37f5eb8b271f4e8e46e1d086'},
+  'X-Amzn-Trace-Id': 'Root=1-689f5d75-45109f487c641cd752206e49'},
  'json': {'key1': 'value1', 'key2': 'value2'},
  'origin': '217.138.102.210',
  'url': 'https://httpbin.org/put'}</code></pre>
@@ -490,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Content-Type': 'application/json',
   'Host': 'httpbin.org',
   'User-Agent': 'Python/3.11 aiohttp/3.12.15',
-  'X-Amzn-Trace-Id': 'Root=1-689f546d-4506152e0ceaf46009aa4ea5'},
+  'X-Amzn-Trace-Id': 'Root=1-689f5d75-162fa4c363e1238d5fbcdad4'},
  'json': {'key1': 'value1', 'key2': 'value2'},
  'origin': '217.138.102.210',
  'url': 'https://httpbin.org/post'}</code></pre>
@@ -511,7 +511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Content-Type': 'application/json',
   'Host': 'httpbin.org',
   'User-Agent': 'Python/3.11 aiohttp/3.12.15',
-  'X-Amzn-Trace-Id': 'Root=1-689f546e-4dc4a1f1436004bf17a0b2cc'},
+  'X-Amzn-Trace-Id': 'Root=1-689f5d7a-25ffae063e4a76670703dae6'},
  'json': None,
  'origin': '217.138.102.210',
  'url': 'https://httpbin.org/delete'}</code></pre>
@@ -564,8 +564,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>{'error': 'Request failed with status 502',
- 'details': '&lt;html&gt;\r\n&lt;head&gt;&lt;title&gt;502 Bad Gateway&lt;/title&gt;&lt;/head&gt;\r\n&lt;body&gt;\r\n&lt;center&gt;&lt;h1&gt;502 Bad Gateway&lt;/h1&gt;&lt;/center&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n'}</code></pre>
+<pre><code>{'args': {'page': '2', 'query': 'test'},
+ 'headers': {'Accept': '*/*',
+  'Accept-Encoding': 'gzip, deflate',
+  'Authorization': 'Bearer testtoken123',
+  'Host': 'httpbin.org',
+  'User-Agent': 'MyTestClient/1.0',
+  'X-Amzn-Trace-Id': 'Root=1-689f5d7a-066fd955089a5dc4748d652e'},
+ 'origin': '217.138.102.210',
+ 'url': 'https://httpbin.org/get?query=test&amp;page=2'}</code></pre>
 </div>
 </div>
 </section>
@@ -669,14 +676,8 @@ Methods
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> api_handler.get(<span class="st">"get"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>{'args': {'api_key': 'your_api_key'},
- 'headers': {'Accept': '*/*',
-  'Accept-Encoding': 'gzip, deflate',
-  'Host': 'httpbin.org',
-  'User-Agent': 'MyTestClient/1.0',
-  'X-Amzn-Trace-Id': 'Root=1-689f5470-2bee47290f9b76040b176d32'},
- 'origin': '217.138.102.210',
- 'url': 'https://httpbin.org/get?api_key=your_api_key'}</code></pre>
+<pre><code>{'error': 'Request failed with status 502',
+ 'details': '&lt;html&gt;\r\n&lt;head&gt;&lt;title&gt;502 Bad Gateway&lt;/title&gt;&lt;/head&gt;\r\n&lt;body&gt;\r\n&lt;center&gt;&lt;h1&gt;502 Bad Gateway&lt;/h1&gt;&lt;/center&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n'}</code></pre>
 </div>
 </div>
 <div id="7c6aafa5" class="cell">

@@ -445,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Output tokens: </span><span class="sc">{</span>call_log[<span class="st">'output_tokens'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cost: </span><span class="sc">{</span>call_log[<span class="st">'cost'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Cache hit: False
+<pre><code>Cache hit: True
 Input tokens: 24
 Output tokens: 14
 Cost: 7.8e-06</code></pre>
@@ -488,16 +488,16 @@ Cost: 7.8e-06</code></pre>
   '2 teaspoons baking powder',
   '1/2 teaspoon salt',
   '1 cup milk',
-  '1 large egg',
+  '1 egg',
   '2 tablespoons melted butter',
   '1 teaspoon vanilla extract'],
  'steps': ['In a large bowl, whisk together the flour, sugar, baking powder, and salt.',
-  'In another bowl, combine the milk, egg, melted butter, and vanilla extract. Mix well.',
-  'Pour the wet ingredients into the dry ingredients and stir until just combined (batter may be slightly lumpy).',
-  'Heat a non-stick skillet or griddle over medium heat and lightly grease if necessary.',
-  'Pour 1/4 cup of batter onto the skillet for each pancake.',
-  'Cook until bubbles form on the surface, then flip and cook until golden brown on the other side, about 2-3 minutes per side.',
-  'Serve warm with your favorite syrup or toppings.']}</code></pre>
+  'In a separate bowl, mix the milk, egg, melted butter, and vanilla extract until well combined.',
+  "Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; it's okay if there are a few lumps.",
+  'Heat a non-stick skillet or griddle over medium heat and grease lightly with butter or oil.',
+  'Pour 1/4 cup of batter onto the skillet for each pancake. Cook until bubbles form on the surface, about 2-3 minutes.',
+  'Flip the pancakes and cook for another 2-3 minutes, until golden brown.',
+  'Remove from skillet and keep warm while cooking the remaining pancakes.']}</code></pre>
 </div>
 </div>
 <p>You can save costs during testing using <a href="https://docs.litellm.ai/docs/completion/mock_requests">mock responses</a>:</p>
@@ -582,7 +582,7 @@ Cost: 7.8e-06</code></pre>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>Recipe.model_validate_json(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>Recipe(name='Simple Pancakes', ingredients=['1 cup all-purpose flour', '2 tablespoons sugar', '2 teaspoons baking powder', '1/2 teaspoon salt', '1 cup milk', '1 large egg', '2 tablespoons melted butter', '1 teaspoon vanilla extract'], steps=['In a large bowl, whisk together the flour, sugar, baking powder, and salt.', 'In another bowl, combine the milk, egg, melted butter, and vanilla extract. Mix well.', 'Pour the wet ingredients into the dry ingredients and stir until just combined (batter may be slightly lumpy).', 'Heat a non-stick skillet or griddle over medium heat and lightly grease if necessary.', 'Pour 1/4 cup of batter onto the skillet for each pancake.', 'Cook until bubbles form on the surface, then flip and cook until golden brown on the other side, about 2-3 minutes per side.', 'Serve warm with your favorite syrup or toppings.'])</code></pre>
+<pre><code>Recipe(name='Simple Pancakes', ingredients=['1 cup all-purpose flour', '2 tablespoons sugar', '2 teaspoons baking powder', '1/2 teaspoon salt', '1 cup milk', '1 egg', '2 tablespoons melted butter', '1 teaspoon vanilla extract'], steps=['In a large bowl, whisk together the flour, sugar, baking powder, and salt.', 'In a separate bowl, mix the milk, egg, melted butter, and vanilla extract until well combined.', "Pour the wet ingredients into the dry ingredients and stir until just combined. Do not overmix; it's okay if there are a few lumps.", 'Heat a non-stick skillet or griddle over medium heat and grease lightly with butter or oil.', 'Pour 1/4 cup of batter onto the skillet for each pancake. Cook until bubbles form on the surface, about 2-3 minutes.', 'Flip the pancakes and cook for another 2-3 minutes, until golden brown.', 'Remove from skillet and keep warm while cooking the remaining pancakes.'])</code></pre>
 </div>
 </div>
 <p>Can do multi-turn completions using <code>get_msgs=True</code> and passing the messages to the <code>prev</code> argument:</p>
