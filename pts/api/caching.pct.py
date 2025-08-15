@@ -111,23 +111,18 @@ show_doc(this_module.get_cache)
 
 # %%
 #|export
-def get_cache(cache_path:Union[Path,None]=None):
+def get_cache(cache_path:Path):
     """
     Retrieve a cache instance for the given path. If no path is provided, 
     the default cache is used. If the cache does not exist, it is created 
     using the specified cache path or the default cache path.
     """
-    if cache_path is None:
-        global _default_cache
-        if _default_cache is None: _default_cache = _create_cache()
-        cache = _default_cache
+    cache_path = Path(cache_path).as_posix()
+    if cache_path in _caches:
+        cache = _caches[cache_path]
     else:
-        cache_path = Path(cache_path).as_posix()
-        if cache_path in _caches:
-            cache = _caches[cache_path]
-        else:
-            cache = _create_cache(cache_path)
-            _caches[cache_path] = cache
+        cache = _create_cache(cache_path)
+        _caches[cache_path] = cache
     return cache
 
 
@@ -216,7 +211,7 @@ def memoize(cache:Union[Path,diskcache.Cache,None]=None,
     
     if not temp:
         if cache is None:
-            cache = get_cache()
+            cache = get_default_cache()
         elif isinstance(cache, diskcache.Cache):
             pass # do nothing
         else:

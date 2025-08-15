@@ -18,6 +18,7 @@ try:
     import warnings
     from typing import Callable, Optional, Union
     from pathlib import Path
+    from adulib.caching import get_default_cache_path
     from adulib.llm.caching import _cache_execute, _async_cache_execute, get_cache_key, is_in_cache
     from adulib.llm.call_logging import _log_call, get_cached_call_log
     from adulib.llm.rate_limits import _get_limiter, default_retry_on_exception, default_max_retries, default_retry_delay, default_timeout
@@ -82,6 +83,9 @@ def _llm_func_factory(
         model = func_args_and_kwargs.pop('model') # we treat 'model' separately, as we can optionally exclude it from the cache key
         cache_key = get_cache_key(model, func_cache_name, func_args_and_kwargs, cache_key_prefix, include_model_in_cache_key)
         if return_cache_key: return cache_key
+        
+        if cache_path is None:
+            cache_path = get_default_cache_path()
         
         # Execute with caching and retries
         success = False
@@ -211,6 +215,9 @@ def _llm_async_func_factory(
         model = func_args_and_kwargs.pop('model') # we treat 'model' separately, as we can optionally exclude it from the cache key
         cache_key = get_cache_key(model, func_cache_name, func_args_and_kwargs, cache_key_prefix, include_model_in_cache_key)
         if return_cache_key: return cache_key
+        
+        if cache_path is None:
+            cache_path = get_default_cache_path()
         
         # Rate limiting
         key_in_cache = is_in_cache(cache_key, cache=cache_path)

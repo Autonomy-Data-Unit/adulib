@@ -12,7 +12,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 #|export
 try:
     from datetime import datetime, timezone
-    from pydantic import BaseModel, Field
+    from pydantic import BaseModel, Field, ConfigDict
     from typing import List, Optional
     from pathlib import Path
     import json
@@ -30,7 +30,11 @@ import adulib.llm.call_logging as this_module
 # %%
 #|export
 class CallLog(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    call_cache_key: str
+    cache_path: str
     method: str
     model: str
     cost: float
@@ -56,7 +60,7 @@ def set_call_log_save_path(path: Path):
 # %%
 #|exporti
 def _log_call(cache_key, cache_path, **log_kwargs):
-    log_kwargs = {**log_kwargs, 'cache_key': cache_key}
+    log_kwargs = {**log_kwargs, 'call_cache_key': str(cache_key), 'cache_path': Path(cache_path).as_posix()}
     call_log = CallLog(**log_kwargs)
     _call_logs.append(call_log)
     if _call_log_save_path is not None:
