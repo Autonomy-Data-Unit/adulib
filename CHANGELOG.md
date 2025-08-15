@@ -1,3 +1,15 @@
+## [0.4.1] - 2025-08-15
+
+### 🐛 Bug Fixes
+
+- Issues with call log serialisation
+- *(adulib.utils.wrangle.flatten_records_to_df)* Replaced set operation with a list, so as to preseve consistency in the ordering of the columns.
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Nbl prepare
+- Update version in pyproject.toml
 ## [0.4.0] - 2025-08-15
 
 ### 🚀 Features
@@ -30,7 +42,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.9] - 2025-07-12
 
@@ -41,7 +52,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.8] - 2025-07-12
 
@@ -53,7 +63,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.7] - 2025-07-12
 
@@ -64,7 +73,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.6] - 2025-07-10
 
@@ -75,7 +83,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.5] - 2025-07-10
 
@@ -86,7 +93,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.4] - 2025-07-10
 
@@ -101,7 +107,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.3] - 2025-07-05
 
@@ -119,7 +124,6 @@
 
 - Update CHANGELOG.md
 - Update docs
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.2] - 2025-07-05
 
@@ -131,7 +135,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.1] - 2025-07-05
 
@@ -142,7 +145,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
 - Update version in pyproject.toml
 ## [0.3.0] - 2025-07-03
 
@@ -174,15 +176,12 @@
 - Ran 'nbl prepare -f'
 - Updated uv.lock
 - Updated publish script
-- Update docs
 - Update version in pyproject.toml
 ## [0.2.1] - 2025-06-20
 
 ### ⚙️ Miscellaneous Tasks
 
 - Update CHANGELOG.md
-- Update docs
-- Update docs
 - Update version in pyproject.toml
 ## [0.2.0] - 2025-05-26
 
@@ -324,7 +323,6 @@
 
 - Update CHANGELOG.md
 - Ran 'nbl prepare'
-- Rendered docs
 - Ran 'nbl prepare'
 - Update version in pyproject.toml
 ## [0.1.1] - 2025-05-07
