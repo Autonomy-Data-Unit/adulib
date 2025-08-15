@@ -260,7 +260,7 @@ def flatten_records_to_df(
         if col_prefix:
             flattened = {f"{col_prefix}{k}": v for k, v in flattened.items()}
         flattened_records.append(flattened)
-        cols.extend(list(set(flattened.keys()) - set(cols)))
+        cols.extend([k for k in flattened.keys() if k not in cols])
         if max_cols is not None and len(cols) > max_cols:
             raise ValueError(f"Maximum number of columns ({max_cols}) exceeded.\nCols: {cols}.")
     return pd.DataFrame(flattened_records)
