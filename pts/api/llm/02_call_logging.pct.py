@@ -33,7 +33,7 @@ class CallLog(BaseModel):
     model_config = ConfigDict(extra='forbid')
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    call_cache_key: str
+    call_cache_key: tuple[str, ...]
     cache_path: str
     method: str
     model: str
@@ -60,7 +60,7 @@ def set_call_log_save_path(path: Path):
 # %%
 #|exporti
 def _log_call(cache_key, cache_path, **log_kwargs):
-    log_kwargs = {**log_kwargs, 'call_cache_key': str(cache_key), 'cache_path': Path(cache_path).as_posix()}
+    log_kwargs = {**log_kwargs, 'call_cache_key': cache_key, 'cache_path': Path(cache_path).as_posix()}
     call_log = CallLog(**log_kwargs)
     _call_logs.append(call_log)
     if _call_log_save_path is not None:
