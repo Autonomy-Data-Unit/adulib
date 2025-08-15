@@ -1,3 +1,13 @@
+## [0.4.3] - 2025-08-15
+
+### 🐛 Bug Fixes
+
+- *(adulib.llm)* Made the content part of the cache key more specific. Was including things like 'api_key' before
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
 ## [0.4.2] - 2025-08-15
 
 ### 🚀 Features
