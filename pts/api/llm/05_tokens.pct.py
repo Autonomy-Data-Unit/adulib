@@ -37,6 +37,8 @@ token_counter = _llm_func_factory(
     func=litellm.token_counter,
     func_name="token_counter",
     func_cache_name="token_counter",
+    module_name=__name__,
+    default_return_info=False,
 )
 
 # %%
@@ -55,16 +57,26 @@ token_counter(
 cache_key = token_counter(
     model="gpt-4o",
     text="Hello, how are you?",
-    return_cache_key=True
+    return_cache_key=True,
 )
 
+clear_cache_key(cache_key, allow_non_existent=True)
 assert not is_in_cache(cache_key)
 
 # This will cache the result.
-token_counter(
+num_tokens, cache_hit = token_counter(
     model="gpt-4o",
-    text="Hello, how are you?"
+    text="Hello, how are you?",
+    return_info=True
 )
+assert not cache_hit
+
+num_tokens, cache_hit = token_counter(
+    model="gpt-4o",
+    text="Hello, how are you?",
+    return_info=True
+)
+assert cache_hit
 
 assert is_in_cache(cache_key)
 clear_cache_key(cache_key)

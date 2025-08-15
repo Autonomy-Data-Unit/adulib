@@ -45,6 +45,7 @@ text_completion = _llm_func_factory(
     func=litellm.text_completion,
     func_name="text_completion",
     func_cache_name="text_completion",
+    module_name=__name__,
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "text_completion",
         "input_tokens": token_counter(model=model, text=func_kwargs['prompt'], **cache_args),
@@ -66,11 +67,14 @@ sig = sig.replace(parameters=[
 text_completion.__signature__ = sig
 
 # %%
-response = text_completion(
+response, cache_hit, call_log = text_completion(
     model="gpt-4o-mini",
     prompt="1 + 1 = ",
 )
 response.choices[0].text
+
+# %%
+call_log
 
 # %%
 #|echo: false
@@ -82,6 +86,7 @@ async_text_completion = _llm_async_func_factory(
     func=functools.wraps(litellm.text_completion)(litellm.atext_completion), # This is needed as 'litellm.atext_completion' lacks the right signature
     func_name="async_text_completion",
     func_cache_name="text_completion",
+    module_name=__name__,
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "text_completion",
         "input_tokens": token_counter(model=model, text=func_kwargs['prompt'], **cache_args),
@@ -103,7 +108,7 @@ sig = sig.replace(parameters=[
 async_text_completion.__signature__ = sig
 
 # %%
-response = await async_text_completion(
+response, cache_hit, call_log = await async_text_completion(
     model="gpt-4o-mini",
     prompt="1 + 2 = ",
 )

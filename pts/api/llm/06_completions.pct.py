@@ -74,6 +74,7 @@ completion = _llm_func_factory(
     func=litellm.completion,
     func_name="completion",
     func_cache_name="completion",
+    module_name=__name__,
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "completion",
         "input_tokens": token_counter(model=model, messages=func_kwargs['messages'], **cache_args),
@@ -95,12 +96,29 @@ sig = sig.replace(parameters=[
 completion.__signature__ = sig
 
 # %%
+response, cache_hit, call_log = completion(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "What is the capital of France?"}
+    ],
+)
+response.choices[0].message.content
+
+# %%
+print(f"Cache hit: {cache_hit}")
+print(f"Input tokens: {call_log['input_tokens']}")
+print(f"Output tokens: {call_log['output_tokens']}")
+print(f"Cost: {call_log['cost']}")
+
+# %%
 response = completion(
     model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "What is the capital of France?"}
     ],
+    return_info=False
 )
 response.choices[0].message.content
 
@@ -111,7 +129,7 @@ class Recipe(BaseModel):
     ingredients: List[str]
     steps: List[str]
 
-response = completion(
+response, cache_hit, call_log = completion(
     model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are a helpful cooking assistant."},
@@ -126,7 +144,7 @@ Recipe.model_validate_json(response.choices[0].message.content).model_dump()
 # You can save costs during testing using [mock responses](https://docs.litellm.ai/docs/completion/mock_requests):
 
 # %%
-response = completion(
+response, cache_hit, call_log = completion(
     model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
@@ -146,6 +164,7 @@ async_completion = _llm_async_func_factory(
     func=litellm.acompletion,
     func_name="async_completion",
     func_cache_name="completion",
+    module_name=__name__,
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "completion",
         "input_tokens": token_counter(model=model, messages=func_kwargs['messages'], **cache_args),
@@ -167,7 +186,7 @@ sig = sig.replace(parameters=[
 async_completion.__signature__ = sig
 
 # %%
-response = await async_completion(
+response, cache_hit, call_log = await async_completion(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
@@ -200,6 +219,7 @@ def single(
     *args,
     multi: bool|Dict|None = None,
     return_full_response: bool=False,
+    return_info: bool=True,
     **kwargs,
 ):
     if system is None and multi is None: system = "You are a helpful assistant."
@@ -216,23 +236,29 @@ def single(
     
     if model is None: raise ValueError("`model` must be provided.")
     
-    response = completion(model, messages, *args, **kwargs)
+    response, cache_hit, call_log = completion(model, messages, *args, **kwargs)
     
     res = response.choices[0].message.content if not return_full_response else response
-    if multi is not None: return res, {'model' : model, 'messages' : _get_msgs(messages, response)}
-    else: return res
+    if multi is not None:
+        res = res, {'model' : model, 'messages' : _get_msgs(messages, response)}
+    
+    return res, cache_hit, call_log if return_info else res
     
 single.__name__ = "single"
 single.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
+
+If 'return_info' is set to True, the function returns a tuple of the response, cache hit status, and call log. If set to False, it returns only the response.
+If 'multi' is provided, it should be a dictionary containing the model and messages from previous turns, allowing for multi-turn interactions. The function will append the new prompt to the existing messages.
 """.strip()
 
 # %%
-single(
+response, cache_hit, call_log = single(
     model='gpt-4o-mini',
     system='You are a helpful assistant.',
     prompt='What is the capital of France?',
 )
+response
 
 
 # %%
@@ -241,7 +267,7 @@ class Recipe(BaseModel):
     ingredients: List[str]
     steps: List[str]
 
-response = single(
+response, cache_hit, call_log = single(
     model="gpt-4o-mini",
     system="You are a helpful cooking assistant.",
     prompt="Give me a simple recipe for pancakes.",
@@ -254,7 +280,7 @@ Recipe.model_validate_json(response)
 # Can do multi-turn completions using `get_msgs=True` and passing the messages to the `prev` argument:
 
 # %%
-res, _ctx = single(
+(res, _ctx), cache_hit, call_log = single(
     model='gpt-4o-mini',
     system='You are a helpful assistant.',
     prompt='Add 1 and 1',
@@ -262,7 +288,7 @@ res, _ctx = single(
 )
 print(res)
 
-res, _ctx = single(
+(res, _ctx), cache_hit, call_log = single(
     prompt='Multiply that by 10',
     multi=_ctx,
 )
@@ -282,6 +308,7 @@ async def async_single(
     *args,
     multi: bool|Dict|None = None,
     return_full_response: bool=False,
+    return_info: bool=True,
     **kwargs,
 ):
     if system is None and multi is None: system = "You are a helpful assistant."
@@ -298,23 +325,29 @@ async def async_single(
     
     if model is None: raise ValueError("`model` must be provided.")
     
-    response = await async_completion(model, messages, *args, **kwargs)
+    response, cache_hit, call_log = await async_completion(model, messages, *args, **kwargs)
     
     res = response.choices[0].message.content if not return_full_response else response
-    if multi is not None: return res, {'model' : model, 'messages' : _get_msgs(messages, response)}
-    else: return res
+    if multi is not None:
+        res = res, {'model' : model, 'messages' : _get_msgs(messages, response)}
+    
+    return res, cache_hit, call_log if return_info else res
     
 async_single.__name__ = "async_single"
 async_single.__doc__ = """
 Simplified chat completions designed for single-turn tasks like classification, summarization, or extraction. For a full list of the available arguments see the [documentation](https://docs.litellm.ai/docs/completion/input) for the `completion` function in `litellm`.
+
+If 'return_info' is set to True, the function returns a tuple of the response, cache hit status, and call log. If set to False, it returns only the response.
+If 'multi' is provided, it should be a dictionary containing the model and messages from previous turns, allowing for multi-turn interactions. The function will append the new prompt to the existing messages.
 """.strip()
 
 # %%
-await async_single(
+response, cache_hit, call_log = await async_single(
     model='gpt-4o-mini',
     system='You are a helpful assistant.',
     prompt='What is the capital of France?',
 )
+response
 
 # %% [markdown]
 # You can execute a batch of prompt calls using `adulib.asynchronous.batch_executor`
@@ -334,4 +367,4 @@ results = await batch_executor(
     verbose=False,
 )
 
-print("Results:", results)
+print("\n".join([response for response, _, _ in results]))

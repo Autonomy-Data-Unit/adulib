@@ -43,6 +43,7 @@ embedding = _llm_func_factory(
     func=litellm.embedding,
     func_name="embedding",
     func_cache_name="embedding",
+    module_name=__name__,
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "embedding",
         "input_tokens": sum([token_counter(model=model, text=inp, **cache_args) for inp in func_kwargs['input']]),
@@ -63,7 +64,7 @@ sig = sig.replace(parameters=[
 embedding.__signature__ = sig
 
 # %%
-response = embedding(
+response, cache_hit, call_log = embedding(
     model="text-embedding-3-small",
     input=[
         "First string to embsed",
@@ -82,6 +83,7 @@ async_embedding = _llm_async_func_factory(
     func=functools.wraps(litellm.embedding)(litellm.aembedding), # This is needed as 'litellm.aembedding' lacks the right signature
     func_name="async_embedding",
     func_cache_name="embedding",
+    module_name=__name__,
     retrieve_log_data=lambda model, func_kwargs, response, cache_args: {
         "method": "embedding",
         "input_tokens": sum([token_counter(model=model, text=inp, **cache_args) for inp in func_kwargs['input']]),
@@ -102,7 +104,7 @@ sig = sig.replace(parameters=[
 async_embedding.__signature__ = sig
 
 # %%
-response = await async_embedding(
+response, cache_hit, call_log = await async_embedding(
     model="text-embedding-3-small",
     input=[
         "First string to embed",
@@ -147,21 +149,21 @@ def batch_embeddings(
     if verbose:
         from tqdm import tqdm
         for batch in tqdm(batches, desc="Processing embedding batches"):
-            response = embedding(model=model, input=batch, **kwargs)
-            responses.append(response)
+            response, cache_hit, call_log = embedding(model=model, input=batch, **kwargs)
+            responses.append((response, cache_hit, call_log))
     else:
         for batch in batches:
-            response = embedding(model=model, input=batch, **kwargs)
-            responses.append(response)
+            response, cache_hit, call_log = embedding(model=model, input=batch, **kwargs)
+            responses.append((response, cache_hit, call_log))
         
     embeddings = []
-    for response in responses:
+    for response, cache_hit, call_log in responses:
         embeddings.extend([d['embedding'] for d in response.data])
-    return embeddings
+    return embeddings, responses
 
 
 # %%
-embeddings = batch_embeddings(
+embeddings, responses = batch_embeddings(
     model="text-embedding-3-small",
     input=[
         "First string to embed",
@@ -212,13 +214,13 @@ async def async_batch_embeddings(
         responses = await asyncio.gather(*embedding_tasks)
         
     embeddings = []
-    for response in responses:
+    for response, _, _ in responses:
         embeddings.extend([d['embedding'] for d in response.data])
-    return embeddings
+    return embeddings, responses
 
 
 # %%
-embeddings = await async_batch_embeddings(
+embeddings, responses = await async_batch_embeddings(
     model="text-embedding-3-small",
     input=[
         "First string to embed",

@@ -168,7 +168,7 @@ else:
 #|export
 if use_embedding_matching:
     if entity_embeddings is None:
-        embeddings = await async_batch_embeddings(
+        embeddings, _ = await async_batch_embeddings(
             model=embedding_model,
             input=entities,
             batch_size=1000,
@@ -225,14 +225,14 @@ async def select_duplicates(entity: str, duplicate_candidates: list[str], model,
         temperature: Sampling temperature for the LLM.
 
     Returns:
-        tuple: (indices of matches in duplicate_candidates, matched candidate strings, sorted candidate list)
+        tuple: (indices of matches in duplicate_candidates, matched candidate strings)
     """
     import adulib.llm
     import json
     
     duplicate_candidates = sorted(set(duplicate_candidates)) # This ensures consistent caching.
 
-    res = await adulib.llm.async_single(
+    res, cache_hit, call_log = await adulib.llm.async_single(
         model=model,
         system=system_prompt,
         prompt=prompt_template.format(
@@ -244,7 +244,9 @@ async def select_duplicates(entity: str, duplicate_candidates: list[str], model,
     )
     
     match_indices = Duplicates(**json.loads(res)).duplicate_indices
-    return [duplicate_candidates.index(duplicate_candidates[i]) for i in match_indices], [duplicate_candidates[i] for i in match_indices]
+    dup_indices = [duplicate_candidates.index(duplicate_candidates[i]) for i in match_indices]
+    dup_strings = [duplicate_candidates[i] for i in match_indices]
+    return dup_indices, dup_strings
 
 
 # %%
@@ -265,9 +267,9 @@ else:
   
 matches = []  
 entities_without_matches = []
-for entity, matched_entities in zip(entities, results):
-    matches.extend([(entity, matched_entity) for matched_entity in matched_entities[1]])
-    if len(matched_entities[1]) == 0:
+for entity, (dup_indices, dup_strings) in zip(entities, results):
+    matches.extend([(entity, matched_entity) for matched_entity in dup_strings])
+    if len(dup_strings) == 0:
         entities_without_matches.append(entity)
 
 

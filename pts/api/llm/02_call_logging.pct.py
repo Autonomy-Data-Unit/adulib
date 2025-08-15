@@ -17,6 +17,7 @@ try:
     from pathlib import Path
     import json
     from adulib.llm.base import available_models
+    from adulib.caching import get_cache
     import uuid
 except ImportError as e:
     raise ImportError(f"Install adulib[llm] to use this API.") from e
@@ -54,12 +55,23 @@ def set_call_log_save_path(path: Path):
 
 # %%
 #|exporti
-def _log_call(**log_kwargs):
+def _log_call(cache_key, cache_path, **log_kwargs):
+    log_kwargs = {**log_kwargs, 'cache_key': cache_key}
     call_log = CallLog(**log_kwargs)
     _call_logs.append(call_log)
     if _call_log_save_path is not None:
         with open(_call_log_save_path, 'a') as f:
             f.write('\n' + call_log.model_dump_json())
+    
+    cache = get_cache(cache_path)
+    cache[('call_log', cache_key)] = call_log.model_dump()
+
+
+# %%
+#|export
+def get_cached_call_log(cache_key, cache_path):
+    cache = get_cache(cache_path)
+    return cache.get(('call_log', cache_key), None)
 
 
 # %%

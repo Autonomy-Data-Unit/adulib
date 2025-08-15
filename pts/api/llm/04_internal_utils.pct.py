@@ -15,10 +15,11 @@ try:
     import inspect
     import time
     import asyncio
+    import warnings
     from typing import Callable, Optional, Union
     from pathlib import Path
     from adulib.llm.caching import _cache_execute, _async_cache_execute, get_cache_key, is_in_cache
-    from adulib.llm.call_logging import _log_call
+    from adulib.llm.call_logging import _log_call, get_cached_call_log
     from adulib.llm.rate_limits import _get_limiter, default_retry_on_exception, default_max_retries, default_retry_delay, default_timeout
 except ImportError as e:
     raise ImportError(f"Install adulib[llm] to use this API.") from e
@@ -49,7 +50,9 @@ def _llm_func_factory(
     func: Callable,
     func_name: str,
     func_cache_name: str,
+    module_name: str,
     retrieve_log_data: Optional[Callable] = None,
+    default_return_info: bool = True,
 ):
     func_sig = inspect.signature(func)
     def llm_func(
@@ -60,6 +63,7 @@ def _llm_func_factory(
         cache_key_prefix: Optional[str]=None,
         include_model_in_cache_key: bool=True,
         return_cache_key: bool=False,
+        return_info: bool=default_return_info,
         # Retry settings
         enable_retries: bool=True,
         retry_on_exceptions: Optional[list[Exception]]=None,
@@ -84,7 +88,7 @@ def _llm_func_factory(
         exceptions = []
         for _ in range(max_retries):
             try:
-                retrieved_from_cache, result = _cache_execute(
+                cache_hit, result = _cache_execute(
                     cache_key=cache_key,
                     execute_func=lambda: func(*args, **kwargs),
                     cache_enabled=cache_enabled,
@@ -103,18 +107,30 @@ def _llm_func_factory(
         
         # Call logging
         if retrieve_log_data is not None:
-            if not retrieved_from_cache:
+            if not cache_hit:
                 cache_args = {
                     "cache_path": cache_path,
                     "cache_key_prefix": cache_key_prefix,
                     "include_model_in_cache_key": include_model_in_cache_key,
                 }
                 log_data = retrieve_log_data(model, func_args_and_kwargs, result, cache_args)
-                _log_call(model=model, **log_data)
+                _log_call(cache_key, cache_path, model=model, **log_data)
+
+            call_info = get_cached_call_log(cache_key, cache_path)
+            if call_info is None:
+                warnings.warn(f"Call log for cache key '{cache_key}' not found in cache at '{cache_path}'. This may indicate a caching issue.")
         
-        return result
+        if return_info:
+            if retrieve_log_data is not None:
+                return result, cache_hit, call_info
+            else:
+                return result, cache_hit
+        else:
+            return result
     
     llm_func.__name__ = func_name
+    llm_func.__module__ = module_name
+    llm_func.__qualname__ = func_name
     return llm_func
 
 
@@ -127,6 +143,7 @@ _foo = _llm_func_factory(
     func=foo,
     func_name="foo",
     func_cache_name="foo",
+    module_name="foo_module"
 )
 
 try:
@@ -144,6 +161,7 @@ _foo = _llm_func_factory(
     func=foo,
     func_name="foo",
     func_cache_name="foo",
+    module_name="foo_module",
     retrieve_log_data=lambda model, func_kwargs, response: { "method": "foo", "input_tokens": None, "output_tokens": None, "cost": 0 },
 )
 
@@ -154,15 +172,14 @@ except MaximumRetriesException as e:
 
 
 # %%
-# is_in_cache?
-
-# %%
 #|exporti
 def _llm_async_func_factory(
     func: Callable,
     func_name: str,
     func_cache_name: str,
+    module_name: str,
     retrieve_log_data: Optional[Callable] = None,
+    default_return_info: bool = True,
 ):
     func_sig = inspect.signature(func)
     async def llm_func(
@@ -173,6 +190,7 @@ def _llm_async_func_factory(
         cache_key_prefix: Optional[str]=None,
         include_model_in_cache_key: bool=True,
         return_cache_key: bool=False,
+        return_info: bool=default_return_info,
         # Retry settings
         enable_retries: bool=True,
         retry_on_exceptions: Optional[list[Exception]]=None,
@@ -207,7 +225,7 @@ def _llm_async_func_factory(
             return await asyncio.wait_for(func(*args, **kwargs), timeout)
         for _ in range(max_retries):
             try:                
-                retrieved_from_cache, result = await _async_cache_execute(
+                cache_hit, result = await _async_cache_execute(
                     cache_key=cache_key,
                     execute_func=run_with_timeout if timeout is not None else lambda: func(*args, **kwargs),
                     cache_enabled=cache_enabled,
@@ -226,18 +244,30 @@ def _llm_async_func_factory(
         
         # Call logging
         if retrieve_log_data is not None:
-            if not retrieved_from_cache:
+            if not cache_hit:
                 cache_args = {
                     "cache_path": cache_path,
                     "cache_key_prefix": cache_key_prefix,
                     "include_model_in_cache_key": include_model_in_cache_key,
                 }
                 log_data = retrieve_log_data(model, func_args_and_kwargs, result, cache_args)
-                _log_call(model=model, **log_data)
+                _log_call(cache_key, cache_path, model=model, **log_data)
+
+            call_info = get_cached_call_log(cache_key, cache_path)
+            if call_info is None:
+                warnings.warn(f"Call log for cache key '{cache_key}' not found in cache at '{cache_path}'. This may indicate a caching issue.")
         
-        return result
+        if return_info:
+            if retrieve_log_data is not None:
+                return result, cache_hit, call_info
+            else:
+                return result, cache_hit
+        else:
+            return result
     
     llm_func.__name__ = func_name
+    llm_func.__module__ = module_name
+    llm_func.__qualname__ = func_name
     return llm_func
 
 
@@ -250,6 +280,7 @@ _foo = _llm_async_func_factory(
     func=foo,
     func_name="foo",
     func_cache_name="foo",
+    module_name="foo_module",
 )
 
 try:
@@ -267,6 +298,7 @@ _foo = _llm_async_func_factory(
     func=bar,
     func_name="bar",
     func_cache_name="bar",
+    module_name="bar_module",
 )
 
 try:

@@ -136,7 +136,7 @@ docs = [
     "Microsoft develops software and hardware.",
     "Apple and Google are competitors in the tech industry."
 ]
-embeddings = await async_batch_embeddings(
+embeddings, responses = await async_batch_embeddings(
     model="text-embedding-3-small",
     input=docs,
     batch_size=1000,

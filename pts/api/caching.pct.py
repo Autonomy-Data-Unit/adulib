@@ -138,7 +138,7 @@ show_doc(this_module.clear_cache_key)
 
 # %%
 #|export
-def clear_cache_key(cache_key, cache:Union[Path,diskcache.Cache,None]=None):
+def clear_cache_key(cache_key, cache:Union[Path,diskcache.Cache,None]=None, allow_non_existent:bool=False):
     if cache is None:
         cache = get_default_cache()
     elif isinstance(cache, diskcache.Cache):
@@ -146,6 +146,7 @@ def clear_cache_key(cache_key, cache:Union[Path,diskcache.Cache,None]=None):
     else:
         cache_path = cache
         cache = get_cache(cache_path)
+    if allow_non_existent and cache_key not in cache: return
     del cache[cache_key]
 
 
