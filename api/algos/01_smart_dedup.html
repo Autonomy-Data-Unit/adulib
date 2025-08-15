@@ -523,14 +523,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">        temperature: Sampling temperature for the LLM.</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple: (indices of matches in duplicate_candidates, matched candidate strings, sorted candidate list)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple: (indices of matches in duplicate_candidates, matched candidate strings)</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> adulib.llm</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> json</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    duplicate_candidates <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>(duplicate_candidates)) <span class="co"># This ensures consistent caching.</span></span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="cf">await</span> adulib.llm.async_single(</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    res, cache_hit, call_log <span class="op">=</span> <span class="cf">await</span> adulib.llm.async_single(</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>model,</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        system<span class="op">=</span>system_prompt,</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        prompt<span class="op">=</span>prompt_template.<span class="bu">format</span>(</span>
@@ -542,7 +542,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    match_indices <span class="op">=</span> Duplicates(<span class="op">**</span>json.loads(res)).duplicate_indices</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [duplicate_candidates.index(duplicate_candidates[i]) <span class="cf">for</span> i <span class="kw">in</span> match_indices], [duplicate_candidates[i] <span class="cf">for</span> i <span class="kw">in</span> match_indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    dup_indices <span class="op">=</span> [duplicate_candidates.index(duplicate_candidates[i]) <span class="cf">for</span> i <span class="kw">in</span> match_indices]</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    dup_strings <span class="op">=</span> [duplicate_candidates[i] <span class="cf">for</span> i <span class="kw">in</span> match_indices]</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dup_indices, dup_strings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="find-disconnected-subgraphs-in-the-matched-pairs" class="level2">
