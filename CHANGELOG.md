@@ -1,3 +1,14 @@
+## [0.4.0] - 2025-08-15
+
+### 🚀 Features
+
+- *(adulib.llm)* Call logs are now also cached, and are retrieved by llm functions. For all llm functions but 'token_counter', a boolean 'cache_hit' and the 'call_log' is returned by default.
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- New publish scripts
+- Update version in pyproject.toml
 ## [0.3.11] - 2025-08-14
 
 ### 🚀 Features
