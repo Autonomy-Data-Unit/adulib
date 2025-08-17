@@ -1,3 +1,13 @@
+## [0.4.4] - 2025-08-17
+
+### 🚀 Features
+
+- *(adulib.llm)* Call log tracking
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Update version in pyproject.toml
 ## [0.4.3] - 2025-08-15
 
 ### 🐛 Bug Fixes
