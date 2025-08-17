@@ -344,7 +344,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#calllog" id="toc-calllog" class="nav-link active" data-scroll-target="#calllog">CallLog</a></li>
+  <li><a href="#costtracker" id="toc-costtracker" class="nav-link active" data-scroll-target="#costtracker">CostTracker</a></li>
+  <li><a href="#start_tracking" id="toc-start_tracking" class="nav-link" data-scroll-target="#start_tracking">start_tracking</a></li>
+  <li><a href="#stop_tracking" id="toc-stop_tracking" class="nav-link" data-scroll-target="#stop_tracking">stop_tracking</a></li>
+  <li><a href="#get_tracked_logs" id="toc-get_tracked_logs" class="nav-link" data-scroll-target="#get_tracked_logs">get_tracked_logs</a></li>
+  <li><a href="#add_log_to_tracker" id="toc-add_log_to_tracker" class="nav-link" data-scroll-target="#add_log_to_tracker">_add_log_to_tracker</a></li>
+  <li><a href="#print_tracking_stats" id="toc-print_tracking_stats" class="nav-link" data-scroll-target="#print_tracking_stats">print_tracking_stats</a></li>
+  <li><a href="#calllog" id="toc-calllog" class="nav-link" data-scroll-target="#calllog">CallLog</a></li>
   <li><a href="#set_call_log_save_path" id="toc-set_call_log_save_path" class="nav-link" data-scroll-target="#set_call_log_save_path">set_call_log_save_path</a></li>
   <li><a href="#get_cached_call_log" id="toc-get_cached_call_log" class="nav-link" data-scroll-target="#get_cached_call_log">get_cached_call_log</a></li>
   <li><a href="#get_call_logs" id="toc-get_call_logs" class="nav-link" data-scroll-target="#get_call_logs">get_call_logs</a></li>
@@ -379,6 +385,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="costtracker" class="level2">
+<h2 class="anchored" data-anchor-id="costtracker">CostTracker</h2>
+<hr>
+<h3 class="anchored">
+Methods
+</h3>
+<section id="init" class="level4">
+<h4 class="anchored" data-anchor-id="init"><strong>init</strong></h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">__init__</span>(<span class="va">self</span>, name: <span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="add_log" class="level4">
+<h4 class="anchored" data-anchor-id="add_log">add_log</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>add_log(<span class="va">self</span>, log: <span class="st">'CallLog'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="get_logs" class="level4">
+<h4 class="anchored" data-anchor-id="get_logs">get_logs</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_logs(<span class="va">self</span>) <span class="op">-&gt;</span> List[<span class="st">'CallLog'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="get_total_cost" class="level4">
+<h4 class="anchored" data-anchor-id="get_total_cost">get_total_cost</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_total_cost(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="start_tracking" class="level2">
+<h2 class="anchored" data-anchor-id="start_tracking">start_tracking</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>start_tracking()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="stop_tracking" class="level2">
+<h2 class="anchored" data-anchor-id="stop_tracking">stop_tracking</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stop_tracking()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="get_tracked_logs" class="level2">
+<h2 class="anchored" data-anchor-id="get_tracked_logs">get_tracked_logs</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>get_tracked_logs() <span class="op">-&gt;</span> List[<span class="st">'CallLog'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="add_log_to_tracker" class="level2">
+<h2 class="anchored" data-anchor-id="add_log_to_tracker">_add_log_to_tracker</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>_add_log_to_tracker(call_log: <span class="st">'CallLog'</span>, cache_hit: <span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Adds a call log to the global tracker if tracking is enabled. This is done in _llm_func_factory</p>
+<hr>
+</section>
+<section id="print_tracking_stats" class="level2">
+<h2 class="anchored" data-anchor-id="print_tracking_stats">print_tracking_stats</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>print_tracking_stats(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>   call_logs: Union[List[<span class="st">'CallLog'</span>], <span class="va">None</span>],</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>   prepend: <span class="bu">str</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>   get_as_str: <span class="bu">bool</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">str</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
 <section id="calllog" class="level2">
 <h2 class="anchored" data-anchor-id="calllog">CallLog</h2>
 <p><em>Inherits from</em>: <code>BaseModel</code></p>
@@ -386,47 +449,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set_call_log_save_path" class="level2">
 <h2 class="anchored" data-anchor-id="set_call_log_save_path">set_call_log_save_path</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>set_call_log_save_path(path: Path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>set_call_log_save_path(path: Path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_cached_call_log" class="level2">
 <h2 class="anchored" data-anchor-id="get_cached_call_log">get_cached_call_log</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_cached_call_log(cache_key, cache_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>get_cached_call_log(cache_key, cache_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_call_logs" class="level2">
 <h2 class="anchored" data-anchor-id="get_call_logs">get_call_logs</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_call_logs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>get_call_logs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_costs" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_costs">get_total_costs</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_total_costs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>get_total_costs(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_input_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_input_tokens">get_total_input_tokens</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_total_input_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>get_total_input_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_output_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_output_tokens">get_total_output_tokens</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_total_output_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>get_total_output_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="get_total_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="get_total_tokens">get_total_tokens</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>get_total_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>get_total_tokens(model: Optional[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">int</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="save_call_log" class="level2">
 <h2 class="anchored" data-anchor-id="save_call_log">save_call_log</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>save_call_log(path: Path, combine_with_existing: <span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>save_call_log(path: Path, combine_with_existing: <span class="bu">bool</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="load_call_log_file" class="level2">
 <h2 class="anchored" data-anchor-id="load_call_log_file">load_call_log_file</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>load_call_log_file(path: Optional[Path]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>load_call_log_file(path: Optional[Path]) <span class="op">-&gt;</span> List[CallLog]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 
 

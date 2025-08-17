@@ -396,7 +396,79 @@
     "href": "api/llm/02_call_logging.html",
     "title": "call_logging",
     "section": "",
-    "text": "Inherits from: BaseModel",
+    "text": "__init__(self, name: str)\n\n\n\n\nadd_log(self, log: 'CallLog')\n\n\n\n\nget_logs(self) -&gt; List['CallLog']\n\n\n\n\nget_total_cost(self) -&gt; float",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#costtracker",
+    "href": "api/llm/02_call_logging.html#costtracker",
+    "title": "call_logging",
+    "section": "",
+    "text": "__init__(self, name: str)\n\n\n\n\nadd_log(self, log: 'CallLog')\n\n\n\n\nget_logs(self) -&gt; List['CallLog']\n\n\n\n\nget_total_cost(self) -&gt; float",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#start_tracking",
+    "href": "api/llm/02_call_logging.html#start_tracking",
+    "title": "call_logging",
+    "section": "start_tracking",
+    "text": "start_tracking\nstart_tracking()",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#stop_tracking",
+    "href": "api/llm/02_call_logging.html#stop_tracking",
+    "title": "call_logging",
+    "section": "stop_tracking",
+    "text": "stop_tracking\nstop_tracking()",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#get_tracked_logs",
+    "href": "api/llm/02_call_logging.html#get_tracked_logs",
+    "title": "call_logging",
+    "section": "get_tracked_logs",
+    "text": "get_tracked_logs\nget_tracked_logs() -&gt; List['CallLog']",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#add_log_to_tracker",
+    "href": "api/llm/02_call_logging.html#add_log_to_tracker",
+    "title": "call_logging",
+    "section": "_add_log_to_tracker",
+    "text": "_add_log_to_tracker\n_add_log_to_tracker(call_log: 'CallLog', cache_hit: bool)\nAdds a call log to the global tracker if tracking is enabled. This is done in _llm_func_factory",
+    "crumbs": [
+      "api",
+      "llm",
+      "call_logging"
+    ]
+  },
+  {
+    "objectID": "api/llm/02_call_logging.html#print_tracking_stats",
+    "href": "api/llm/02_call_logging.html#print_tracking_stats",
+    "title": "call_logging",
+    "section": "print_tracking_stats",
+    "text": "print_tracking_stats\nprint_tracking_stats(\n   call_logs: Union[List['CallLog'], None],\n   prepend: str,\n   get_as_str: bool\n) -&gt; str",
     "crumbs": [
       "api",
       "llm",
@@ -407,8 +479,8 @@
     "objectID": "api/llm/02_call_logging.html#calllog",
     "href": "api/llm/02_call_logging.html#calllog",
     "title": "call_logging",
-    "section": "",
-    "text": "Inherits from: BaseModel",
+    "section": "CallLog",
+    "text": "CallLog\nInherits from: BaseModel",
     "crumbs": [
       "api",
       "llm",
@@ -1281,7 +1353,7 @@
     "href": "api/rest.html#async_delete-async",
     "title": "rest",
     "section": "async_delete (async)",
-    "text": "async_delete (async)\nasync_delete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nawait async_get(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-689f5d74-2f86fe5a3db2a4e24eb16c99'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/get?query=test&page=2'}\n\n\n\nawait async_put(\"https://httpbin.org/put\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.15',\n  'X-Amzn-Trace-Id': 'Root=1-689f5d75-45109f487c641cd752206e49'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/put'}\n\n\n\nawait async_post(\"https://httpbin.org/post\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.15',\n  'X-Amzn-Trace-Id': 'Root=1-689f5d75-162fa4c363e1238d5fbcdad4'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/post'}\n\n\n\nawait async_delete(\"https://httpbin.org/delete\",\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '0',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.15',\n  'X-Amzn-Trace-Id': 'Root=1-689f5d7a-25ffae063e4a76670703dae6'},\n 'json': None,\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/delete'}",
+    "text": "async_delete (async)\nasync_delete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nawait async_get(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-68a2312c-4d595d63306b1f9159a11409'},\n 'origin': '193.164.22.222',\n 'url': 'https://httpbin.org/get?query=test&page=2'}\n\n\n\nawait async_put(\"https://httpbin.org/put\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.15',\n  'X-Amzn-Trace-Id': 'Root=1-68a2312c-237c48d17816cafb2b834456'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '193.164.22.222',\n 'url': 'https://httpbin.org/put'}\n\n\n\nawait async_post(\"https://httpbin.org/post\",\n    data={\n        \"key1\": \"value1\",\n        \"key2\": \"value2\"\n    },\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '{\"key1\": \"value1\", \"key2\": \"value2\"}',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '36',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.15',\n  'X-Amzn-Trace-Id': 'Root=1-68a2312c-07e22c116052c0d74fa0118d'},\n 'json': {'key1': 'value1', 'key2': 'value2'},\n 'origin': '193.164.22.222',\n 'url': 'https://httpbin.org/post'}\n\n\n\nawait async_delete(\"https://httpbin.org/delete\",\n    headers={\"Content-Type\": \"application/json\"}\n)\n\n{'args': {},\n 'data': '',\n 'files': {},\n 'form': {},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Content-Length': '0',\n  'Content-Type': 'application/json',\n  'Host': 'httpbin.org',\n  'User-Agent': 'Python/3.11 aiohttp/3.12.15',\n  'X-Amzn-Trace-Id': 'Root=1-68a2312d-34af2860636bed3f73c33168'},\n 'json': None,\n 'origin': '193.164.22.222',\n 'url': 'https://httpbin.org/delete'}",
     "crumbs": [
       "api",
       "rest"
@@ -1325,7 +1397,7 @@
     "href": "api/rest.html#delete",
     "title": "rest",
     "section": "delete",
-    "text": "delete\ndelete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nget(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-689f5d7a-066fd955089a5dc4748d652e'},\n 'origin': '217.138.102.210',\n 'url': 'https://httpbin.org/get?query=test&page=2'}",
+    "text": "delete\ndelete(endpoint, headers)\nDelete a resource at a given RESTful API endpoint using an HTTP DELETE request.\nArguments: - endpoint: The API endpoint URL (string). - headers: A dictionary of HTTP headers (default is None).\nReturns:: The JSON response as a dictionary, or an error message.\n\n\nget(\"https://httpbin.org/get\",\n    params={\n        \"query\": \"test\",\n        \"page\": 2\n    },\n    headers={\n        \"User-Agent\": \"MyTestClient/1.0\",\n        \"Authorization\": \"Bearer testtoken123\"\n    }\n)\n\n{'args': {'page': '2', 'query': 'test'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Authorization': 'Bearer testtoken123',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-68a2312e-1ebb1d2b1c8401370704fda9'},\n 'origin': '193.164.22.222',\n 'url': 'https://httpbin.org/get?query=test&page=2'}",
     "crumbs": [
       "api",
       "rest"
@@ -1336,7 +1408,7 @@
     "href": "api/rest.html#asyncapihandler-1",
     "title": "rest",
     "section": "AsyncAPIHandler",
-    "text": "AsyncAPIHandler\n\n\nMethods\n\n\ninit\n__init__(\n   self,\n   base_url,\n   default_params,\n   default_headers,\n   rate_limit,\n   use_cache,\n   cache_dir,\n   call_quota\n)\nA handler for making asynchronous API calls with support for caching, rate limiting, and default parameters.\nArguments: - base_url: The base URL of the API. This will be prepended to all endpoint calls. - default_params: A dictionary of default query parameters to be included in every request. - default_headers: A dictionary of default headers to be included in every request. - rate_limit: The rate limit for API calls, specified as the number of calls per second. - use_cache: A boolean indicating whether to enable caching of API responses. - cache_dir: The directory where cached responses will be stored. If None, a temporary directory will be created. - call_quota: An optional limit on the number of API calls that can be made. If None, there is no limit. This class provides methods for making GET, POST, PUT, and DELETE requests asynchronously, while managing caching and rate limiting. It also allows checking and clearing the cache for specific API calls.\n\n\n\nremaining_call_quota\nremaining_call_quota(self)\n\n\n\nreset_quota\nreset_quota(self)\n\n\n\n__get_defaults\n__get_defaults(self, method, endpoint, params, headers)\n\n\n\n__load_cache_or_make_call (async)\n__load_cache_or_make_call(self, func, args, only_use_cache, cache_key)\n\n\n\ncall (async)\ncall(\n   self,\n   method,\n   endpoint,\n   params,\n   data,\n   headers,\n   only_use_cache,\n   **param_kwargs\n)\nMake a request to the API.\nArguments: - method: The HTTP method to use (e.g., “get”, “put”, “post”, “delete”). - endpoint: The API endpoint to request. - params: A dictionary of query parameters for the request.\n\n\n\nget (async)\nget(self, endpoint, params, headers, only_use_cache, **param_kwargs)\n\n\n\nput (async)\nput(self, endpoint, data, only_use_cache, headers)\n\n\n\npost (async)\npost(self, endpoint, data, only_use_cache, headers)\n\n\n\ndelete (async)\ndelete(self, endpoint, only_use_cache, headers)\n\n\n\ncheck_cache\ncheck_cache(self, method, endpoint, params, headers, **param_kwargs)\n\n\n\nclear_cache_key\nclear_cache_key(self, method, endpoint, params, headers, **param_kwargs)\n\n\napi_handler = AsyncAPIHandler(\n    base_url=\"https://httpbin.org/\",\n    default_params={\"api_key\": \"your_api_key\"},\n    default_headers={\"User-Agent\": \"MyTestClient/1.0\"},\n    rate_limit=10\n)\n\nawait api_handler.get(\"get\")\n\n{'error': 'Request failed with status 502',\n 'details': '&lt;html&gt;\\r\\n&lt;head&gt;&lt;title&gt;502 Bad Gateway&lt;/title&gt;&lt;/head&gt;\\r\\n&lt;body&gt;\\r\\n&lt;center&gt;&lt;h1&gt;502 Bad Gateway&lt;/h1&gt;&lt;/center&gt;\\r\\n&lt;/body&gt;\\r\\n&lt;/html&gt;\\r\\n'}\n\n\n\napi_handler.check_cache(\"get\", \"get\")\n\nTrue\n\n\n\napi_handler.clear_cache_key(\"get\", \"get\")\napi_handler.check_cache(\"get\", \"get\")\n\nFalse",
+    "text": "AsyncAPIHandler\n\n\nMethods\n\n\ninit\n__init__(\n   self,\n   base_url,\n   default_params,\n   default_headers,\n   rate_limit,\n   use_cache,\n   cache_dir,\n   call_quota\n)\nA handler for making asynchronous API calls with support for caching, rate limiting, and default parameters.\nArguments: - base_url: The base URL of the API. This will be prepended to all endpoint calls. - default_params: A dictionary of default query parameters to be included in every request. - default_headers: A dictionary of default headers to be included in every request. - rate_limit: The rate limit for API calls, specified as the number of calls per second. - use_cache: A boolean indicating whether to enable caching of API responses. - cache_dir: The directory where cached responses will be stored. If None, a temporary directory will be created. - call_quota: An optional limit on the number of API calls that can be made. If None, there is no limit. This class provides methods for making GET, POST, PUT, and DELETE requests asynchronously, while managing caching and rate limiting. It also allows checking and clearing the cache for specific API calls.\n\n\n\nremaining_call_quota\nremaining_call_quota(self)\n\n\n\nreset_quota\nreset_quota(self)\n\n\n\n__get_defaults\n__get_defaults(self, method, endpoint, params, headers)\n\n\n\n__load_cache_or_make_call (async)\n__load_cache_or_make_call(self, func, args, only_use_cache, cache_key)\n\n\n\ncall (async)\ncall(\n   self,\n   method,\n   endpoint,\n   params,\n   data,\n   headers,\n   only_use_cache,\n   **param_kwargs\n)\nMake a request to the API.\nArguments: - method: The HTTP method to use (e.g., “get”, “put”, “post”, “delete”). - endpoint: The API endpoint to request. - params: A dictionary of query parameters for the request.\n\n\n\nget (async)\nget(self, endpoint, params, headers, only_use_cache, **param_kwargs)\n\n\n\nput (async)\nput(self, endpoint, data, only_use_cache, headers)\n\n\n\npost (async)\npost(self, endpoint, data, only_use_cache, headers)\n\n\n\ndelete (async)\ndelete(self, endpoint, only_use_cache, headers)\n\n\n\ncheck_cache\ncheck_cache(self, method, endpoint, params, headers, **param_kwargs)\n\n\n\nclear_cache_key\nclear_cache_key(self, method, endpoint, params, headers, **param_kwargs)\n\n\napi_handler = AsyncAPIHandler(\n    base_url=\"https://httpbin.org/\",\n    default_params={\"api_key\": \"your_api_key\"},\n    default_headers={\"User-Agent\": \"MyTestClient/1.0\"},\n    rate_limit=10\n)\n\nawait api_handler.get(\"get\")\n\n{'args': {'api_key': 'your_api_key'},\n 'headers': {'Accept': '*/*',\n  'Accept-Encoding': 'gzip, deflate',\n  'Host': 'httpbin.org',\n  'User-Agent': 'MyTestClient/1.0',\n  'X-Amzn-Trace-Id': 'Root=1-68a2312f-62bc60922c26a5ac50255556'},\n 'origin': '193.164.22.222',\n 'url': 'https://httpbin.org/get?api_key=your_api_key'}\n\n\n\napi_handler.check_cache(\"get\", \"get\")\n\nTrue\n\n\n\napi_handler.clear_cache_key(\"get\", \"get\")\napi_handler.check_cache(\"get\", \"get\")\n\nFalse",
     "crumbs": [
       "api",
       "rest"

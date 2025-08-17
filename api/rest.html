@@ -441,8 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Authorization': 'Bearer testtoken123',
   'Host': 'httpbin.org',
   'User-Agent': 'MyTestClient/1.0',
-  'X-Amzn-Trace-Id': 'Root=1-689f5d74-2f86fe5a3db2a4e24eb16c99'},
- 'origin': '217.138.102.210',
+  'X-Amzn-Trace-Id': 'Root=1-68a2312c-4d595d63306b1f9159a11409'},
+ 'origin': '193.164.22.222',
  'url': 'https://httpbin.org/get?query=test&amp;page=2'}</code></pre>
 </div>
 </div>
@@ -465,9 +465,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Content-Type': 'application/json',
   'Host': 'httpbin.org',
   'User-Agent': 'Python/3.11 aiohttp/3.12.15',
-  'X-Amzn-Trace-Id': 'Root=1-689f5d75-45109f487c641cd752206e49'},
+  'X-Amzn-Trace-Id': 'Root=1-68a2312c-237c48d17816cafb2b834456'},
  'json': {'key1': 'value1', 'key2': 'value2'},
- 'origin': '217.138.102.210',
+ 'origin': '193.164.22.222',
  'url': 'https://httpbin.org/put'}</code></pre>
 </div>
 </div>
@@ -490,9 +490,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Content-Type': 'application/json',
   'Host': 'httpbin.org',
   'User-Agent': 'Python/3.11 aiohttp/3.12.15',
-  'X-Amzn-Trace-Id': 'Root=1-689f5d75-162fa4c363e1238d5fbcdad4'},
+  'X-Amzn-Trace-Id': 'Root=1-68a2312c-07e22c116052c0d74fa0118d'},
  'json': {'key1': 'value1', 'key2': 'value2'},
- 'origin': '217.138.102.210',
+ 'origin': '193.164.22.222',
  'url': 'https://httpbin.org/post'}</code></pre>
 </div>
 </div>
@@ -511,9 +511,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Content-Type': 'application/json',
   'Host': 'httpbin.org',
   'User-Agent': 'Python/3.11 aiohttp/3.12.15',
-  'X-Amzn-Trace-Id': 'Root=1-689f5d7a-25ffae063e4a76670703dae6'},
+  'X-Amzn-Trace-Id': 'Root=1-68a2312d-34af2860636bed3f73c33168'},
  'json': None,
- 'origin': '217.138.102.210',
+ 'origin': '193.164.22.222',
  'url': 'https://httpbin.org/delete'}</code></pre>
 </div>
 </div>
@@ -570,8 +570,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   'Authorization': 'Bearer testtoken123',
   'Host': 'httpbin.org',
   'User-Agent': 'MyTestClient/1.0',
-  'X-Amzn-Trace-Id': 'Root=1-689f5d7a-066fd955089a5dc4748d652e'},
- 'origin': '217.138.102.210',
+  'X-Amzn-Trace-Id': 'Root=1-68a2312e-1ebb1d2b1c8401370704fda9'},
+ 'origin': '193.164.22.222',
  'url': 'https://httpbin.org/get?query=test&amp;page=2'}</code></pre>
 </div>
 </div>
@@ -676,8 +676,14 @@ Methods
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> api_handler.get(<span class="st">"get"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>{'error': 'Request failed with status 502',
- 'details': '&lt;html&gt;\r\n&lt;head&gt;&lt;title&gt;502 Bad Gateway&lt;/title&gt;&lt;/head&gt;\r\n&lt;body&gt;\r\n&lt;center&gt;&lt;h1&gt;502 Bad Gateway&lt;/h1&gt;&lt;/center&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n'}</code></pre>
+<pre><code>{'args': {'api_key': 'your_api_key'},
+ 'headers': {'Accept': '*/*',
+  'Accept-Encoding': 'gzip, deflate',
+  'Host': 'httpbin.org',
+  'User-Agent': 'MyTestClient/1.0',
+  'X-Amzn-Trace-Id': 'Root=1-68a2312f-62bc60922c26a5ac50255556'},
+ 'origin': '193.164.22.222',
+ 'url': 'https://httpbin.org/get?api_key=your_api_key'}</code></pre>
 </div>
 </div>
 <div id="7c6aafa5" class="cell">
