@@ -13,7 +13,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 try:
     from datetime import datetime, timezone
     from pydantic import BaseModel, Field, ConfigDict
-    from typing import List, Optional
+    from typing import List, Optional, Union
     from pathlib import Path
     import json
     from adulib.llm.base import available_models
@@ -25,6 +25,88 @@ except ImportError as e:
 # %%
 #|hide
 import adulib.llm.call_logging as this_module
+
+
+# %%
+#|export
+class CostTracker:
+    def __init__(self, name: str):
+        self.name = name
+        self.logs: List['CallLog'] = []
+
+    def add_log(self, log: 'CallLog'):
+        self.logs.append(log)
+
+    def get_logs(self) -> List['CallLog']:
+        return self.logs
+
+    def get_total_cost(self) -> float:
+        return sum(log.cost for log in self.logs)
+
+_cost_trackers: dict[str, CostTracker] = {}
+
+# %%
+#|export
+_tracked_call_logs: List[tuple['CallLog', bool]] = None
+
+def start_tracking():
+    global _tracked_call_logs
+    if _tracked_call_logs is not None:
+        raise RuntimeError("Call log tracking is already started.")
+    _tracked_call_logs = []
+    
+def stop_tracking():
+    global _tracked_call_logs
+    if _tracked_call_logs is None:
+        raise RuntimeError("Call log tracking is not started.")
+    ___tracked_call_logs = _tracked_call_logs
+    _tracked_call_logs = None
+    return ___tracked_call_logs
+    
+def get_tracked_logs() -> List['CallLog']:
+    if _tracked_call_logs is None:
+        raise RuntimeError("Call log tracking is not started.")
+    return _tracked_call_logs
+
+def _add_log_to_tracker(call_log: 'CallLog', cache_hit: bool):
+    "Adds a call log to the global tracker if tracking is enabled. This is done in _llm_func_factory"
+    global _tracked_call_logs
+    if _tracked_call_logs is not None:
+        _tracked_call_logs.append((call_log, cache_hit))
+        
+def print_tracking_stats(call_logs: Union[List['CallLog'], None]=None, prepend: str = '', get_as_str: bool = False) -> str:
+    import inspect
+    
+    if call_logs is None:
+        call_logs = get_tracked_logs()
+    
+    total_costs_excluding_cache_hits = sum([call_log.cost for call_log, cache_hit in call_logs if not cache_hit])
+    new_calls = sum([1 for call_log, cache_hit in call_logs if not cache_hit])
+    average_cost_per_call_excluding_cache_hits = total_costs_excluding_cache_hits / new_calls if new_calls > 0 else 0
+
+    total_costs = sum([call_log.cost for call_log, _ in call_logs])
+    total_calls = len(call_logs)
+    average_cost_per_call = total_costs / total_calls if total_calls > 0 else 'NA'
+
+    msg = inspect.cleandoc(f"""
+    Total calls: {total_calls}
+    New calls: {new_calls}
+    Cache hits: {total_calls - new_calls}
+    Costs:
+      Including cache hits:
+        Total costs: ${total_costs:.2f}
+        Average cost per call: ${average_cost_per_call:.2f}
+      Excluding cache hits:
+        Total costs: ${total_costs_excluding_cache_hits:.2f}
+        Average cost per call: ${average_cost_per_call_excluding_cache_hits:.2f}
+    """).strip()
+    
+    msg = "\n".join([f"{prepend}{line}" for line in msg.splitlines()])
+
+    if not get_as_str:
+        print(msg)
+    else:
+        return msg
 
 
 # %%

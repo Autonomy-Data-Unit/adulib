@@ -20,7 +20,7 @@ try:
     from pathlib import Path
     from adulib.caching import get_default_cache_path
     from adulib.llm.caching import _cache_execute, _async_cache_execute, get_cache_key, is_in_cache
-    from adulib.llm.call_logging import _log_call, get_cached_call_log
+    from adulib.llm.call_logging import _log_call, get_cached_call_log, _add_log_to_tracker, CallLog
     from adulib.llm.rate_limits import _get_limiter, default_retry_on_exception, default_max_retries, default_retry_delay, default_timeout
 except ImportError as e:
     raise ImportError(f"Install adulib[llm] to use this API.") from e
@@ -129,6 +129,8 @@ def _llm_func_factory(
             call_info = get_cached_call_log(cache_key, cache_path)
             if call_info is None:
                 warnings.warn(f"Call log for cache key '{cache_key}' not found in cache at '{cache_path}'. This may indicate a caching issue.")
+                
+            _add_log_to_tracker(call_info, cache_hit) # Track the call log if a tracker is set up
         
         if return_info:
             if retrieve_log_data is not None:
@@ -277,6 +279,8 @@ def _llm_async_func_factory(
             call_info = get_cached_call_log(cache_key, cache_path)
             if call_info is None:
                 warnings.warn(f"Call log for cache key '{cache_key}' not found in cache at '{cache_path}'. This may indicate a caching issue.")
+                
+            _add_log_to_tracker(CallLog(**call_info), cache_hit) # Track the call log if a tracker is set up
         
         if return_info:
             if retrieve_log_data is not None:
