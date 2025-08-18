@@ -68,13 +68,17 @@ class PkgConfig(BaseModel):
         toml_config = toml.load(toml_path)
         return cls.model_validate(toml_config)
     
-    def impart(self, target_obj):
+    def impart(self, target_obj, model_dump: bool=False):
         """
         Imparts the configuration values to the target object.
         The target object should have attributes matching the config keys.
         """
-        for key, value in self.model_dump().items():
-            setattr(target_obj, key, value)
+        if model_dump:
+            for key, value in self.model_dump().items():
+                setattr(target_obj, key, value)
+        else:
+            for k in self.__class__.model_fields:
+                setattr(target_obj, k, getattr(self, k))
 
 
 # %%
@@ -100,3 +104,31 @@ assert isinstance(foo.my_path4, Path) and foo.my_path4 == Path('~/my/path4').exp
 assert isinstance(foo.my_path5, Path) and foo.my_path5 == Path('~/my/path5').expanduser().resolve()
 assert foo.my_path6 is None
 assert isinstance(foo.my_path7, Path) and foo.my_path7 == Path('~/my/path7').expanduser().resolve()
+
+
+# %%
+class BarConfig(BaseModel):
+    my_var: str
+
+class FooConfig(PkgConfig):
+    my_var: str
+    bar: BarConfig
+    
+foo = FooConfig(**{
+    'my_var' : 'Hello',
+    'bar' : {
+        'my_var' : 'world!'
+    }
+})
+
+from types import SimpleNamespace
+obj = SimpleNamespace()
+foo.impart(obj)
+
+assert obj.my_var == 'Hello'
+assert obj.bar.my_var == 'world!'
+
+foo.impart(obj, model_dump=True)
+
+assert obj.my_var == 'Hello'
+assert obj.bar['my_var'] == 'world!'
