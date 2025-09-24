@@ -21,6 +21,22 @@ import adulib.utils as this_module
 
 # %%
 #|hide
+show_doc(this_module.is_in_interactive_mode)
+
+
+# %%
+#|export
+def is_in_interactive_mode() -> bool:
+    "Check if the current environment is interactive (e.g., Jupyter notebook)"
+    import sys
+    return hasattr(sys, 'ps1')
+
+
+# %%
+assert is_in_interactive_mode()
+
+# %%
+#|hide
 show_doc(this_module.as_dict)
 
 
