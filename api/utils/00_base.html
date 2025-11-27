@@ -344,7 +344,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#as_dict" id="toc-as_dict" class="nav-link active" data-scroll-target="#as_dict">as_dict</a></li>
+  <li><a href="#is_in_interactive_mode" id="toc-is_in_interactive_mode" class="nav-link active" data-scroll-target="#is_in_interactive_mode">is_in_interactive_mode</a></li>
+  <li><a href="#as_dict" id="toc-as_dict" class="nav-link" data-scroll-target="#as_dict">as_dict</a></li>
   <li><a href="#check_mutual_exclusivity" id="toc-check_mutual_exclusivity" class="nav-link" data-scroll-target="#check_mutual_exclusivity">check_mutual_exclusivity</a></li>
   <li><a href="#run_script" id="toc-run_script" class="nav-link" data-scroll-target="#run_script">run_script</a></li>
   <li><a href="#set_func_defaults" id="toc-set_func_defaults" class="nav-link" data-scroll-target="#set_func_defaults">set_func_defaults</a></li>
@@ -377,27 +378,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="c46761e1" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> adulib.utils <span class="im">as</span> this_module</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="is_in_interactive_mode" class="level2">
+<h2 class="anchored" data-anchor-id="is_in_interactive_mode">is_in_interactive_mode</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>is_in_interactive_mode() <span class="op">-&gt;</span> <span class="bu">bool</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check if the current environment is interactive (e.g., Jupyter notebook)</p>
+<hr>
+<div id="a4d91fab" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> is_in_interactive_mode()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="as_dict" class="level2">
 <h2 class="anchored" data-anchor-id="as_dict">as_dict</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>as_dict(<span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>as_dict(<span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Convert keyword arguments to a dictionary.</p>
 <hr>
 </section>
 <section id="check_mutual_exclusivity" class="level2">
 <h2 class="anchored" data-anchor-id="check_mutual_exclusivity">check_mutual_exclusivity</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>check_mutual_exclusivity(<span class="op">*</span>args)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>check_mutual_exclusivity(<span class="op">*</span>args)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Check if only one of the arguments is falsy (or truthy, if check_falsy is False).</p>
 <hr>
 </section>
 <section id="run_script" class="level2">
 <h2 class="anchored" data-anchor-id="run_script">run_script</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>run_script(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   script_path: Path,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>   cwd: Path,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   env: <span class="bu">dict</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   interactive: <span class="bu">bool</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   raise_on_error: <span class="bu">bool</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>run_script(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   script_path: Path,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>   cwd: Path,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>   env: <span class="bu">dict</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>   interactive: <span class="bu">bool</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>   raise_on_error: <span class="bu">bool</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Execute a Python or Bash script with specified parameters and environment variables.</p>
 <p><strong>Arguments:</strong> - <code>script_path</code> (<em>Path</em>): Path to the script file to execute (.py or .sh) - <code>cwd</code> (<em>Path</em>): Working directory for script execution. Defaults to None. - <code>env</code> (<em>dict</em>): Additional environment variables to pass to the script. Defaults to None. - <code>interactive</code> (<em>bool</em>): Whether to run the script in interactive mode. Defaults to False. - <code>raise_on_error</code> (<em>bool</em>): Whether to raise an exception on non-zero exit code. Defaults to True.</p>
 <p><strong>Returns:</strong> <em>tuple</em>: A tuple containing: - int: Return code from the script execution - str or None: Standard output (None if interactive mode) - bytes: Contents of the temporary output file</p>
@@ -405,18 +415,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set_func_defaults" class="level2">
 <h2 class="anchored" data-anchor-id="set_func_defaults">set_func_defaults</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>set_func_defaults(func, target_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>set_func_defaults(func, target_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Set default values of a function’s parameters into a target dictionary.</p>
 <p>Meant to be used with function notebooks in nblite to set up test arguments.</p>
 <p><strong>Arguments:</strong> - <code>func</code> (<em>callable</em>): The function whose defaults are to be set. - <code>target_dict</code> (<em>dict</em>): The dictionary where defaults will be set.</p>
 <hr>
 <div id="2d0e011d" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> foo(my_variable1<span class="op">=</span><span class="st">"hello"</span>, my_variable2<span class="op">=</span><span class="st">"world"</span>):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>set_func_defaults(foo, <span class="bu">locals</span>())</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_variable1, my_variable2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> foo(my_variable1<span class="op">=</span><span class="st">"hello"</span>, my_variable2<span class="op">=</span><span class="st">"world"</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>set_func_defaults(foo, <span class="bu">locals</span>())</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_variable1, my_variable2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>hello world</code></pre>
 </div>
