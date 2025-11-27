@@ -1,3 +1,18 @@
+## [0.4.6] - 2025-11-27
+
+### 🚀 Features
+
+- *(utils)* Is_in_interactive_mode
+
+### 🐛 Bug Fixes
+
+- Invalid call logs will no longer raise exceptions
+
+### ⚙️ Miscellaneous Tasks
+
+- Update CHANGELOG.md
+- Made scripts +x
+- Update version in pyproject.toml
 ## [0.4.5] - 2025-08-18
 
 ### 🚀 Features
