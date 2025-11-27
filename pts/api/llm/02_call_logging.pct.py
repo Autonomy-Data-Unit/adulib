@@ -12,7 +12,7 @@ import nblite; from nblite import show_doc; nblite.nbl_export()
 #|export
 try:
     from datetime import datetime, timezone
-    from pydantic import BaseModel, Field, ConfigDict
+    from pydantic import BaseModel, Field, ConfigDict, ValidationError
     from typing import List, Optional, Union
     from pathlib import Path
     import json
@@ -208,11 +208,21 @@ def save_call_log(path: Path, combine_with_existing: bool = True):
 
 
 # %%
+lines = Path("/Users/lukastk/dev/20250325_000000_SqqM2__adulib/.call_logs.jsonl").read_text().splitlines()
+
+
+
+# %%
 #|export
 def load_call_log_file(path: Optional[Path] = None) -> List[CallLog]:
     if path is None:
         path = _call_log_save_path
     if _call_log_save_path is None:
         raise ValueError("Call log save path is not set")
-    with open(path, 'r') as f:
-        return [CallLog(**json.loads(line)) for line in f if line.strip()]
+    call_logs = []
+    for line in Path(path).read_text().splitlines():
+        try:
+            call_logs.append(CallLog.model_validate_json(line))
+        except ValidationError as e:
+            pass # Ignore invalid call log lines
+    return call_logs
