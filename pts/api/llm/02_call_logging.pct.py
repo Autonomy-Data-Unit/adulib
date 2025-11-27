@@ -208,11 +208,6 @@ def save_call_log(path: Path, combine_with_existing: bool = True):
 
 
 # %%
-lines = Path("/Users/lukastk/dev/20250325_000000_SqqM2__adulib/.call_logs.jsonl").read_text().splitlines()
-
-
-
-# %%
 #|export
 def load_call_log_file(path: Optional[Path] = None) -> List[CallLog]:
     if path is None:
